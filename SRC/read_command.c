@@ -12,7 +12,10 @@ char *read_command(const char *promt)
 	command_line = readline(promt);
 	if (command_line == NULL)
 	{
-		write(2, "\b\bexit\n", 7);
+		rl_on_new_line();
+		printf("\033[1A");
+		rl_redisplay();
+		printf("exit\n");
 		exit (0);
 	}
 	else
