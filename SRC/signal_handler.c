@@ -35,6 +35,7 @@ void	signal_handler(int signo)
 	{
 		rl_on_new_line();
 		printf("\n");
+
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}

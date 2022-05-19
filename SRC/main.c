@@ -54,7 +54,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		// 명령어 한 줄 읽어오기
-		command_line = read_command("mini >> ");
+		command_line = read_command("mini > ");
 
 		// 읽어 온 명령어를 파싱하여 token_list를 생성한다.
 		// (우선은 리스트로 구현하고 개념이 이해되면 트리로 할 계획이다.)
