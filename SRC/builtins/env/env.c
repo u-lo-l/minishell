@@ -98,7 +98,7 @@ void	pisplay_env(t_env *env)
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+void	do_env(int argc, char **argv, char **envp)
 {
 	int		i = 0;
 	int		j = 0;
@@ -117,5 +117,10 @@ int main(int argc, char **argv, char **envp)
 	}
 	printf("%d\n\n", env->element);
 	pisplay_env(env);
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	do_env(argc, argv, envp);
 }
 
