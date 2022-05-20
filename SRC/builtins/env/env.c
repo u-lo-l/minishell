@@ -12,34 +12,89 @@ typedef struct s_env
 {
 	int			element;	// 환경변수 개수
 	t_envnode	*phead;	// 헤드노드
+	t_envnode	*ptail; // 꼬리노드
 }   t_env;
 
-// int	ft_strlen(char *str)
-// {
-// 	int	i;
+int	ft_strlen(char *str)
+{
+	int	i;
 
-// 	i = 0;
-// 	while (str[i])
-// 		i++;
-// 	return (i);
-// }
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
 
-void	add_node(char **envp, t_env *env, int i)
+int	ft_keylen(char *str)	//key 길이 측정
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '=')
+		i++;
+	return (i);
+}
+
+void	cp_element(char *envp, t_env *env, t_envnode *new_node, int len, int keylen)
+{
+	char		*key;
+	char		*value;
+	int			j;
+	
+	key = malloc(sizeof(char) * (keylen + 1));
+	value = malloc(sizeof(char) * (len - keylen));
+	j = 0;
+	while(envp[j] && j < keylen)
+	{
+		key[j] = envp[j];
+		j++;
+	}
+	key[j] = '\0';
+	j = 0;
+	while (envp[j + keylen] && j < (len - keylen - 1))
+	{
+		value[j] = envp[j + keylen + 1];
+		j++;
+	}
+	value[j] = '\0';
+	new_node->key = key;
+	new_node->value = value;
+}
+
+void	add_node(char *envp, t_env *env, int i)
 {
 	t_envnode	*new_node;
 	int			len;		// key + '=' + value 길이 
 	int			keylen;		// key 길이
-	int			j;
 
-	j = 0;
-	len = ft_strlen(env[i]);
-	keylen = ft_keylen(env[i]);
+	len = ft_strlen(envp);
+	keylen = ft_keylen(envp);
 	new_node = malloc(sizeof(t_envnode));
+	new_node->nextnode = NULL;
 	if (i == 0)
+	{
 		env->phead = new_node;
+		env->ptail = new_node;
+	}
 	else
 	{
-		
+		env->ptail->nextnode = new_node;
+		env->ptail = new_node;
+	}
+	cp_element(envp, env, new_node, len, keylen);
+}
+
+void	pisplay_env(t_env *env)
+{
+	t_envnode	*curr;
+
+	curr = env->phead;
+	while (curr)
+	{
+		printf("%s", curr->key);
+		printf("=");
+		printf("%s\n", curr->value);
+		curr = curr->nextnode;
 	}
 }
 
@@ -57,8 +112,10 @@ int main(int argc, char **argv, char **envp)
 
 	while (envp[i])		// 환경변수를 env 리스트에 넣는 함수
 	{
-		add_node(envp, env, i);
+		add_node(envp[i], env, i);
+		i++;
 	}
-	printf("%d", env->element);
-
+	printf("%d\n\n", env->element);
+	pisplay_env(env);
 }
+

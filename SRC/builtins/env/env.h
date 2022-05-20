@@ -15,6 +15,7 @@ typedef struct s_env
 {
 	int			element;	// 환경변수 개수
 	t_envnode	*phead;	// 헤드노드
+    t_envnode   *ptail;
 }   t_env;
 
 #endif
