@@ -22,7 +22,7 @@ int	ft_keylen(char *str)	//key 길이 측정
 	return (i);
 }
 
-void	copy_element(char *envp, t_env *env, t_envnode *new_node, int len, int keylen)
+void	copy_element(char *envp, t_envnode *new_node, int len, int keylen)
 {
 	char		*key;
 	char		*value;
@@ -68,10 +68,10 @@ void	add_node(char *envp, t_env *env, int i)
 		env->ptail->nextnode = new_node;	// 꼬리 노드의 다음노드 -> new_node
 		env->ptail = new_node;				// 꼬리 노드 -> new_node
 	}
-	copy_element(envp, env, new_node, len, keylen);	// key ,value를 노드에 저장
+	copy_element(envp, new_node, len, keylen);	// key ,value를 노드에 저장
 }
 
-void	pisplay_env(t_env *env)
+void	display_env(t_env *env)
 {
 	t_envnode	*curr;
 
@@ -85,10 +85,9 @@ void	pisplay_env(t_env *env)
 	}
 }
 
-void	do_env(int argc, char **argv, char **envp)
+void	do_env(char **envp)
 {
 	int		i = 0;
-	int		j = 0;
 	t_env	*env;	// 환경변수 담을 리스트
 	
 	env = malloc(sizeof(t_env));
@@ -102,7 +101,7 @@ void	do_env(int argc, char **argv, char **envp)
 		add_node(envp[i], env, i);	// 노드를 추가
 		i++;
 	}
-	pisplay_env(env);
+	display_env(env);
 }
 
 // int main(int argc, char **argv, char **envp)
