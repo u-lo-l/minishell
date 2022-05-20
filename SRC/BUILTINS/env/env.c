@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../../../INC/minishell_datastructure.h"
 
-int	ft_strlen(char *str)
+static int	ft_strlen(char *str)
 {
 	int	i;
 
