@@ -6,7 +6,7 @@
 #    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/20 17:35:55 by dkim2            ###   ########.fr        #
+#    Updated: 2022/05/20 22:48:08 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,9 @@ LIBS = ./LIBFT/libft.a
 # 사용하는 파일들 여기에 추가
 OBJS_FILES = read_command.o\
 				main.o\
-				signal_handler.o
+				signal_handler.o\
+				\
+				BUILTINS/env/env.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}
