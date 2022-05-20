@@ -1,26 +1,26 @@
 #include "../INC/minishell.h"
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-char *read_command(const char *promt)
+t_input *read_command(const char *promt)
 {
-	char *command_line;
+	t_input	*input;
 
-	command_line = readline(promt);
-	if (command_line == NULL)
+	input = ft_calloc(1, sizeof(t_input));
+	input->cmd = readline(promt);
+	if (input->cmd == NULL)
 	{
-		write(2, "\b\bexit\n", 7);
+		printf("\b\bexit\n");
 		exit (0);
 	}
 	else
 	{
-		add_history(command_line);
-		printf("%s\n", command_line);
+		add_history(input->cmd);
+		printf("%s\n", input->cmd);
 	}
-	return (command_line);
+	return (input);
 }
 
 

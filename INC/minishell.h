@@ -8,7 +8,7 @@
 /*signal handler*/
 int		set_signal_handler(void);
 /*lexer and parser*/
-char	*read_command(const char *prompt);
+t_input	*read_command(const char *prompt);
 
 /*word expansion*/
 
