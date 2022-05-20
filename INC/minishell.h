@@ -5,13 +5,24 @@
 # include <stdio.h>
 # define TRUE 1
 # define FALSE 0
+
 /*signal handler*/
-int		set_signal_handler(void);
+int				set_signal_handler(void);
 /*lexer and parser*/
-t_input	*read_command(const char *prompt);
+/*	read command*/
+t_input			*read_command(const char *prompt);
+/*	tokenize*/
+t_token			*create_token(char *word);
+void			free_token(char *word);
 
-/*word expansion*/
+t_token_list	*create_empty_toklst(void);
+void			free_toklist(t_token_list *lst);
+int				add_token_to_toklst(t_token_list *lst, t_token *tok);
+int				del_token_from_toklst(t_token_list *lst);
+void			print_token_list(t_token_list *lst);
 
+t_token_list	*scan_token(t_input *input, t_env *env_list);
+/*	word expansion*/
 /*pathname expansion*/
 
 /*minishell builtins*/
