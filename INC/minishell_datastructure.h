@@ -25,9 +25,17 @@ enum e_token_type
 
 typedef struct s_token
 {
-	int		text_len;
-	char	*text;
-}			t_token;
+	int				text_len;
+	char			*text;
+	struct s_token	*next;
+}					t_token;
+
+typedef struct s_token_list
+{
+	int		curr_count;
+	t_token	*head;
+	t_token	*tail;
+}			t_token_list;
 
 /* env list */
 

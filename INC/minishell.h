@@ -5,13 +5,14 @@
 # include <stdio.h>
 # define TRUE 1
 # define FALSE 0
+
 /*signal handler*/
 int		set_signal_handler(void);
 /*lexer and parser*/
+/*	read command*/
 t_input	*read_command(const char *prompt);
-
-/*word expansion*/
-
+/*	tokenize*/
+/*	word expansion*/
 /*pathname expansion*/
 
 /*minishell builtins*/
