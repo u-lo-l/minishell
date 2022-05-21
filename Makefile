@@ -25,7 +25,9 @@ OBJS_FILES = read_command.o\
 				main.o\
 				signal_handler.o\
 				\
-				BUILTINS/env/env.o
+				BUILTINS/env/env.o\
+				BUILTINS/env/env_util.o\
+				env_list.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}
