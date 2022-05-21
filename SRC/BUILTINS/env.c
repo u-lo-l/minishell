@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../../INC/minishell.h"
+#include "../../INC/minishell.h"
 
 void	display_env(t_env *env)
 {

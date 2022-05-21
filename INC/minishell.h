@@ -23,5 +23,9 @@ char	*search_key(t_env *env, char *key);
 void	copy_element(char *envp, t_envnode *new_node, int len, int keylen);
 void	add_node(char *envp, t_env *env, int i);
 t_env	*env_list(char **envp);
+/*----unset*/
+void	free_head_tail(t_env *env, t_envnode *target);
+t_env	*do_unset(t_env *env, char *key);
+
 
 #endif

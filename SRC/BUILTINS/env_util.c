@@ -1,4 +1,4 @@
-#include "../../../INC/minishell.h"
+#include "../../INC/minishell.h"
 
 int	ft_keylen(char *str)	//key 길이 측정
 {

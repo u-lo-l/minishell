@@ -35,7 +35,8 @@ typedef struct s_envnode
 {
 	char		*key;
 	char		*value;
-	struct s_envnode	*nextnode;	// 다음 인덱스의 환경변수
+	struct s_envnode	*nextnode;	// 다음 노드 포인터
+	struct s_envnode	*prevnode;	// 이전 노드 포인터
 }   t_envnode;
 
 typedef struct s_env
