@@ -1,51 +1,27 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../../INC/minishell_datastructure.h"
+#include "../../../INC/minishell.h"
 
-int	ft_strlen(char *str)
+void	copy_element(char *envp, t_envnode *new_node, int len, int keylen)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
-}
-
-int	ft_keylen(char *str)	//key 길이 측정
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != '=')	// '=' 전까지
-		i++;
-	return (i);
-}
-
-void	copy_element(char *envp, t_env *env, t_envnode *new_node, int len, int keylen)
-{
-	char		*key;
-	char		*value;
 	int			j;
 	
-	key = malloc(sizeof(char) * (keylen + 1));
-	value = malloc(sizeof(char) * (len - keylen));
+	new_node->key = malloc(sizeof(char) * (keylen + 1));
+	new_node->value = malloc(sizeof(char) * (len - keylen));
 	j = 0;
 	while(envp[j] && j < keylen)		// key길이 만큼 copy
 	{
-		key[j] = envp[j];
+		new_node->key[j] = envp[j];
 		j++;
 	}
-	key[j] = '\0';
+	new_node->key[j] = '\0';
 	j = 0;
 	while (envp[j + keylen] && j < (len - keylen - 1))	// 전체 길이 - key길이 - 1(해주는 이유는 '=' 때문) value copy
 	{
-		value[j] = envp[j + keylen + 1];
+		new_node->value[j] = envp[j + keylen + 1];
 		j++;
 	}
-	value[j] = '\0';
-	new_node->key = key;		// key 노드에 저장
-	new_node->value = value;	// value 노드에 저장
+	new_node->value[j] = '\0';
 }
 
 void	add_node(char *envp, t_env *env, int i)
@@ -68,10 +44,10 @@ void	add_node(char *envp, t_env *env, int i)
 		env->ptail->nextnode = new_node;	// 꼬리 노드의 다음노드 -> new_node
 		env->ptail = new_node;				// 꼬리 노드 -> new_node
 	}
-	copy_element(envp, env, new_node, len, keylen);	// key ,value를 노드에 저장
+	copy_element(envp, new_node, len, keylen);	// key ,value를 노드에 저장
 }
 
-void	pisplay_env(t_env *env)
+void	display_env(t_env *env)
 {
 	t_envnode	*curr;
 
@@ -85,10 +61,23 @@ void	pisplay_env(t_env *env)
 	}
 }
 
-void	do_env(int argc, char **argv, char **envp)
+char	*search_key(t_env *env, char *key)
+{
+	t_envnode	*curr;
+
+	curr = env->phead;
+	while (curr)
+	{
+		if (ft_cmp(curr->key, key))
+			return (curr->value);
+		curr = curr->nextnode;
+	}
+	return ("");
+}
+
+t_env	*do_env(char **envp)
 {
 	int		i = 0;
-	int		j = 0;
 	t_env	*env;	// 환경변수 담을 리스트
 	
 	env = malloc(sizeof(t_env));
@@ -102,10 +91,17 @@ void	do_env(int argc, char **argv, char **envp)
 		add_node(envp[i], env, i);	// 노드를 추가
 		i++;
 	}
-	pisplay_env(env);
+	display_env(env);
+	return (env);
 }
 
 // int main(int argc, char **argv, char **envp)
 // {
-// 	do_env(argc, argv, envp);
+// 	t_env	*env;
+// 	char	*str = "HOME";
+
+// 	(void)argc;
+// 	(void)argv;
+// 	env = do_env(envp);
+// 	printf("\n%s\n", search_key(env, str));
 // }

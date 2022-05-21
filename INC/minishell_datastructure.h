@@ -3,6 +3,15 @@
 
 /*global variable*/
 
+/*read line*/
+typedef struct	s_input
+{
+	char	*cmd;
+	int		start_i;
+	int		curr_i;
+}		t_input;
+
+
 /*DS for token*/
 
 enum e_token_type
