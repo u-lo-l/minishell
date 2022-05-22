@@ -2,14 +2,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-char	*do_pwd(void)
+void	pwd(void)
 {
 	char *buff;
 
 	buff = malloc(sizeof(char) * 1024);
 	getcwd(buff, 1024);
 	printf("%s\n", buff);
-	return (buff);
+	free(buff);
 }
 
 // int main()

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "../../INC/minishell.h"
 
-void	display_env(t_env *env)
+void	env(t_env *env)
 {
 	t_envnode	*curr;
 

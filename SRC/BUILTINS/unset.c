@@ -1,67 +1,88 @@
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
+/* unset할 노드가 head노드 또는 tail 노드 일 때 사용되는 함수*/
 void	free_head_tail(t_env *env, t_envnode *target)
 {
-	if (env->phead == env->ptail) // 첫노드를 지우는데 노드 개수가 한개 일 때
+	if (env->phead == env->ptail)
 	{
 		free(target);
 		env->phead = NULL;
 		env->ptail = NULL;
 	}
-	else if (target == env->phead) // 지울 노드가 헤드 노드일 때
+	else if (target == env->phead)
 	{
-		env->phead = target->nextnode; // 헤드 노드 -> 타겟노드의 다음노드
-		target->nextnode->prevnode = NULL; // 다음 노드의 이전포인터-> NULL
+		env->phead = target->nextnode;
+		target->nextnode->prevnode = NULL;
 		free(target);
 	}
-	else if (target == env->ptail) // 지울 노드가 꼬리 노드일 때
+	else if (target == env->ptail)
 	{
-		env->ptail = target->prevnode; // 꼬리 노드 -> 타겟노드의 이전 노드
-		target->prevnode->nextnode = NULL; // 이전 노드의 다음포인터 -> NULL
+		env->ptail = target->prevnode;
+		target->prevnode->nextnode = NULL;
 		free(target);
 	}
 }
 
-t_env	*do_unset(t_env *env, char *key)
+/* env_list를 순회하면서 타겟을 찾음 */
+void	traversal_env(t_env *env, char **unset_token, int i)
 {
 	t_envnode	*target;
 
 	target = env->phead;
-	while (target)	// 순회
+	while (target)
 	{
-		if (ft_cmp(target->key, key))	// 입력한 키값과 같은 키의 노드가있을 때
+		if (ft_cmp(target->key, unset_token[i]))
 		{
-			if (target == env->phead || target == env->ptail) // 지울 노드가 머리 or 꼬리 노드일 때
+			if (target == env->phead || target == env->ptail)
 			{
 				free_head_tail(env, target);
-				return (env);
+				return ;
 			}
-			target->prevnode->nextnode = target->nextnode; // 이전 노드의 다음노드 포인터값->타겟노드의 다음 노드
-			target->nextnode->prevnode = target->prevnode; // 다음 노드의 이전노드 포인터값->타겟노드의 이전 노드
+			target->prevnode->nextnode = target->nextnode;
+			target->nextnode->prevnode = target->prevnode;
 			free(target);
-			return (env);
+			return ;
 		}
 		target = target->nextnode;
+	}
+}
+
+t_env	*unset(t_env *env, char **unset_token)
+{
+	int			i;
+
+	if (!ft_cmp(unset_token[0], "unset"))
+		return (env);
+	i = 1;
+	while (unset_token[i])
+	{
+		traversal_env(env, unset_token, i);
+		i++;
 	}
 	return (env);
 }
 
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_env *env;
+/*
+int main(int argc, char **argv, char **envp)
+{
+	t_env	*ev;
+	char	**token;
 
-// 	env = env_list(envp);
-// 	env = do_unset(env, "HOME");
-// 	env = do_unset(env, "COLORTERM");
-// 	env = do_unset(env, "LS_COLORS");
-// 	env = do_unset(env, "PATH");
-// 	env = do_unset(env, "SHELL");
-// 	env = do_unset(env, "TERM_PROGRAM_VERSION");
-// 	env = do_unset(env, "_");
-// 	env = do_unset(env, "WSL_DISTRO_NAME");
-// 	env = do_unset(env, "VSCODE_IPC_HOOK_CLI");
-// 	env = do_unset(env, "TERM_PROGRAM");
-// 	env = do_unset(env, "PATH");
-// 	display_env(env);
-// }
+	(void)argc;
+	(void)argv;
+	token = malloc(sizeof(char *) * 5);
+	token[0] = malloc(sizeof(char) * 6);
+	token[1] = malloc(sizeof(char) * 10);
+	token[2] = malloc(sizeof(char) * 10);
+	token[3] = malloc(sizeof(char) * 10);
+
+	token[0] = "unset";
+	token[1] = "HOME";
+	token[2] = "LS_COLORS";
+
+	ev = env_list(envp);
+	ev = unset(ev, token);
+	env(ev);
+}
+*/
