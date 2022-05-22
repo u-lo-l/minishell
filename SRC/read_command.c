@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   read_command.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/22 18:45:29 by dkim2             #+#    #+#             */
+/*   Updated: 2022/05/22 18:48:05 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../INC/minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-t_input *read_command(const char *promt)
+t_input	*read_command(const char *promt)
 {
 	t_input	*input;
 
@@ -13,7 +25,8 @@ t_input *read_command(const char *promt)
 	if (input->cmd == NULL)
 	{
 		printf("\b\bexit\n");
-		exit (0);
+		free(input);
+		return (NULL);
 	}
 	else
 	{
@@ -22,5 +35,3 @@ t_input *read_command(const char *promt)
 	}
 	return (input);
 }
-
-

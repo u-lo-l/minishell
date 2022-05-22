@@ -6,7 +6,7 @@
 #    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/21 17:05:39 by dkim2            ###   ########.fr        #
+#    Updated: 2022/05/22 18:46:16 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,13 +21,20 @@ NAME = minishell
 LIBS = ./LIBFT/libft.a
 
 # 사용하는 파일들 여기에 추가
-OBJS_FILES = read_command.o\
-				main.o\
+OBJS_FILES = main.o\
+				read_command.o\
 				signal_handler.o\
 				\
+				env_list.o\
 				BUILTINS/env/env.o\
 				BUILTINS/env/env_util.o\
-				env_list.o
+				\
+				TOKENIZE/token_node.o\
+				TOKENIZE/token_list.o\
+				TOKENIZE/token_scanner.o\
+				TOKENIZE/tokenize_util.o\
+				TOKENIZE/word_expand.o
+				
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}

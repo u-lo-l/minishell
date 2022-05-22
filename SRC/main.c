@@ -1,5 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
+/*   Updated: 2022/05/22 18:47:36 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../INC/minishell.h"
 #include <stdlib.h>
+
+static void	free_env_list(t_env *env_lst)
+{
+	t_envnode	*curr;
+	t_envnode	*next;
+
+	if (env_lst == NULL)
+		return ;
+	curr = env_lst->phead;
+	while (curr != NULL)
+	{
+		next = curr->nextnode;
+		free(curr->key);
+		free(curr->value);
+		free(curr);
+		curr = next;
+	}
+	free(env_lst);
+}
 
 /*
  * 전역변수가 하나 필요하다.
@@ -13,7 +44,7 @@
  *	이 부분에서 빌트인 또한 초기화 될 것이다. (MAYBE)
  *	시그널 핸들러 처리도 여기 넣을 수 있다.
 */
-int init_shell(int argc, char **argv, char **envp)
+int	init_shell(int argc, char **argv, char **envp)
 {
 	if (argc > 1 || argv[1] != NULL || envp == NULL)
 		return (FALSE);
@@ -44,25 +75,27 @@ int init_shell(int argc, char **argv, char **envp)
  *		닫히지 않은 따옴표에 대한 해석
  *		하나를 초과하는 전역변수의 사용
 */
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_input *input;
-	
-	// 시그널 처리 및 환경변수, 빌트인 설정
+	t_input			*input;
+	t_env			*envlst;
+	t_token_list	*cmd_token_list;
+
 	if (init_shell(argc, argv, envp) == FALSE)
 		return (1);
+	envlst = env_list(envp);
 	while (1)
 	{
-		// 명령어 한 줄 읽어오기
 		input = read_command("mini >>  ");
-
-		// 읽어 온 명령어를 파싱하여 token_list를 생성한다.
-		// (우선은 리스트로 구현하고 개념이 이해되면 트리로 할 계획이다.)
-		
-		// 파싱 된 명령어를 실행한다.
-
+		if (input == NULL)
+			break ;
+		printf("input : <%s>\n", input->cmd);
+		cmd_token_list = scan_token(input, envlst);
+		print_token_list(cmd_token_list);
+		free_toklst(cmd_token_list);
 		free(input->cmd);
 		free(input);
 	}
+	free_env_list(envlst);
 	return (0);
 }
