@@ -24,10 +24,10 @@ LIBS = ./LIBFT/libft.a
 OBJS_FILES = read_command.o\
 				main.o\
 				signal_handler.o\
-				\
+				env_list.o\
 				BUILTINS/env/env.o\
 				BUILTINS/env/env_util.o\
-				env_list.o
+				BUILTINS/env/pwd.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}

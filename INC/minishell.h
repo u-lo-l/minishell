@@ -26,6 +26,8 @@ t_env	*env_list(char **envp);
 /*----unset*/
 void	free_head_tail(t_env *env, t_envnode *target);
 t_env	*do_unset(t_env *env, char *key);
+/*----pwd*/
+char	*do_pwd(char *pwd);
 
 
 #endif
