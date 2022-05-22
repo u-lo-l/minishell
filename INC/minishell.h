@@ -34,6 +34,9 @@ void			dollar_case(t_input *input, char **word, t_env *env_list);
 /*	word expansion*/
 char	*word_expansion(t_input	*input, t_env *env_list);
 
+t_input	*read_command(const char *prompt);
+/*	tokenize*/
+/*	word expansion*/
 /*pathname expansion*/
 
 /*minishell builtins*/

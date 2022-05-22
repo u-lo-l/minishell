@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -10,6 +11,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+=======
+>>>>>>> 482b848a2cb3ea3acef8068f9c541b6ca1cd5229
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
@@ -17,7 +20,11 @@ t_token	*create_token(char	*word)
 {
 	t_token	*new_tok;
 
+<<<<<<< HEAD
 	new_tok = ft_calloc(1, sizeof(t_token));
+=======
+	new_tok = ft_calloc(sizeof(t_token));
+>>>>>>> 482b848a2cb3ea3acef8068f9c541b6ca1cd5229
 	if (new_tok == NULL)
 		return (NULL);
 	if (word != NULL)
@@ -33,6 +40,7 @@ t_token	*create_token(char	*word)
 	return (new_tok);
 }
 
+<<<<<<< HEAD
 int	is_eof_token(t_token *tok)
 {
 	if (tok->text == NULL)
@@ -46,3 +54,11 @@ void	free_token(t_token *tok)
 		free(tok->text);
 	free (tok);
 }
+=======
+void	free_token(t_token *tok)
+{
+	if (!tok)
+		free(tok->text);
+	free (tok);
+}
+>>>>>>> 482b848a2cb3ea3acef8068f9c541b6ca1cd5229
