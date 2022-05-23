@@ -28,8 +28,12 @@ void	free_head_tail(t_env *env, t_envnode *target);
 void	traversal_env(t_env *env, char **unset_token, int i);
 t_env	*unset(t_env *env, char **unset_token);
 /*----pwd*/
-void	pwd(char *pwd);
+void	pwd(void);
 /*----echo*/
 void	echo(char *str, char **echo_token);
+/*----export*/
+void	export(t_env *env, char **export_token);
+/*----export*/
+void    cd(char **cd_toekn);
 
 #endif

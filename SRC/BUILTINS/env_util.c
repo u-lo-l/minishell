@@ -1,16 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_util.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/23 13:51:37 by yyoo              #+#    #+#             */
+/*   Updated: 2022/05/23 13:51:39 by yyoo             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INC/minishell.h"
 
-int	ft_keylen(char *str)	//key 길이 측정
+/* key 길이 측정 */
+int	ft_keylen(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] != '=')	// '=' 전까지
+	while (str[i] != '=')
 		i++;
 	return (i);
 }
 
-int	ft_cmp(char *str1, char *str2)	//문자열 같은지 검사하는 함수
+/* 문자열 같은지 검사하는 함수 */
+int	ft_cmp(char *str1, char *str2)
 {
 	int	i;
 
