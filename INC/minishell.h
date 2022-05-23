@@ -36,6 +36,6 @@ void	do_export(t_env *env, char **export_token);
 /*----export*/
 void	do_cd(char **cd_toekn);
 /*----export*/
-void    exit(char *token);
+void	do_exit(char *token);
 
 #endif
