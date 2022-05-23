@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 /* env_list에 노드를 추가하는 함수 add_node와 비슷하게 동작 함 */
-void	export(t_env *env, char **export_token)
+void	do_export(t_env *env, char **export_token)
 {
 	int			i;
 
@@ -42,7 +42,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	ev = env_list(envp);
-	env(ev);
+	do_env(ev);
 	printf("\n#############################################\n\n");
 	
 	token[0] = "export";
@@ -50,7 +50,7 @@ int main(int argc, char **argv, char **envp)
 	token[2] = "B=BBBB";
 	
 	export(ev, token);
-	env(ev);
+	do_env(ev);
 	printf("\n#############################################\n\n");
 	printf("%s\n", ev->ptail->key);
 	printf("element : %d\n", ev->element);

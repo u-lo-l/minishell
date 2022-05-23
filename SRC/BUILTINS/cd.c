@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void	cd(char **cd_token)
+void	do_cd(char **cd_token)
 {
 	int	ch;
 
@@ -37,7 +37,7 @@ int main()
 	token[0] = "cd";
 	token[1] = "../../";
 
-	cd(token);
+	do_cd(token);
 	pwd();
 }
 */

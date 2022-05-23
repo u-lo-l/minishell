@@ -13,7 +13,7 @@
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-void	echo(char *str, char **echo_token)
+void	do_echo(char *str, char **echo_token)
 {
 	int	i;
 
@@ -44,5 +44,5 @@ void	echo(char *str, char **echo_token)
 // 	echo_token[0] = "ech";
 // 	echo_token[1] = "-n";
 // 	echo_token[2] = "ABC";
-// 	echo(str, echo_token);
+// 	do_echo(str, echo_token);
 // }

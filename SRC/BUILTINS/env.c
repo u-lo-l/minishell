@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include "../../INC/minishell.h"
 
-void	env(t_env *env)
+void	do_env(t_env *env)
 {
 	t_envnode	*curr;
 

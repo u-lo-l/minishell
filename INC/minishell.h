@@ -18,7 +18,7 @@ t_input	*read_command(const char *prompt);
 /*----env*/
 int		ft_keylen(char *str);
 int		ft_cmp(char *str1, char *str);
-void	env(t_env *env);
+void	do_env(t_env *env);
 char	*search_key(t_env *env, char *key);
 void	copy_element(char *envp, t_envnode *new_node, int len, int keylen);
 void	add_node(char *envp, t_env *env, int i);
@@ -26,14 +26,16 @@ t_env	*env_list(char **envp);
 /*----unset*/
 void	free_head_tail(t_env *env, t_envnode *target);
 void	traversal_env(t_env *env, char **unset_token, int i);
-t_env	*unset(t_env *env, char **unset_token);
+t_env	*do_unset(t_env *env, char **unset_token);
 /*----pwd*/
-void	pwd(void);
+void	do_pwd(void);
 /*----echo*/
-void	echo(char *str, char **echo_token);
+void	do_echo(char *str, char **echo_token);
 /*----export*/
-void	export(t_env *env, char **export_token);
+void	do_export(t_env *env, char **export_token);
 /*----export*/
-void    cd(char **cd_toekn);
+void	do_cd(char **cd_toekn);
+/*----export*/
+void    exit(char *token);
 
 #endif

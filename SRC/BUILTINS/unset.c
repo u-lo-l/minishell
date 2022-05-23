@@ -60,7 +60,7 @@ void	traversal_env(t_env *env, char **unset_token, int i)
 	}
 }
 
-t_env	*unset(t_env *env, char **unset_token)
+t_env	*do_unset(t_env *env, char **unset_token)
 {
 	int			i;
 
@@ -94,7 +94,7 @@ int main(int argc, char **argv, char **envp)
 	token[2] = "LS_COLORS";
 
 	ev = env_list(envp);
-	ev = unset(ev, token);
+	ev = do_unset(ev, token);
 	env(ev);
 }
 */

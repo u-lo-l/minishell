@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-void	pwd(void)
+void	do_pwd(void)
 {
 	char	*buff;
 
