@@ -46,7 +46,7 @@ int init_shell(int argc, char **argv, char **envp)
 */
 int main(int argc, char **argv, char **envp)
 {
-	char *command_line;
+	t_input *input;
 	
 	// 시그널 처리 및 환경변수, 빌트인 설정
 	if (init_shell(argc, argv, envp) == FALSE)
@@ -54,13 +54,15 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		// 명령어 한 줄 읽어오기
-		command_line = read_command("mini > ");
+		input = read_command("mini >>  ");
 
 		// 읽어 온 명령어를 파싱하여 token_list를 생성한다.
 		// (우선은 리스트로 구현하고 개념이 이해되면 트리로 할 계획이다.)
 		
 		// 파싱 된 명령어를 실행한다.
-		free(command_line);
+
+		free(input->cmd);
+		free(input);
 	}
 	return (0);
 }
