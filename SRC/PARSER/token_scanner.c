@@ -6,13 +6,13 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:44 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 19:46:22 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/27 00:40:48 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
-
+/*
 static void	free_env_list(t_env *env_lst)
 {
 	t_envnode	*curr;
@@ -31,7 +31,7 @@ static void	free_env_list(t_env *env_lst)
 	}
 	free(env_lst);
 }
-
+*/
 static int 	is_quote(char c)
 {
 	if (c == '\'' || c == '"')
@@ -49,7 +49,6 @@ static int	is_redir_op(char c)
 t_token_tree *scan_token(t_input *input, t_env *env_list)
 {
 	t_token_tree		*toktree;
-	t_command			*curr_command;
 	char				*word;
 	enum e_token_type	type;
 
@@ -57,7 +56,6 @@ t_token_tree *scan_token(t_input *input, t_env *env_list)
 		return (NULL);
 	toktree = create_token_tree();
 	add_one_empty_command(toktree);
-	curr_command = toktree->tail_cmd;
 	skip_space(input);
 	word = NULL;
 	type = e_word;
@@ -113,7 +111,7 @@ t_token_tree *scan_token(t_input *input, t_env *env_list)
 	}
 	return (toktree);
 }
-
+/*
 int main(int argc, char **argv, char **envp)
 {
 	t_input 		*input;
@@ -141,3 +139,4 @@ int main(int argc, char **argv, char **envp)
 	free_env_list(envs);
 	return (0);
 }
+*/

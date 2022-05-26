@@ -6,7 +6,7 @@
 #    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/22 18:46:16 by dkim2            ###   ########.fr        #
+#    Updated: 2022/05/27 00:38:34 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,16 +24,18 @@ LIBS = ./LIBFT/libft.a
 OBJS_FILES = main.o\
 				read_command.o\
 				signal_handler.o\
-				\
 				env_list.o\
+				\
 				BUILTINS/env/env.o\
 				BUILTINS/env/env_util.o\
 				\
-				TOKENIZE/token_node.o\
-				TOKENIZE/token_list.o\
-				TOKENIZE/token_scanner.o\
-				TOKENIZE/tokenize_util.o\
-				TOKENIZE/word_expand.o
+				PARSER/token_node.o\
+				PARSER/token_list.o\
+				PARSER/token_scanner.o\
+				PARSER/tokenize_util.o\
+				PARSER/word_expand.o\
+				PARSER/token_command.o\
+				PARSER/token_tree.o
 				
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 

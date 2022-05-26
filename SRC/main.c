@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/22 18:47:36 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/27 00:36:56 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_input			*input;
 	t_env			*envlst;
-	t_token_list	*cmd_token_list;
+	t_token_tree	*cmd_token_tree;
 
 	if (init_shell(argc, argv, envp) == FALSE)
 		return (1);
@@ -89,12 +89,17 @@ int	main(int argc, char **argv, char **envp)
 		input = read_command("mini >>  ");
 		if (input == NULL)
 			break ;
-		printf("input : <%s>\n", input->cmd);
-		cmd_token_list = scan_token(input, envlst);
-		print_token_list(cmd_token_list);
-		free_toklst(cmd_token_list);
+		cmd_token_tree = scan_token(input, envlst);
 		free(input->cmd);
 		free(input);
+		if (cmd_token_tree == NULL)
+			printf("Err : Wrong Syntax\n");
+		else
+		{
+			// EXECUTE;
+			print_token_tree(cmd_token_tree);
+			free_token_tree(cmd_token_tree);
+		}
 	}
 	free_env_list(envlst);
 	return (0);

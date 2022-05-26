@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 21:35:07 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 18:10:54 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/27 00:41:28 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,11 @@ int	add_one_empty_command(t_token_tree *token_tree)
 
 void	print_token_tree(t_token_tree *token_tree)
 {
-	int	i;
 	t_command	*command;
 	
 	if (token_tree == NULL)
 		return ;
 	printf("Num of Commands : %d\n", token_tree->num_of_commands);
-	i = -1;
 	command = token_tree->head_cmd;
 	while (command != NULL)
 	{
