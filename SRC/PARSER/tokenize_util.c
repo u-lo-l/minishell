@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 19:12:19 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/26 19:42:04 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	split_token(t_token_tree *toktree, t_input *input, char **word, enum e_token
 		return (FALSE);
 	if (*word && *word[0] == 0)
 		return (TRUE);
-	printf("split_token\n");
 	input->curr_i--;
 	make_word(input, word);
 	// printf("<%s>, %d\n", *word, (int)ft_strlen(*word));

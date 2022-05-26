@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 22:07:15 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 19:05:15 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/26 19:40:16 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	add_token_to_command(t_command *command, t_token *tok)
 	
 	if (!command || !tok)
 		return (FALSE);
-	printf("adding token to command : %d: %s\n", tok->type, tok->text);
+	// printf("adding token to command : %d: %s\n", tok->type, tok->text);
 	if (tok->type == e_word)
 		res = add_token_to_toklst(command->simple_command, tok);
 	else if (tok->type == e_inrdr)

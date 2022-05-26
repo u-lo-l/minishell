@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:44 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 19:16:15 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/26 19:46:22 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,7 @@ t_token_tree *scan_token(t_input *input, t_env *env_list)
 			if (ft_strchr("|", input->cmd[input->curr_i]))
 			{
 				free_token_tree(toktree);
-				toktree = NULL;
-				break ;
+				return (NULL);
 			}
 			add_one_empty_command(toktree);
 		}
@@ -90,17 +89,24 @@ t_token_tree *scan_token(t_input *input, t_env *env_list)
 			if (input->cmd[input->curr_i++] == '>')
 			{
 				type = e_outrdr;
+				input->start_i = input->curr_i;
 				if (input->cmd[input->curr_i++] == '>')
+				{
+					input->start_i = input->curr_i;
 					type = e_appendrdr;
+				}
 			}
 			else
 			{
 				type = e_inrdr;
+				input->start_i = input->curr_i;
 				if (input->cmd[input->curr_i++] == '<')
+				{
+					input->start_i = input->curr_i;
 					type = e_heredoc;
+				}
 			}
 			skip_space(input);
-			if (ft_isalnum(input->cmd[input->curr_i])) || )
 		}
 		else
 			input->curr_i++;
