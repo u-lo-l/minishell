@@ -56,7 +56,7 @@ t_env	*env_list(char **envp)
 	
 	env = malloc(sizeof(t_env));
 	env->element = 0;
-
+	env->error = 0;
 	while (envp[env->element] != NULL)	// 환경변수 개수 체크
 		env->element++;
 

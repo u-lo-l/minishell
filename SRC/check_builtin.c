@@ -3,7 +3,7 @@
 void    check_builtin(char **env, char *str, char **token)
 {
 	if (ft_cmp(str, "echo") && ft_cmp(token[0], "echo"))
-		do_env(echo);
+		do_echo(env, str, token);
 	if (ft_cmp(str, "cd") && ft_cmp(token[0], "cd"))
 		do_cd(token);
 	if (ft_cmp(str, "env") && ft_cmp(token[0], "env"))

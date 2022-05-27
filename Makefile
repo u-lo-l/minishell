@@ -25,6 +25,7 @@ OBJS_FILES = read_command.o\
 				main.o\
 				signal_handler.o\
 				env_list.o\
+				pipe.c\
 				BUILTINS/env/echo.o\
 				BUILTINS/env/env.o\
 				BUILTINS/env/env_util.o\

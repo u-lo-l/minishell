@@ -30,7 +30,7 @@ t_env	*do_unset(t_env *env, char **unset_token);
 /*----pwd*/
 void	do_pwd(void);
 /*----echo*/
-void	do_echo(char *str, char **echo_token);
+void	do_echo(t_env *env, char *str, char **echo_token);
 /*----export*/
 void	do_export(t_env *env, char **export_token);
 /*----export*/

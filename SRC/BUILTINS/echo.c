@@ -13,12 +13,14 @@
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-void	do_echo(char *str, char **echo_token)
+void	do_echo(t_env *env, char *str, char **echo_token)
 {
 	int	i;
 
 	if (!ft_cmp(str, "echo") || !ft_cmp(echo_token[0], "echo"))
 		return ;
+	if (!ft_cmp(echo_token[1], "?"))
+		printf("%d\n", env->errono);
 	i = 1;
 	if (ft_cmp(echo_token[1], "-n"))
 		i++;

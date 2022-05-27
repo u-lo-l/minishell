@@ -42,6 +42,7 @@ typedef struct s_envnode
 typedef struct s_env
 {
 	int			element;	// 환경변수 개수
+	int			error;
 	t_envnode	*phead;	// 헤드노드
 	t_envnode	*ptail; // 꼬리노드
 }   t_env;
