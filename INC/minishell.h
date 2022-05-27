@@ -8,16 +8,32 @@
 
 /*signal handler*/
 int				set_signal_handler(void);
-/*lexer and parser*/
 /*	read command*/
 t_input			*read_command(const char *prompt);
+void			check_input_state(t_input *input);
 /*	tokenize*/
+/*		tokenize check*/
+int				is_quote(char c);
+int				is_redir_op(char c);
+int				is_space(char c);
+int				is_special_char(char c);
 /*		tokenize utils*/
-void			skip_space(t_input *input);
-int				split_token(t_token_tree *toktree, t_input *input, char **word, enum e_token_type type);
-void			make_word(t_input *input, char **word);
-void			quote_case(t_input *input, char **word, t_env *env_list);
-void			dollar_case(t_input *input, char **word, t_env *env_list);
+void			pass_space_tab(t_input *input);
+int				set_word(t_input *input, char **pword);
+char			*expand_variable(t_input *input, t_env *env_list);
+int				delimit_and_add_token_to_tree(t_token_tree *toktree,
+												char **pword,
+												enum e_token_type *type);
+/*		tokenize special character*/
+int				case_space(t_token_tree *toktree, t_input *input, \
+							char **pword, t_toktype *type);
+int				case_pipe(t_token_tree *toktree, t_input *input, \
+							char **word, t_toktype	*type);
+int				case_dollar(t_input *input, t_env *envlst, char **word);
+int				case_quote(t_input *input, t_env *envlst, char **word);
+int				case_redirection(t_token_tree *toktree, t_input *input, \
+								char **pword, t_toktype *type);
+
 /*		token_node.c*/
 t_token			*create_token(char *word, enum e_token_type type);
 int				is_eof_token(t_token *tok);
@@ -36,21 +52,13 @@ void			print_command(t_command *command);
 /*		token_tree.c*/
 t_token_tree	*create_token_tree(void);
 void	 		free_token_tree(t_token_tree *token_tree);
+int				add_token_to_tree(t_token_tree *toktree, t_token *tok);
 int				add_command(t_token_tree *token_tree, t_command *new_command);
 int				add_one_empty_command(t_token_tree *token_tree);
 void			print_token_tree(t_token_tree *token_tree);
 
 /*		token_scanner*/
-t_token_tree	*scan_token(t_input *input, t_env *env_list);
-
-
-/*	word expansion*/
-char			*word_expansion(t_input	*input, t_env *env_list);
-
-t_input			*read_command(const char *prompt);
-/*	tokenize*/
-/*	word expansion*/
-/*pathname expansion*/
+t_token_tree	*tokenize_and_parsing(t_input *input, t_env *envlst);
 
 /*minishell builtins*/
 /*----env*/

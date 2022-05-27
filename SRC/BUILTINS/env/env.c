@@ -27,7 +27,7 @@ char	*search_key(t_env *env, char *key)
 			return (curr->value);
 		curr = curr->nextnode;
 	}
-	return ("");
+	return (ft_strdup(""));
 }
 
 // int main(int argc, char **argv, char **envp)

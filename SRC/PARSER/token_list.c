@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:39 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 19:57:06 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 07:04:29 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,16 @@ int	add_token_to_toklst(t_token_list *lst, t_token *tok)
 
 static void print_token_type(enum e_token_type type)
 {
-	if (type == e_eof)
-		printf("e_eof");
-	else if (type == e_pipeline)
-		printf("e_pipeline");
-	else if (type == e_word)
+	if (type == e_word)
 		printf("e_word");
-	else if (type == e_inrdr)
-		printf("e_inrdr");
 	else if (type == e_outrdr)
 		printf("e_outrdr");
 	else if (type == e_appendrdr)
 		printf("e_appendrdr");
+	else if (type == e_inrdr)
+		printf("e_inrdr");
 	else if (type == e_heredoc)
 		printf("e_heredoc");
-	else if (type == e_exitstatus)
-		printf("e_exitstatus");
 }
 
 void	print_token_list(t_token_list *lst)

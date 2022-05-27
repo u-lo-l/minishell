@@ -14,17 +14,14 @@ typedef struct	s_input
 
 /*DS for token*/
 
-enum e_token_type
+typedef enum e_token_type
 {
-	e_eof = 0,
-	e_pipeline,
-	e_word,
-	e_inrdr,
+	e_word = 0,
 	e_outrdr,
 	e_appendrdr,
-	e_heredoc,
-	e_exitstatus,
-};
+	e_inrdr,
+	e_heredoc
+}	t_toktype;
 
 typedef struct s_token
 {

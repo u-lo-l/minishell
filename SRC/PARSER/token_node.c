@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:41 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 15:46:41 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 07:03:33 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	*create_token(char	*word, enum e_token_type type)
 {
 	t_token	*new_tok;
 
-	if (type > e_exitstatus || type < e_eof)
+	if (type > e_heredoc || type < e_word)
 		return (NULL);
 	new_tok = ft_calloc(1, sizeof(t_token));
 	if (new_tok == NULL)

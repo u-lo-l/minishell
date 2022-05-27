@@ -6,7 +6,7 @@
 #    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/27 00:38:34 by dkim2            ###   ########.fr        #
+#    Updated: 2022/05/28 06:44:15 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,11 +31,12 @@ OBJS_FILES = main.o\
 				\
 				PARSER/token_node.o\
 				PARSER/token_list.o\
-				PARSER/token_scanner.o\
-				PARSER/tokenize_util.o\
-				PARSER/word_expand.o\
 				PARSER/token_command.o\
-				PARSER/token_tree.o
+				PARSER/token_tree.o\
+				PARSER/tokenize_utils.o\
+				PARSER/tokenize_check.o\
+				PARSER/tokenize_special_char.o\
+				PARSER/scanner_function.o
 				
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 21:35:07 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/27 00:41:28 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 00:00:44 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@ void	 free_token_tree(t_token_tree *token_tree)
 	free(token_tree);
 }
 
+int	add_token_to_tree(t_token_tree *toktree, t_token *tok)
+{
+	if (!tok)
+		return (FALSE);
+	if (toktree->head_cmd == NULL)
+		if (!add_one_empty_command(toktree))
+			return (FALSE);
+	return (add_token_to_command(toktree->tail_cmd, tok));
+}
 
 int	add_command(t_token_tree *token_tree, t_command *new_command)
 {

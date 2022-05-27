@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:29 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/27 14:33:33 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 05:34:02 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,32 @@ t_input	*read_command(const char *promt)
 	else
 	{
 		add_history(input->cmd);
-		printf("\033[33minput : %s\033[0m\n", input->cmd);
 		trimed_input = ft_strtrim(input->cmd, "\t ");
 		free(input->cmd);
 		input->cmd = trimed_input;
 	}
 	return (input);
+}
+
+void	check_input_state(t_input *input)
+{
+	printf("str : [%s ]\n", input->cmd);
+	printf(" s  : [");
+	for (int i = 0 ; i <= (int)ft_strlen(input->cmd) ; i++)
+	{
+		if (i == input->start_i)
+			printf("\033[33ms\033[0m");
+		else
+			printf(" ");
+	}
+	printf("]\n");
+	printf(" c  : [");
+	for (int i = 0 ; i <= (int)ft_strlen(input->cmd) ; i++)
+	{
+		if (i == input->curr_i)
+			printf("\033[34mc\033[0m");
+		else
+			printf(" ");
+	}
+	printf("]\n");
 }

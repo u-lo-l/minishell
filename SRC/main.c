@@ -6,21 +6,21 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/27 14:24:35 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 07:01:47 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INC/minishell.h"
 #include <stdlib.h>
 
-static void	free_env_list(t_env *env_lst)
+static void	free_env_list(t_env *envlst)
 {
 	t_envnode	*curr;
 	t_envnode	*next;
 
-	if (env_lst == NULL)
+	if (envlst == NULL)
 		return ;
-	curr = env_lst->phead;
+	curr = envlst->phead;
 	while (curr != NULL)
 	{
 		next = curr->nextnode;
@@ -29,7 +29,7 @@ static void	free_env_list(t_env *env_lst)
 		free(curr);
 		curr = next;
 	}
-	free(env_lst);
+	free(envlst);
 }
 
 /*
@@ -86,26 +86,19 @@ int	main(int argc, char **argv, char **envp)
 	envlst = env_list(envp);
 	while (1)
 	{
+		// 명령어 한 줄 읽어오기
 		input = read_command("mini >>  ");
 		if (input == NULL)
 			break ;
-		if (input->cmd[0] == '\0')
-		{
-			free(input->cmd);
-			free(input);
-			continue ;
-		}
-		cmd_token_tree = scan_token(input, envlst);
+		printf("\033[33minput : {%s}\033[0m\n", input->cmd);
+		cmd_token_tree = tokenize_and_parsing(input, envlst);
 		free(input->cmd);
 		free(input);
 		if (cmd_token_tree == NULL)
-			printf("Err : Wrong Syntax\n");
+			printf("BAD SYNTAX\n");
 		else
-		{
-			// EXECUTE;
 			print_token_tree(cmd_token_tree);
-			free_token_tree(cmd_token_tree);
-		}
+		free_token_tree(cmd_token_tree);
 	}
 	free_env_list(envlst);
 	return (0);
