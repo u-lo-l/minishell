@@ -6,32 +6,13 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:44 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/27 00:40:48 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/27 14:04:09 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
-/*
-static void	free_env_list(t_env *env_lst)
-{
-	t_envnode	*curr;
-	t_envnode	*next;
 
-	if (env_lst == NULL)
-		return ;
-	curr = env_lst->phead;
-	while (curr != NULL)
-	{
-		next = curr->nextnode;
-		free(curr->key);
-		free(curr->value);
-		free(curr);
-		curr = next;
-	}
-	free(env_lst);
-}
-*/
 static int 	is_quote(char c)
 {
 	if (c == '\'' || c == '"')
