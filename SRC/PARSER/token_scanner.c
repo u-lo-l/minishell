@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:44 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/27 14:04:09 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/27 14:40:20 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_token_tree *scan_token(t_input *input, t_env *env_list)
 	char				*word;
 	enum e_token_type	type;
 
-	if (input == NULL || env_list == NULL)
+	if (input == NULL || env_list == NULL  || input->cmd[0] == '|')
 		return (NULL);
 	toktree = create_token_tree();
 	add_one_empty_command(toktree);
@@ -65,12 +65,14 @@ t_token_tree *scan_token(t_input *input, t_env *env_list)
 		}
 		else if (is_redir_op(input->cmd[input->curr_i]) == TRUE)
 		{
+			split_token(toktree, input, &word, type);
 			if (input->cmd[input->curr_i++] == '>')
 			{
 				type = e_outrdr;
 				input->start_i = input->curr_i;
-				if (input->cmd[input->curr_i++] == '>')
+				if (input->cmd[input->curr_i + 1] == '>')
 				{
+					input->curr_i++;
 					input->start_i = input->curr_i;
 					type = e_appendrdr;
 				}
@@ -79,8 +81,9 @@ t_token_tree *scan_token(t_input *input, t_env *env_list)
 			{
 				type = e_inrdr;
 				input->start_i = input->curr_i;
-				if (input->cmd[input->curr_i++] == '<')
+				if (input->cmd[input->curr_i + 1] == '<')
 				{
+					input->curr_i++;
 					input->start_i = input->curr_i;
 					type = e_heredoc;
 				}

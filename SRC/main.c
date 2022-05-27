@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/27 00:36:56 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/27 14:24:35 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ int	main(int argc, char **argv, char **envp)
 		input = read_command("mini >>  ");
 		if (input == NULL)
 			break ;
+		if (input->cmd[0] == '\0')
+		{
+			free(input->cmd);
+			free(input);
+			continue ;
+		}
 		cmd_token_tree = scan_token(input, envlst);
 		free(input->cmd);
 		free(input);
