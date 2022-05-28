@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:17 by yyoo              #+#    #+#             */
-/*   Updated: 2022/05/23 13:51:20 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/05/28 17:39:32 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	do_echo(t_env *env, char *str, char **echo_token)
 	while (echo_token[i])
 	{
 		printf("%s", echo_token[i]);
+		if (echo_token[i + 1])
+			printf(" ");
 		i++;
 	}
 	if (!ft_cmp(echo_token[1], "-n"))
