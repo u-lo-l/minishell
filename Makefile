@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
+#    By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/28 06:44:15 by dkim2            ###   ########.fr        #
+#    Updated: 2022/05/28 16:34:05 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,6 @@ OBJS_FILES = main.o\
 				signal_handler.o\
 				env_list.o\
 				\
-				BUILTINS/env/env.o\
-				BUILTINS/env/env_util.o\
-				\
 				PARSER/token_node.o\
 				PARSER/token_list.o\
 				PARSER/token_command.o\
@@ -36,8 +33,17 @@ OBJS_FILES = main.o\
 				PARSER/tokenize_utils.o\
 				PARSER/tokenize_check.o\
 				PARSER/tokenize_special_char.o\
-				PARSER/scanner_function.o
-				
+				PARSER/scanner_function.o\
+				\
+				pipe.o\
+				BUILTINS/env/echo.o\
+				BUILTINS/env/env.o\
+				BUILTINS/env/env_util.o\
+				BUILTINS/env/export.o\
+				BUILTINS/env/pwd.o\
+				BUILTINS/env/unset.o\
+				BUILTINS/env/cd.o\
+				BUILTINS/env/exit.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}

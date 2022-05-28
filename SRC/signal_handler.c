@@ -57,5 +57,6 @@ int	set_signal_handler(void)
 		return (FALSE);
 	if (signal(SIGQUIT, signal_handler) == SIG_ERR)
 		return (FALSE);
+	signal(SIGQUIT, SIG_IGN);
 	return (TRUE);
 }
