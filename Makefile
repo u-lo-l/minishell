@@ -6,7 +6,7 @@
 #    By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/28 16:34:05 by dkim2            ###   ########.fr        #
+#    Updated: 2022/05/28 16:50:08 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ OBJS_FILES = main.o\
 				read_command.o\
 				signal_handler.o\
 				env_list.o\
+				pipe.o\
 				\
 				PARSER/token_node.o\
 				PARSER/token_list.o\
@@ -35,15 +36,14 @@ OBJS_FILES = main.o\
 				PARSER/tokenize_special_char.o\
 				PARSER/scanner_function.o\
 				\
-				pipe.o\
-				BUILTINS/env/echo.o\
-				BUILTINS/env/env.o\
-				BUILTINS/env/env_util.o\
-				BUILTINS/env/export.o\
-				BUILTINS/env/pwd.o\
-				BUILTINS/env/unset.o\
-				BUILTINS/env/cd.o\
-				BUILTINS/env/exit.o
+				BUILTINS/echo.o\
+				BUILTINS/env.o\
+				BUILTINS/env_util.o\
+				BUILTINS/export.o\
+				BUILTINS/pwd.o\
+				BUILTINS/unset.o\
+				BUILTINS/cd.o\
+				BUILTINS/exit.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}

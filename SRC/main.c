@@ -3,34 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 07:01:47 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 16:47:49 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INC/minishell.h"
 #include <stdlib.h>
-
-static void	free_env_list(t_env *envlst)
-{
-	t_envnode	*curr;
-	t_envnode	*next;
-
-	if (envlst == NULL)
-		return ;
-	curr = envlst->phead;
-	while (curr != NULL)
-	{
-		next = curr->nextnode;
-		free(curr->key);
-		free(curr->value);
-		free(curr);
-		curr = next;
-	}
-	free(envlst);
-}
 
 /*
  * 전역변수가 하나 필요하다.
@@ -86,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 	envlst = env_list(envp);
 	while (1)
 	{
-		// 명령어 한 줄 읽어오기
 		input = read_command("mini >>  ");
 		if (input == NULL)
 			break ;

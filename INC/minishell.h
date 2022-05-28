@@ -60,15 +60,17 @@ void			print_token_tree(t_token_tree *token_tree);
 /*		token_scanner*/
 t_token_tree	*tokenize_and_parsing(t_input *input, t_env *envlst);
 
+/*----env_list*/
+void	copy_element(char *envp, t_envnode *new_node, int len, int keylen);
+void	add_node(char *envp, t_env *env, int i);
+t_env	*env_list(char **envp);
+void	free_env_list(t_env *envlst);
 /*minishell builtins*/
 /*----env*/
 int		ft_keylen(char *str);
 int		ft_cmp(char *str1, char *str);
 void	do_env(t_env *env);
 char	*search_key(t_env *env, char *key);
-void	copy_element(char *envp, t_envnode *new_node, int len, int keylen);
-void	add_node(char *envp, t_env *env, int i);
-t_env	*env_list(char **envp);
 /*----unset*/
 void	free_head_tail(t_env *env, t_envnode *target);
 void	traversal_env(t_env *env, char **unset_token, int i);
@@ -79,9 +81,9 @@ void	do_pwd(void);
 void	do_echo(t_env *env, char *str, char **echo_token);
 /*----export*/
 void	do_export(t_env *env, char **export_token);
-/*----export*/
+/*----cd*/
 void	do_cd(char **cd_toekn);
-/*----export*/
+/*----exit*/
 void	do_exit(char *token);
 
 #endif

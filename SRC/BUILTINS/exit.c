@@ -1,4 +1,6 @@
 #include "../../INC/minishell.h"
+#include <sys/errno.h>
+#include <stdlib.h>
 
 void    do_exit(char *token)
 {

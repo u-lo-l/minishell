@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 06:01:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 14:18:51 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 16:47:10 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	set_word(t_input *input, char **pword)
 	return (TRUE);
 }
 
-char	*expand_variable(t_input *input, t_env *env_list)
+char	*expand_variable(t_input *input, t_env *envlst)
 {
 	char	*key;
 	char	*value;
@@ -77,7 +77,7 @@ char	*expand_variable(t_input *input, t_env *env_list)
 	key = NULL;
 	if (input->cmd[input->curr_i] == '?')
 	{
-		value = ft_itoa(42);
+		value = ft_itoa(envlst->error);
 		input->start_i = ++input->curr_i;
 	}
 	else
@@ -86,7 +86,7 @@ char	*expand_variable(t_input *input, t_env *env_list)
 			input->curr_i++;
 		if (set_word(input, &key) == FALSE)
 			return (NULL);
-		value = search_key(env_list, key);
+		value = search_key(envlst, key);
 		free(key);
 	}
 	return (value);
