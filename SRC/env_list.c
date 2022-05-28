@@ -34,6 +34,7 @@ void	add_node(char *envp, t_env *env, int i)
 	keylen = ft_keylen(envp);
 	new_node = malloc(sizeof(t_envnode));
 	new_node->nextnode = NULL;
+	new_node->prevnode = NULL;
 	if (i == 0)				// 첫 노드 생성일 때
 	{
 		env->phead = new_node;	// 헤더 노드 -> new_node;
@@ -41,6 +42,7 @@ void	add_node(char *envp, t_env *env, int i)
 	}
 	else					//	두번째 노드 부터는 여기
 	{
+		new_node->prevnode = env->ptail;
 		env->ptail->nextnode = new_node;	// 꼬리 노드의 다음노드 -> new_node
 		env->ptail = new_node;				// 꼬리 노드 -> new_node
 	}
@@ -54,7 +56,7 @@ t_env	*env_list(char **envp)
 	
 	env = malloc(sizeof(t_env));
 	env->element = 0;
-
+	env->error = 0;
 	while (envp[env->element] != NULL)	// 환경변수 개수 체크
 		env->element++;
 
@@ -64,4 +66,23 @@ t_env	*env_list(char **envp)
 		i++;
 	}
 	return (env);
+}
+
+void	free_env_list(t_env *envlst)
+{
+	t_envnode	*curr;
+	t_envnode	*next;
+
+	if (envlst == NULL)
+		return ;
+	curr = envlst->phead;
+	while (curr != NULL)
+	{
+		next = curr->nextnode;
+		free(curr->key);
+		free(curr->value);
+		free(curr);
+		curr = next;
+	}
+	free(envlst);
 }
