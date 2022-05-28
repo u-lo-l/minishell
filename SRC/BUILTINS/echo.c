@@ -19,8 +19,6 @@ void	do_echo(t_env *env, char *str, char **echo_token)
 
 	if (!ft_cmp(str, "echo") || !ft_cmp(echo_token[0], "echo"))
 		return ;
-	if (!ft_cmp(echo_token[1], "?"))
-		printf("%d\n", env->errono);
 	i = 1;
 	if (ft_cmp(echo_token[1], "-n"))
 		i++;

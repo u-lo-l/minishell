@@ -67,3 +67,22 @@ t_env	*env_list(char **envp)
 	}
 	return (env);
 }
+
+void	free_env_list(t_env *envlst)
+{
+	t_envnode	*curr;
+	t_envnode	*next;
+
+	if (envlst == NULL)
+		return ;
+	curr = envlst->phead;
+	while (curr != NULL)
+	{
+		next = curr->nextnode;
+		free(curr->key);
+		free(curr->value);
+		free(curr);
+		curr = next;
+	}
+	free(envlst);
+}

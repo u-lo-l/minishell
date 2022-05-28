@@ -16,5 +16,4 @@ void    check_builtin(char **env, char *str, char **token)
 		do_env(env);
 	if (ft_cmp(str, "exit") && ft_cmp(token[0], "exit"))
 		do_exit(token);
-
 }
