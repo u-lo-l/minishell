@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 06:01:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 07:04:59 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 14:18:51 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*expand_variable(t_input *input, t_env *env_list)
 	}
 	else
 	{
-		while (ft_strchr(" \t\"\'<>$\0", input->cmd[input->curr_i]) == NULL)
+		while (ft_strchr(" \t\"\'<>$?\0", input->cmd[input->curr_i]) == NULL)
 			input->curr_i++;
 		if (set_word(input, &key) == FALSE)
 			return (NULL);
