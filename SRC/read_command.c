@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:29 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 05:34:02 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 21:36:07 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ t_input	*read_command(const char *promt)
 	input->cmd = readline(promt);
 	if (input->cmd == NULL)
 	{
-		printf("\b\bexit\n");
+		rl_on_new_line();
+		printf("\033[1A");
+		rl_redisplay();
+		printf("exit\n");
 		free(input);
-		return (NULL);
+		input = NULL;
 	}
 	else
 	{
