@@ -59,7 +59,7 @@ t_env	*env_list(char **envp)
 	env->error = 0;
 	while (envp[env->element] != NULL)	// 환경변수 개수 체크
 		env->element++;
-
+	// pwc/minishell
 	while (envp[i])		// 환경변수를 env 리스트에 넣는 함수
 	{
 		add_node(envp[i], env, i);	// 노드를 추가
