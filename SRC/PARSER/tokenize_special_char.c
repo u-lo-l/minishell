@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 07:29:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 07:33:32 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/28 13:57:11 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	case_quote(t_input *input, t_env *envlst, char **pword)
 	char	quote;
 
 	quote = input->cmd[input->curr_i];
-	if (ft_strchr(input->cmd + 1, quote) == NULL)
+	if (ft_strchr(input->cmd + input->curr_i + 1, quote) == NULL)
 		return (FALSE);
 	if (set_word(input, pword) == FALSE)
 		return (FALSE);
