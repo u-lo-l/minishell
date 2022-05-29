@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:29 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 21:36:07 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/29 22:23:13 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 t_input	*read_command(const char *promt)
 {
 	t_input	*input;
-	char	 *trimed_input;
-	
+	char	*trimed_input;
+
 	input = ft_calloc(1, sizeof(t_input));
 	input->cmd = readline(promt);
 	if (input->cmd == NULL)
@@ -44,18 +44,22 @@ t_input	*read_command(const char *promt)
 
 void	check_input_state(t_input *input)
 {
+	int	i;
+
+	i = 0;
 	printf("str : [%s ]\n", input->cmd);
 	printf(" s  : [");
-	for (int i = 0 ; i <= (int)ft_strlen(input->cmd) ; i++)
+	while (i <= (int)ft_strlen(input->cmd))
 	{
-		if (i == input->start_i)
+		if (i++ == input->start_i)
 			printf("\033[33ms\033[0m");
 		else
 			printf(" ");
 	}
+	i = 0;
 	printf("]\n");
 	printf(" c  : [");
-	for (int i = 0 ; i <= (int)ft_strlen(input->cmd) ; i++)
+	while (i <= (int)ft_strlen(input->cmd))
 	{
 		if (i == input->curr_i)
 			printf("\033[34mc\033[0m");

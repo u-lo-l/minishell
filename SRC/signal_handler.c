@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:25 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/22 18:48:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/29 22:43:19 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
  *			지워진다. 일단 임시방편으로 해결.
  *		->	 MAC에서는 rl_on_newline으로 행 갱신 후 rl_redisplay로 재 출력 해주
  *			고 <  \b\b>를 프린트 해 주어야 한다.
+ *		->	그냥 SIG_IGN해주면 된다.
  *	+ aarch64에서와 MAC에서의 readline관련 함수의 작동이 조금 달라서
  *	  이 부분부터 처리해야한다.
  *	+ 쉘 내에서 다른 프로세스가 실행중이라면..?
@@ -47,15 +48,8 @@ void	signal_handler(int signo)
 	{
 		rl_on_new_line();
 		printf("\n");
-
 		rl_replace_line("", 0);
 		rl_redisplay();
-	}
-	else if (signo == SIGQUIT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		printf("  \b\b");
 	}
 	return ;
 }
@@ -64,8 +58,16 @@ int	set_signal_handler(void)
 {
 	if (signal(SIGINT, signal_handler) == SIG_ERR)
 		return (FALSE);
-	if (signal(SIGQUIT, signal_handler) == SIG_ERR)
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		return (FALSE);
-	signal(SIGQUIT, SIG_IGN);
+	return (TRUE);
+}
+
+int	unset_signal_handelr(void)
+{
+	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+		return (FALSE);
+	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
+		return (FALSE);
 	return (TRUE);
 }

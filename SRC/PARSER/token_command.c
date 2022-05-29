@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 22:07:15 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 19:40:16 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/29 22:14:36 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_command	*create_empty_command(void)
 {
 	t_command	*new_command;
-	
+
 	new_command = ft_calloc(1, sizeof(t_command));
 	if (new_command == NULL)
 		return (NULL);
@@ -47,10 +47,9 @@ void	free_command(t_command *command)
 int	add_token_to_command(t_command *command, t_token *tok)
 {
 	int	res;
-	
+
 	if (!command || !tok)
 		return (FALSE);
-	// printf("adding token to command : %d: %s\n", tok->type, tok->text);
 	if (tok->type == e_word)
 		res = add_token_to_toklst(command->simple_command, tok);
 	else if (tok->type == e_inrdr)
@@ -62,7 +61,7 @@ int	add_token_to_command(t_command *command, t_token *tok)
 	else
 	{
 		res = 0;
-		printf("bad type : %d\n", tok->type);		
+		printf("bad type : %d\n", tok->type);
 	}
 	return (res);
 }

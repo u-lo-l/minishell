@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
+/*   Updated: 2022/05/30 00:54:31 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../LIBFT/libft.h"
@@ -53,7 +65,7 @@ void			print_command(t_command *command);
 t_token_tree	*create_token_tree(void);
 void	 		free_token_tree(t_token_tree *token_tree);
 int				add_token_to_tree(t_token_tree *toktree, t_token *tok);
-int				add_command(t_token_tree *token_tree, t_command *new_command);
+// int				add_command(t_token_tree *token_tree, t_command *new_command);
 int				add_one_empty_command(t_token_tree *token_tree);
 void			print_token_tree(t_token_tree *token_tree);
 
