@@ -6,43 +6,35 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:17 by yyoo              #+#    #+#             */
-/*   Updated: 2022/05/23 13:51:20 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/05/30 20:04:39 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-void	do_echo(t_env *env, char *str, char **echo_token)
+void	do_echo(t_token_list *echo_token)
 {
-	int	i;
+	t_token	*curr;
+	int		n;
 
-	if (!ft_cmp(str, "echo") || !ft_cmp(echo_token[0], "echo"))
+	n = 0;
+	curr = echo_token->head;
+	if (!ft_cmp(curr->text, "echo"))
 		return ;
-	i = 1;
-	if (ft_cmp(echo_token[1], "-n"))
-		i++;
-	while (echo_token[i])
+	curr = curr->next;
+	if (ft_cmp(curr->text, "-n"))
 	{
-		printf("%s", echo_token[i]);
-		i++;
+		curr = curr->next;		
+		n = 1;
 	}
-	if (!ft_cmp(echo_token[1], "-n"))
+	while (curr)
+	{
+		printf("%s", curr->text);
+		if (curr->next)
+			printf(" ");
+		curr = curr->next;
+	}
+	if (n != 1)
 		printf("\n");
 }
-
-// int	main()
-// {
-// 	char *str = "echo";
-// 	char **echo_token;
-
-// 	echo_token = malloc(sizeof(char *) * 5);
-// 	echo_token[0] = malloc(sizeof(char) * 5);
-// 	echo_token[1] = malloc(sizeof(char) * 5);
-// 	echo_token[2] = malloc(sizeof(char) * 5);
-
-// 	echo_token[0] = "ech";
-// 	echo_token[1] = "-n";
-// 	echo_token[2] = "ABC";
-// 	do_echo(str, echo_token);
-// }

@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:51 by yyoo              #+#    #+#             */
-/*   Updated: 2022/05/23 13:51:53 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/05/30 18:51:13 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	free_head_tail(t_env *env, t_envnode *target)
 }
 
 /* env_list를 순회하면서 타겟을 찾음 */
-void	traversal_env(t_env *env, char **unset_token, int i)
+void	traversal_env(t_env *env, t_token *curr)
 {
 	t_envnode	*target;
 
 	target = env->phead;
 	while (target)
 	{
-		if (ft_cmp(target->key, unset_token[i]))
+		if (ft_cmp(target->key, curr->text))
 		{
 			if (target == env->phead || target == env->ptail)
 			{
@@ -60,17 +60,18 @@ void	traversal_env(t_env *env, char **unset_token, int i)
 	}
 }
 
-t_env	*do_unset(t_env *env, char **unset_token)
+t_env	*do_unset(t_env *env, t_token_list *unset_token)
 {
-	int			i;
+	t_token	*curr;
 
-	if (!ft_cmp(unset_token[0], "unset"))
+	curr = unset_token->head;
+	if (!ft_cmp(curr->text, "unset"))
 		return (env);
-	i = 1;
-	while (unset_token[i])
+	curr = curr->next;
+	while (curr)
 	{
-		traversal_env(env, unset_token, i);
-		i++;
+		traversal_env(env, curr);
+		curr = curr->next;
 	}
 	return (env);
 }
