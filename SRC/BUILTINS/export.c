@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/05/23 15:52:02 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/05/30 18:43:37 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 #include <stdlib.h>
 
 /* env_list에 노드를 추가하는 함수 add_node와 비슷하게 동작 함 */
-void	do_export(t_env *env, char **export_token)
+void	do_export(t_env *env, t_token_list *export_token)
 {
 	int			i;
+	t_token		*curr;
 
-	if (!env || !export_token || !ft_cmp(export_token[0], "export"))
+	if (!env)
 		return ;
-	i = 1;
-	while (export_token[i])
+	curr = export_token->head->next;
+	i = env->element;
+	while (curr)
 	{
-		add_node(export_token[i], env, i);
+		add_node(curr->text, env, i);
 		env->element++;
 		i++;
+		curr = curr->next;
 	}
 }
 /*

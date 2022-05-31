@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:39 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 07:04:29 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/29 22:15:20 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	add_token_to_toklst(t_token_list *lst, t_token *tok)
 {
 	if (lst == NULL || tok == NULL)
 		return (FALSE);
-	// printf("addling token to list : %d: %s\n", tok->type, tok->text);
 	if (lst->head == NULL)
 		lst->head = tok;
 	if (lst->tail != NULL)
@@ -52,7 +51,7 @@ int	add_token_to_toklst(t_token_list *lst, t_token *tok)
 	return (TRUE);
 }
 
-static void print_token_type(enum e_token_type type)
+static void	print_token_type(enum e_token_type type)
 {
 	if (type == e_word)
 		printf("e_word");

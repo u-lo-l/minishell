@@ -59,16 +59,16 @@ typedef struct s_envnode
 {
 	char		*key;
 	char		*value;
-	struct s_envnode	*nextnode;	// 다음 노드 포인터
-	struct s_envnode	*prevnode;	// 이전 노드 포인터
+	struct s_envnode	*nextnode;
+	struct s_envnode	*prevnode;
 }   t_envnode;
 
 typedef struct s_env
 {
-	int			element;	// 환경변수 개수
+	int			element;
 	int			error;
-	t_envnode	*phead;	// 헤드노드
-	t_envnode	*ptail; // 꼬리노드
+	t_envnode	*phead;
+	t_envnode	*ptail;
 }   t_env;
 
 /**/

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 07:29:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 13:57:11 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/30 02:54:05 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,16 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword)
 		return (FALSE);
 	if (ft_strchr(" \'\"\t<>$\0", input->cmd[input->curr_i + 1]) != NULL)
 	{
-		input->curr_i++;
-		if (is_quote(input->cmd[input->curr_i]) == TRUE)
+		if (is_quote(input->cmd[++input->curr_i]) == TRUE)
 			input->start_i = input->curr_i;
 		return (TRUE);
 	}
-	if (set_word(input, pword) == FALSE)
-		return (FALSE);
 	input->start_i = ++input->curr_i;
 	expanded_word = expand_variable(input, envlst);
 	if (expanded_word == NULL)
 		return (FALSE);
+	if (expanded_word[0] == 0)
+		return (TRUE);
 	temp_word = ft_strdup(*pword);
 	free(*pword);
 	*pword = ft_strjoin(temp_word, expanded_word);
@@ -78,16 +77,20 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword)
 	return (TRUE);
 }
 
+/*
+ *  현재는 닫히지 않은 따옴표에 대해 오류를 발생시킨다. 따옴표가 닫히지 않은 경우
+ * 따옴표를 제거하길 원한다면 strchr조건문에서 FALSE를 TRUE로 바꿔주면 된다.
+*/
 int	case_quote(t_input *input, t_env *envlst, char **pword)
 {
 	char	quote;
 
 	quote = input->cmd[input->curr_i];
-	if (ft_strchr(input->cmd + input->curr_i + 1, quote) == NULL)
-		return (FALSE);
 	if (set_word(input, pword) == FALSE)
 		return (FALSE);
 	input->start_i = ++input->curr_i;
+	if (ft_strchr(input->cmd + input->curr_i, quote) == NULL)
+		return (FALSE);
 	while (input->cmd[input->curr_i] != quote)
 	{
 		if (input->cmd[input->curr_i++] == '$' && quote == '"')

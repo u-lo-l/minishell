@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+         #
+#    By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/28 16:50:08 by dkim2            ###   ########.fr        #
+#    Updated: 2022/05/31 18:18:56 by yyoo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ OBJS_FILES = main.o\
 				read_command.o\
 				signal_handler.o\
 				env_list.o\
-				pipe.o\
 				\
 				PARSER/token_node.o\
 				PARSER/token_list.o\
@@ -43,7 +42,11 @@ OBJS_FILES = main.o\
 				BUILTINS/pwd.o\
 				BUILTINS/unset.o\
 				BUILTINS/cd.o\
-				BUILTINS/exit.o
+				BUILTINS/exit.o\
+				\
+				EXECUTE/execute_command.o\
+				EXECUTE/execve.o\
+				EXECUTE/execve_util.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}

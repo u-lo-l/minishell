@@ -6,47 +6,54 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 06:56:42 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 07:28:14 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/30 00:28:18 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
+#include <stdio.h>
+
+static int	scanning_loop(t_token_tree *toktree, t_input \
+							*input, t_env *envlst, char **pword)
+{
+	enum e_token_type	type;
+	int					res;
+
+	res = TRUE;
+	type = e_word;
+	while (res == TRUE)
+	{
+		if (is_space(input->cmd[input->curr_i]) == TRUE)
+			res = case_space(toktree, input, pword, &type);
+		else if (input->cmd[input->curr_i] == '|')
+			res = case_pipe(toktree, input, pword, &type);
+		else if (input->cmd[input->curr_i] == '$')
+			res = case_dollar(input, envlst, pword);
+		else if (is_quote(input->cmd[input->curr_i]) == TRUE)
+			res = case_quote(input, envlst, pword);
+		else if (is_redir_op(input->cmd[input->curr_i]) == TRUE)
+			res = case_redirection(toktree, input, pword, &type);
+		else if (input->cmd[input->curr_i] == '\0')
+			return (case_space(toktree, input, pword, &type));
+		else
+			input->curr_i++;
+	}
+	return (res);
+}
 
 t_token_tree	*tokenize_and_parsing(t_input *input, t_env *envlst)
 {
-	t_token_tree*		toktree;
-	char				*word;
-	enum e_token_type	type;
-	int 				res;
+	t_token_tree	*toktree;
+	char			*word;
 
 	if (input->cmd[0] == '|' || input->cmd[ft_strlen(input->cmd) - 1] == '|')
 		return (NULL);
 	toktree = create_token_tree();
+	if (toktree == NULL)
+		return (NULL);
 	word = NULL;
-	type = e_word;
-	res = TRUE;
-	while (res == TRUE)
-	{
-		if (is_space(input->cmd[input->curr_i]) == TRUE)
-			res = case_space(toktree, input, &word, &type);
-		else if (input->cmd[input->curr_i] == '|')
-			res = case_pipe(toktree, input, &word, &type);
-		else if (input->cmd[input->curr_i] == '$')
-			res = case_dollar(input, envlst, &word);
-		else if (is_quote(input->cmd[input->curr_i]) == TRUE)
-			res = case_quote(input, envlst, &word);
-		else if (is_redir_op(input->cmd[input->curr_i]) == TRUE)
-			res = case_redirection(toktree, input, &word, &type);
-		else if (input->cmd[input->curr_i] == '\0')
-		{
-			res =case_space(toktree, input, &word, &type);
-			break ;
-		}
-		else
-			input->curr_i++;
-	}
-	if (res == FALSE)
+	if (scanning_loop(toktree, input, envlst, &word) == FALSE)
 	{
 		free_token_tree(toktree);
 		toktree = NULL;
