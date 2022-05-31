@@ -34,7 +34,6 @@ char	*get_path(t_env *env, char **command_list, int num)
 	path = split_path(env);
 	while (path[num])
 		num++;
-	printf("%d\n", num);
 	str = ft_strjoin("/", command_list[0]);
 	i = 0;
 	while (path[i])

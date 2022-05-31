@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/30 00:54:31 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/31 19:18:44 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,18 @@ void	when_child(t_env *env, char **command_list);
 /*----env*/
 int		ft_keylen(char *str);
 int		ft_cmp(char *str1, char *str);
-void	do_env(t_env *env);
-char	*search_key(t_env *env, char *key);
+void	do_env(t_env *envlst);
+char	*search_key(t_env *envlst, char *key);
 /*----unset*/
-void	free_head_tail(t_env *env, t_envnode *target);
-void	traversal_env(t_env *env, t_token *curr);
-t_env	*do_unset(t_env *env, t_token_list *unset_token);
+void	free_head_tail(t_env *envlst, t_envnode *target);
+void	traversal_env(t_env *envlst, t_token *curr);
+t_env	*do_unset(t_env *envlst, t_token_list *unset_token);
 /*----pwd*/
 void	do_pwd(void);
 /*----echo*/
 void	do_echo(t_token_list *echo_token);
 /*----export*/
-void	do_export(t_env *env, t_token_list *export_token);
+void	do_export(t_env *envlst, t_token_list *export_token);
 /*----cd*/
 void	do_cd(t_token_list *cd_token);
 /*----exit*/
