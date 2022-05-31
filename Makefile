@@ -6,7 +6,7 @@
 #    By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/30 20:18:42 by yyoo             ###   ########.fr        #
+#    Updated: 2022/05/31 18:18:56 by yyoo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ OBJS_FILES = main.o\
 				BUILTINS/exit.o\
 				\
 				EXECUTE/execute_command.o\
-				# EXECUTE/execve.o
+				EXECUTE/execve.o\
+				EXECUTE/execve_util.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}
