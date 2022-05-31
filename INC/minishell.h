@@ -70,7 +70,12 @@ void	free_env_list(t_env *envlst);
 /*		execute*/
 void	execute_command(t_env *env, t_token_tree *tree);
 void    check_builtin(t_env *env, t_token_list *token);
+char	*get_path(t_env *env, char **command_list, int num);
+char	**split_path(t_env *env);
+char	**get_command_list(t_token_list *token);
 void	do_execve(t_env *env, t_token_list *token, int *status);
+void    ft_double_free(char **str);
+void	when_child(t_env *env, char **command_list);
 
 /*minishell builtins*/
 /*----env*/

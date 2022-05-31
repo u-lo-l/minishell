@@ -1,8 +1,8 @@
 #include "../../INC/minishell.h"
 
-void    check_builtin(t_env *env, t_token_list *token)
+void	check_builtin(t_env *env, t_token_list *token)
 {
-	// int	status;
+	int	status;
 
 	if (ft_cmp(token->head->text, "echo"))
 		do_echo(token);
@@ -18,8 +18,8 @@ void    check_builtin(t_env *env, t_token_list *token)
 		do_env(env);
 	else if (ft_cmp(token->head->text, "exit"))
 		do_exit(token);
-	// else
-	// 	do_execve(env, token, &status);
+	else
+		do_execve(env, token, &status);
 }
 
 void	execute_command(t_env *env, t_token_tree *tree)
