@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 16:47:49 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/05/30 20:17:13 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ int	main(int argc, char **argv, char **envp)
 		if (cmd_token_tree == NULL)
 			printf("BAD SYNTAX\n");
 		else
+		{
+			check_builtin(envlst, cmd_token_tree->head_cmd->simple_command);
 			print_token_tree(cmd_token_tree);
+		}
 		free_token_tree(cmd_token_tree);
 	}
 	free_env_list(envlst);
