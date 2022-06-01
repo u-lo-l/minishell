@@ -47,6 +47,8 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 			if (do_inredir(curr->input_redir))
 				break ;
 		}
+		if (curr->output_redir->num_of_tokens > 0)
+			do_outredir(curr->output_redir);
 		if (curr->simple_command->num_of_tokens > 0)
 			check_builtin(envlst, curr->simple_command);
 		if (curr->input_redir->num_of_tokens > 0 || curr->here_doc->num_of_tokens > 0)

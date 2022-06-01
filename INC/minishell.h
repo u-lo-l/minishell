@@ -89,8 +89,11 @@ void	do_execve(t_env *env, t_token_list *token, int *status);
 void    ft_double_free(char **str);
 void	when_child(t_env *env, char **command_list);
 /*----redirection*/
+int		check_infile(t_token_list *inredir);
 int		do_inredir(t_token_list *inredir);
 int		do_here_doc(t_command *command);
+int		open_outredir(t_token *tail, int fd);
+void	do_outredir(t_token_list *outredir);
 
 /*minishell builtins*/
 /*----env*/
