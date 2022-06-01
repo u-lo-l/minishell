@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 17:34:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/01 23:04:28 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/02 00:14:18 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 #include <sys/errno.h>
 #include <stdlib.h>
 
-void	do_exit(t_token_list *token)
+void	do_exit(t_token_list *toklst)
 {
-	char	*exit_str;
 	int		i;
 	int		exit_num;
+	char	*exit_str;
 
-	if (!token)
+	if (!toklst || !toklst->head || ft_strncmp(toklst->head->text, "exit", 5))
 		return ;
-	if (!ft_strncmp(token->head->text, "exit", 5))
-		return ;
-	if (token->next == NULL)
+	if (toklst->head->next == NULL)
 		exit(0);
-	if (token->next->next != NULL)
-		ft_putstr_fd("minishell : exit : too many arguments" , 2);
+	if (toklst->head->next->next != NULL)
+		ft_putstr_fd("minishell : exit : too many args\n", 2);
 	else
 	{
-		exit_str = token->next->text;
+		exit_str = toklst->head->next->text;
 		i = -1;
 		while (exit_str[++i])
-			if (ft_isdigit(exit_str[i]) == FALSE)
+		{
+			if (!ft_isdigit(exit_str[i]) && !ft_strchr("-+", exit_str[0]))
 			{
-				ft_putstr_fd("minishell : exit : numeric argument required" , 2);
+				ft_putstr_fd("minishell : exit : numeric arg required\n", 2);
 				exit(2);
 			}
+		}
 		exit_num = ft_atoi(exit_str);
-		exit(exit);
+		exit(exit_num);
 	}
 }
