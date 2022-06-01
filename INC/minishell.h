@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/31 19:18:44 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 17:35:06 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ char	**get_command_list(t_token_list *token);
 void	do_execve(t_env *env, t_token_list *token, int *status);
 void    ft_double_free(char **str);
 void	when_child(t_env *env, char **command_list);
+/*----redirection*/
+int		do_inredir(t_token_list *inredir);
+int		do_here_doc(t_command *command);
 
 /*minishell builtins*/
 /*----env*/

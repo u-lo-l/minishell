@@ -86,7 +86,7 @@ void	when_child(t_env *env, char **command_list)
 		path = get_path(env, command_list, num);
 		if (path == 0)
 		{
-			printf("bash: %s: command not found\n", command_list[0]);
+			printf("minishell: %s: command not found\n", command_list[0]);
 			exit(1);
 		}
 		if (execve(path, command_list, 0) != -1)
