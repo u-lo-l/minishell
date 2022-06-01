@@ -6,11 +6,12 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:37 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/01 14:42:20 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 20:30:56 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
+#include <stdlib.h>
 
 /* key 길이 측정 */
 int	ft_keylen(char *str)
@@ -49,4 +50,30 @@ void	print_one_env(t_envnode *node, char value_c)
 	if (node->value)
 		printf("=%c%s%c", value_c, node->value, value_c);
 	printf("\n");
+}
+
+int	seperate_keyvalue(char *k_and_v, char **emptykey, char **emptyval)
+{
+	char		*equal_char;
+
+	if (!k_and_v || *emptykey || *emptyval)
+		return (FALSE);
+	equal_char = ft_strchr(k_and_v, '=');
+	if (equal_char == NULL)
+	{
+		*emptykey = ft_strdup(k_and_v);
+		*emptyval = NULL;
+		if (!*emptykey)
+			return (FALSE);
+		return (TRUE);
+	}
+	*emptykey = ft_strndup(k_and_v, equal_char - k_and_v);
+	*emptyval = ft_strndup(equal_char + 1, ft_strlen(equal_char + 1));
+	if (!*emptykey || !*emptyval)
+	{
+		free(*emptykey);
+		free(*emptyval);
+		return (FALSE);
+	}
+	return (TRUE);
 }

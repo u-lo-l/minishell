@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/01 14:42:47 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 20:31:44 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ static int	show_shell_var_asscending(t_env *envlst)
 /* env_list에 노드를 추가하는 함수 add_node와 비슷하게 동작 함 */
 void	do_export(t_env *envlst, t_token_list *toklst)
 {
-	int			i;
+	t_envnode	*newnode;
 	t_token		*curr_tok;
+	char		*key_and_value[2];
 
 	if (!envlst || !toklst)
 		return ;
@@ -114,16 +115,20 @@ void	do_export(t_env *envlst, t_token_list *toklst)
 		return ;
 	}
 	curr_tok = toklst->head->next;
-	i = envlst->element;
 	while (curr_tok)
 	{
-		add_node(curr_tok->text, envlst, i);
-		envlst->element++;
-		i++;
+		ft_bzero(key_and_value, sizeof(char *) * 2);
+		seperate_keyvalue(curr_tok->text, &key_and_value[0], &key_and_value[1]);
+		if (!modify_value(envlst, key_and_value[0], key_and_value[1]))
+		{
+			newnode = create_envnode(key_and_value[0], key_and_value[1]);
+			add_node_to_lst(envlst, newnode);
+		}
+		free(key_and_value[0]);
+		free(key_and_value[1]);
 		curr_tok = curr_tok->next;
 	}
 }
-
 /*
 int main(int argc, char **argv, char **envp)
 {

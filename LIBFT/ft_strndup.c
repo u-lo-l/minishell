@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/22 15:31:13 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/26 22:50:44 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 18:22:03 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strndup(const char *s1, size_t size)
 	size_t	len;
 	char	*copy;
 
+	if (!s1)
+		return (NULL);
 	len = ft_strlen(s1);
 	if (len < size)
 		size = len;

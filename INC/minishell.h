@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/01 14:41:22 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 19:37:06 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,12 @@ void			print_token_tree(t_token_tree *token_tree);
 t_token_tree	*tokenize_and_parsing(t_input *input, t_env *envlst);
 
 /*----env_list*/
-void	copy_element(char *envp, t_envnode *new_node, int len, int keylen);
-void	add_node(char *envp, t_env *env, int i);
-t_env	*env_list(char **envp);
-void	free_env_list(t_env *envlst);
-
+t_envnode	*create_envnode(char *key, char *value);
+int			modify_value(t_env *envlst, char *key, char *value);
+int			add_node_to_lst(t_env *envlst, t_envnode *node);
+t_env		*env_list(char **envp);
+void		free_env_list(t_env *envlst);
+int			seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
 
 /*		execute*/
 void	execute_command(t_env *env, t_token_tree *tree);

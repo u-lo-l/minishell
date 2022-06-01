@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:27 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/01 14:43:37 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 16:56:50 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*search_key(t_env *env, char *key)
 	curr = env->phead;
 	while (curr)
 	{
-		if (ft_cmp(curr->key, key))
+		if (!ft_strncmp(curr->key, key, ft_strlen(key) + 1))
 			return (curr->value);
 		curr = curr->nextnode;
 	}

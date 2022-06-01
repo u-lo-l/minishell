@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:29 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/01 14:52:32 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 20:36:02 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_input	*read_command(const char *promt)
 	{
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		// printf("\033[1A");
 		rl_redisplay();
 		printf("exit\n");
 		free(input);
