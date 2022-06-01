@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 20:32:11 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/01 20:34:57 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 20:58:02 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ t_env	*env_list(char **env)
 		return (NULL);
 	while (TRUE)
 	{
-		ft_bzero(k_and_v, sizeof(char *));
+		k_and_v[0] = 0;
+		k_and_v[1] = 0;
 		if (!seperate_keyvalue(env[envlst->element], &k_and_v[0], &k_and_v[1]))
 			break ;
 		node = create_envnode(k_and_v[0], k_and_v[1]);
