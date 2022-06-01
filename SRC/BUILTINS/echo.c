@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:17 by yyoo              #+#    #+#             */
-/*   Updated: 2022/05/30 20:04:39 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/01 14:38:15 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	do_echo(t_token_list *echo_token)
 	curr = curr->next;
 	if (ft_cmp(curr->text, "-n"))
 	{
-		curr = curr->next;		
+		curr = curr->next;
 		n = 1;
 	}
 	while (curr)

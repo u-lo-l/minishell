@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/31 19:18:44 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 14:41:22 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void	when_child(t_env *env, char **command_list);
 /*----env*/
 int		ft_keylen(char *str);
 int		ft_cmp(char *str1, char *str);
+void 	print_one_env(t_envnode *node, char value_c);
 void	do_env(t_env *envlst);
 char	*search_key(t_env *envlst, char *key);
 /*----unset*/

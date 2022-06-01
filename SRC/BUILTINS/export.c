@@ -3,34 +3,127 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/05/30 18:43:37 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/01 14:42:47 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
+static void	swap_envnode(t_envnode **pnode1, t_envnode **pnode2)
+{
+	t_envnode	*temp;
+
+	temp = *pnode1;
+	*pnode1 = *pnode2;
+	*pnode2 = temp;
+}
+
+static int	insert_to_heap(t_envnode **heap, t_envnode *node, int index)
+{
+	char		*keys[2];
+	t_envnode	*temp;
+
+	if (!heap || !node || !node->key)
+		return (FALSE);
+	heap[index] = node;
+	while (index / 2)
+	{
+		keys[0] = heap[index]->key;
+		keys[1] = heap[index / 2]->key;
+		if (ft_strncmp(keys[0], keys[1], ft_strlen(keys[0]) + 1) > 0)
+			break ;
+		temp = heap[index];
+		heap[index] = heap[index / 2];
+		heap[index / 2] = temp;
+		index /= 2;
+	}
+	return (TRUE);
+}
+
+static t_envnode	*pop_from_heap(t_envnode **heap, int curr_elemnt_count)
+{
+	t_envnode	*target_node;
+	int			i;
+	int			c_i;
+
+	i = 1;
+	target_node = heap[i];
+	heap[i] = heap[curr_elemnt_count];
+	while (i * 2 <= curr_elemnt_count)
+	{
+		c_i = i * 2;
+		if (i * 2 < curr_elemnt_count)
+		{
+			if (ft_strncmp(heap[c_i]->key, heap[c_i + 1]->key, \
+				ft_strlen(heap[c_i]->key) + 1) > 0)
+				c_i++;
+		}
+		if (ft_strncmp(heap[i]->key, heap[c_i]->key, \
+			ft_strlen(heap[c_i]->key) + 1) < 0)
+			break ;
+		swap_envnode(heap + i, heap + c_i);
+		i = c_i;
+	}
+	return (target_node);
+}
+
+static int	show_shell_var_asscending(t_env *envlst)
+{
+	t_envnode	**heap;
+	t_envnode	*curr_node;
+	int			heap_elements;
+
+	if (NULL == envlst)
+		return (FALSE);
+	heap = ft_calloc(envlst->element + 1, sizeof(t_envnode *));
+	if (NULL == heap)
+		return (FALSE);
+	heap_elements = 0;
+	curr_node = envlst->phead;
+	while (++heap_elements <= envlst->element)
+	{
+		insert_to_heap(heap, curr_node, heap_elements);
+		curr_node = curr_node->nextnode;
+	}
+	heap_elements = 0;
+	while (++heap_elements <= envlst->element)
+	{
+		curr_node = pop_from_heap(heap, envlst->element - heap_elements + 1);
+		printf("export : ");
+		print_one_env(curr_node, '"');
+	}
+	free(heap);
+	return (TRUE);
+}
+
 /* env_list에 노드를 추가하는 함수 add_node와 비슷하게 동작 함 */
-void	do_export(t_env *env, t_token_list *export_token)
+void	do_export(t_env *envlst, t_token_list *toklst)
 {
 	int			i;
-	t_token		*curr;
+	t_token		*curr_tok;
 
-	if (!env)
+	if (!envlst || !toklst)
 		return ;
-	curr = export_token->head->next;
-	i = env->element;
-	while (curr)
+	if (toklst->num_of_tokens == 1)
 	{
-		add_node(curr->text, env, i);
-		env->element++;
+		show_shell_var_asscending(envlst);
+		return ;
+	}
+	curr_tok = toklst->head->next;
+	i = envlst->element;
+	while (curr_tok)
+	{
+		add_node(curr_tok->text, envlst, i);
+		envlst->element++;
 		i++;
-		curr = curr->next;
+		curr_tok = curr_tok->next;
 	}
 }
+
 /*
 int main(int argc, char **argv, char **envp)
 {

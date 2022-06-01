@@ -4,6 +4,8 @@ void	check_builtin(t_env *envlst, t_token_list *toklst)
 {
 	int	status;
 
+	if (toklst->head == NULL || envlst == NULL)
+		return ;
 	if (ft_cmp(toklst->head->text, "echo"))
 		do_echo(toklst);
 	else if (ft_cmp(toklst->head->text, "cd"))

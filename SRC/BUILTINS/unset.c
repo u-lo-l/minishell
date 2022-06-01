@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:51 by yyoo              #+#    #+#             */
-/*   Updated: 2022/05/30 18:51:13 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/01 13:58:56 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,13 @@ void	traversal_env(t_env *env, t_token *curr)
 			if (target == env->phead || target == env->ptail)
 			{
 				free_head_tail(env, target);
+				env->element--;
 				return ;
 			}
 			target->prevnode->nextnode = target->nextnode;
 			target->nextnode->prevnode = target->prevnode;
 			free(target);
+			env->element--;
 			return ;
 		}
 		target = target->nextnode;
@@ -65,7 +67,7 @@ t_env	*do_unset(t_env *env, t_token_list *unset_token)
 	t_token	*curr;
 
 	curr = unset_token->head;
-	if (!ft_cmp(curr->text, "unset"))
+	if (ft_strncmp(curr->text, "unset", 6) != 0)
 		return (env);
 	curr = curr->next;
 	while (curr)
