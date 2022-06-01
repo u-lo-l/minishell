@@ -6,19 +6,19 @@ void	check_builtin(t_env *envlst, t_token_list *toklst)
 
 	if (envlst == NULL || toklst->head == NULL)
 		return ;
-	if (ft_cmp(toklst->head->text, "echo"))
+	if (!ft_strncmp(toklst->head->text, "echo", 5))
 		do_echo(toklst);
-	else if (ft_cmp(toklst->head->text, "cd"))
+	else if (!ft_strncmp(toklst->head->text, "cd", 3))
 		do_cd(toklst);
-	else if (ft_cmp(toklst->head->text, "pwd"))
+	else if (!ft_strncmp(toklst->head->text, "pwd", 4))
 		do_pwd();
-	else if (ft_cmp(toklst->head->text, "export"))
+	else if (!ft_strncmp(toklst->head->text, "export", 7))
 		do_export(envlst, toklst);
-	else if (ft_cmp(toklst->head->text, "unset"))
+	else if (!ft_strncmp(toklst->head->text, "unset", 6))
 		do_unset(envlst, toklst);
-	else if (ft_cmp(toklst->head->text, "env"))
+	else if (!ft_strncmp(toklst->head->text, "env", 4))
 		do_env(envlst);
-	else if (ft_cmp(toklst->head->text, "exit"))
+	else if (!ft_strncmp(toklst->head->text, "exit", 5))
 		do_exit(toklst);
 	else
 		do_execve(envlst, toklst, &status);

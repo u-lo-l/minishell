@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 20:32:11 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/01 20:58:02 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 22:26:00 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,41 +29,6 @@ t_envnode	*create_envnode(char *key, char *value)
 	}
 	node->value = ft_strdup(value);
 	return (node);
-}
-
-int	modify_value(t_env *envlst, char *key, char *value)
-{
-	t_envnode	*node;
-	int			keylen;
-
-	if (!envlst || !key)
-		return (FALSE);
-	keylen = ft_strlen(key);
-	node = envlst->phead;
-	while (node)
-	{
-		if (ft_strncmp(key, node->key, keylen) == 0)
-		{
-			free(node->value);
-			node->value = ft_strdup(value);
-			return (TRUE);
-		}
-		node = node->nextnode;
-	}
-	return (FALSE);
-}
-
-int	add_node_to_lst(t_env *envlst, t_envnode *node)
-{
-	if (!node || !envlst)
-		return (FALSE);
-	if (envlst->element == 0)
-		envlst->phead = node;
-	else
-		envlst->ptail->nextnode = node;
-	envlst->ptail = node;
-	envlst->element++;
-	return (TRUE);
 }
 
 t_env	*env_list(char **env)
@@ -95,6 +60,15 @@ t_env	*env_list(char **env)
 	return (NULL);
 }
 
+void	free_env_node(t_envnode *node)
+{
+	if (node == NULL)
+		return ;
+	free(node->key);
+	free(node->value);
+	free(node);
+}
+
 void	free_env_list(t_env *envlst)
 {
 	t_envnode	*curr;
@@ -106,9 +80,7 @@ void	free_env_list(t_env *envlst)
 	while (curr != NULL)
 	{
 		next = curr->nextnode;
-		free(curr->key);
-		free(curr->value);
-		free(curr);
+		free_env_node(curr);
 		curr = next;
 	}
 	free(envlst);

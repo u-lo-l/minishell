@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:51 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/01 13:58:56 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 22:48:49 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	traversal_env(t_env *env, t_token *curr)
 	target = env->phead;
 	while (target)
 	{
-		if (ft_cmp(target->key, curr->text))
+		if (ft_strncmp(target->key, curr->text, ft_strlen(curr->text)) == 0)
 		{
 			if (target == env->phead || target == env->ptail)
 			{
@@ -52,6 +52,7 @@ void	traversal_env(t_env *env, t_token *curr)
 				env->element--;
 				return ;
 			}
+			printf("?\n");
 			target->prevnode->nextnode = target->nextnode;
 			target->nextnode->prevnode = target->prevnode;
 			free(target);
@@ -62,20 +63,21 @@ void	traversal_env(t_env *env, t_token *curr)
 	}
 }
 
-t_env	*do_unset(t_env *env, t_token_list *unset_token)
+t_env	*do_unset(t_env *envlst, t_token_list *unset_token)
 {
-	t_token	*curr;
+	t_token	*curr_tok;
 
-	curr = unset_token->head;
-	if (ft_strncmp(curr->text, "unset", 6) != 0)
-		return (env);
-	curr = curr->next;
-	while (curr)
+	curr_tok = unset_token->head;
+	if (ft_strncmp(curr_tok->text, "unset", 6) != 0)
+		return (NULL);
+	printf("good to unset\n");
+	curr_tok = curr_tok->next;
+	while (curr_tok)
 	{
-		traversal_env(env, curr);
-		curr = curr->next;
+		del_node_from_lst(envlst, curr_tok->text);
+		curr_tok = curr_tok->next;
 	}
-	return (env);
+	return (envlst);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/01 19:37:06 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/01 22:45:46 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ t_token_tree	*tokenize_and_parsing(t_input *input, t_env *envlst);
 t_envnode	*create_envnode(char *key, char *value);
 int			modify_value(t_env *envlst, char *key, char *value);
 int			add_node_to_lst(t_env *envlst, t_envnode *node);
+int			del_node_from_lst(t_env *envlst, char *key);
 t_env		*env_list(char **envp);
+void		free_env_node(t_envnode *node);
 void		free_env_list(t_env *envlst);
 int			seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
 
