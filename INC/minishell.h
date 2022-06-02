@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/01 17:35:06 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/02 17:48:58 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ void	when_child(t_env *env, char **command_list);
 int		check_infile(t_token_list *inredir);
 int		do_inredir(t_token_list *inredir);
 int		do_here_doc(t_command *command);
+void	push_outfile(int fd, int *red_fd);
 int		open_outredir(t_token *tail, int fd);
-void	do_outredir(t_token_list *outredir);
+void	do_outredir(t_token_list *outredir, int *red_fd);
 
 /*minishell builtins*/
 /*----env*/

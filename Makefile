@@ -6,7 +6,7 @@
 #    By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/06/01 14:37:03 by yyoo             ###   ########.fr        #
+#    Updated: 2022/06/02 16:07:40 by yyoo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ OBJS_FILES = main.o\
 				EXECUTE/execute_command.o\
 				EXECUTE/execve.o\
 				EXECUTE/execve_util.o\
-				EXECUTE/redirection.o
+				EXECUTE/inredir.o\
+				EXECUTE/outredir.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}

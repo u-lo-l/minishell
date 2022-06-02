@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-void	push_outfile(t_list *list, int fd)
+void	push_outfile(int outfile_fd, int *red_fd)
 {
 	char	*buf;
 	int		r;
@@ -14,54 +14,56 @@ void	push_outfile(t_list *list, int fd)
 	r = 1;
 	while (r > 0)
 	{
-		r = read(list->fd2[0], buf, 1); // ?????
+		r = read(red_fd[0], buf, 1); // ?????
 		if (r < 1)
 			break ;
-		write(fd, buf, 1);
+		write(outfile_fd, buf, 1);
 	}
 	free(buf);
 }
 
-int	open_outredir(t_token *tail, int fd)
+int	open_outredir(t_token *tail, int outfile_fd)
 {
 	struct stat	buf;
 
 	if (tail->type == 1)
 	{
 		if (stat(tail->text, &buf) == -1)
-			fd = open(tail->text, O_CREAT | O_TRUNC | O_RDWR, 0755);
+			outfile_fd = open(tail->text, O_CREAT | O_TRUNC | O_RDWR, 0755);
 		else
-			fd = open(tail->text, O_TRUNC | O_RDWR);
+			outfile_fd = open(tail->text, O_TRUNC | O_RDWR);
 	}
 	else if (tail->type == 2)
 	{
 		if (stat(tail->text, &buf) == -1)
-			fd = open(tail->text, O_CREAT | O_APPEND | O_RDWR, 0755);
+			outfile_fd = open(tail->text, O_CREAT | O_APPEND | O_RDWR, 0755);
 		else
-			fd = open(tail->text, O_APPEND | O_RDWR);
+			outfile_fd = open(tail->text, O_APPEND | O_RDWR);
 	}
-	return (fd);
+	return (outfile_fd);
 }
 
-void	do_outredir(t_token_list *outredir)
+void	do_outredir(t_token_list *outredir, int *red_fd)
 {
 	struct stat	buf;
 	t_token		*curr;
-	int			fd;
+	int			outfile_fd;
 
+	close(red_fd[1]);
+	close(1);
 	curr = outredir->head;
 	while (curr->next)
 	{
 		if (stat(curr->text, &buf) == -1)
-			fd = open(curr->text, O_CREAT | O_RDWR, 0755);
+			outfile_fd = open(curr->text, O_CREAT | O_RDWR, 0755);
 		else
 		{
 			if (curr->type == 1)
-				fd = open(curr->text, O_TRUNC | O_RDWR);
+				outfile_fd = open(curr->text, O_TRUNC | O_RDWR);
 		}
-		close(fd);
+		close(outfile_fd);
 		curr = curr->next;
 	}
-	fd = open_outredir(curr, fd);
-	push_outfile(fd);
+	outfile_fd = open_outredir(curr, outfile_fd);
+	push_outfile(outfile_fd, red_fd);
 }
