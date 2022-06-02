@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/31 19:17:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/02 20:48:42 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,13 @@ int	main(int argc, char **argv, char **envp)
 	if (init_shell(argc, argv, envp) == FALSE)
 		return (1);
 	envlst = env_list(envp);
+	if (envlst == NULL)
+		return (1);
 	while (1)
 	{
 		input = read_command("mini >>  ");
 		if (input == NULL)
-			break ;
+			break ;	
 		printf("\033[33minput : {%s}\033[0m\n", input->cmd);
 		cmd_token_tree = tokenize_and_parsing(input, envlst);
 		free(input->cmd);
@@ -79,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			if (cmd_token_tree->num_of_commands != 0)
-				check_builtin(envlst, cmd_token_tree->head_cmd->simple_command);
+				execute_command(envlst, cmd_token_tree);
 			print_token_tree(cmd_token_tree);
 		}
 		free_token_tree(cmd_token_tree);

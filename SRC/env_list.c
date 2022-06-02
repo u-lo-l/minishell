@@ -1,71 +1,72 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_list.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/01 20:32:11 by dkim2             #+#    #+#             */
+/*   Updated: 2022/06/01 22:26:00 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "../INC/minishell.h"
 
-void	copy_element(char *envp, t_envnode *new_node, int len, int keylen)
+t_envnode	*create_envnode(char *key, char *value)
 {
-	int			j;
-	
-	new_node->key = malloc(sizeof(char) * (keylen + 1));
-	new_node->value = malloc(sizeof(char) * (len - keylen));
-	j = 0;
-	while(envp[j] && j < keylen)		// key길이 만큼 copy
+	t_envnode	*node;
+
+	if (!key)
+		return (NULL);
+	node = ft_calloc(1, sizeof(t_envnode));
+	node->key = ft_strdup(key);
+	if (!key)
 	{
-		new_node->key[j] = envp[j];
-		j++;
+		free(node);
+		return (NULL);
 	}
-	new_node->key[j] = '\0';
-	j = 0;
-	while (envp[j + keylen] && j < (len - keylen - 1))	// 전체 길이 - key길이 - 1(해주는 이유는 '=' 때문) value copy
-	{
-		new_node->value[j] = envp[j + keylen + 1];
-		j++;
-	}
-	new_node->value[j] = '\0';
+	node->value = ft_strdup(value);
+	return (node);
 }
 
-void	add_node(char *envp, t_env *env, int i)
+t_env	*env_list(char **env)
 {
-	t_envnode	*new_node;
-	int			len;		// key + '=' + value 길이 
-	int			keylen;		// key 길이
+	t_env		*envlst;
+	t_envnode	*node;
+	char		*k_and_v[2];
 
-	len = ft_strlen(envp);
-	keylen = ft_keylen(envp);
-	new_node = malloc(sizeof(t_envnode));
-	new_node->nextnode = NULL;
-	new_node->prevnode = NULL;
-	if (i == 0)				// 첫 노드 생성일 때
+	if (!env)
+		return (NULL);
+	envlst = ft_calloc(1, sizeof(t_env));
+	if (!envlst)
+		return (NULL);
+	while (TRUE)
 	{
-		env->phead = new_node;	// 헤더 노드 -> new_node;
-		env->ptail = new_node;	// 꼬리 노드 -> new_node;
+		k_and_v[0] = 0;
+		k_and_v[1] = 0;
+		if (!seperate_keyvalue(env[envlst->element], &k_and_v[0], &k_and_v[1]))
+			break ;
+		node = create_envnode(k_and_v[0], k_and_v[1]);
+		free(k_and_v[0]);
+		free(k_and_v[1]);
+		if (!node || !add_node_to_lst(envlst, node))
+			break ;
+		if (env[envlst->element] == NULL)
+			return (envlst);
 	}
-	else					//	두번째 노드 부터는 여기
-	{
-		new_node->prevnode = env->ptail;
-		env->ptail->nextnode = new_node;	// 꼬리 노드의 다음노드 -> new_node
-		env->ptail = new_node;				// 꼬리 노드 -> new_node
-	}
-	copy_element(envp, new_node, len, keylen);	// key ,value를 노드에 저장
+	free_env_list(envlst);
+	return (NULL);
 }
 
-t_env	*env_list(char **envp)
+void	free_env_node(t_envnode *node)
 {
-	int		i = 0;
-	t_env	*env;	// 환경변수 담을 리스트
-	
-	env = malloc(sizeof(t_env));
-	env->element = 0;
-	env->error = 0;
-	while (envp[env->element] != NULL)	// 환경변수 개수 체크
-		env->element++;
-
-	while (envp[i])		// 환경변수를 env 리스트에 넣는 함수
-	{
-		add_node(envp[i], env, i);	// 노드를 추가
-		i++;
-	}
-	return (env);
+	if (node == NULL)
+		return ;
+	free(node->key);
+	free(node->value);
+	free(node);
 }
 
 void	free_env_list(t_env *envlst)
@@ -79,10 +80,38 @@ void	free_env_list(t_env *envlst)
 	while (curr != NULL)
 	{
 		next = curr->nextnode;
-		free(curr->key);
-		free(curr->value);
-		free(curr);
+		free_env_node(curr);
 		curr = next;
 	}
 	free(envlst);
 }
+
+/*
+int main()
+{
+	void printnullstr(char *str)
+	{
+		if (str)
+			printf("%s", str);
+		else
+			printf("(nil)");
+	}
+	char *str[3] = {"key1=value1", "key2=", "key3"};
+	t_envnode *nodes[3];
+	nodes[0] = create_env_node(str[0]);
+	nodes[1] = create_env_node(str[1]);
+	nodes[2] = create_env_node(str[2]);
+	printnullstr(nodes[0]->key);
+	printf("=");
+	printnullstr(nodes[0]->value);
+	printf("\n");
+	printnullstr(nodes[1]->key);
+	printf("=");
+	printnullstr(nodes[1]->value);
+	printf("\n");
+	printnullstr(nodes[2]->key);
+	printf("=");
+	printnullstr(nodes[2]->value);
+	printf("\n");
+}
+*/

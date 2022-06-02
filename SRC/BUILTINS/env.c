@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:27 by yyoo              #+#    #+#             */
-/*   Updated: 2022/05/23 13:51:30 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/02 11:33:11 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ void	do_env(t_env *env)
 	curr = env->phead;
 	while (curr)
 	{
-		printf("%s", curr->key);
-		printf("=");
-		printf("%s\n", curr->value);
+		print_one_env(curr, 0);
 		curr = curr->nextnode;
 	}
 }
@@ -35,7 +33,7 @@ char	*search_key(t_env *env, char *key)
 	curr = env->phead;
 	while (curr)
 	{
-		if (ft_cmp(curr->key, key))
+		if (!ft_strncmp(curr->key, key, ft_strlen(key) + 1))
 			return (curr->value);
 		curr = curr->nextnode;
 	}

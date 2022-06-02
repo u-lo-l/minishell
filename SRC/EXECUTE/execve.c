@@ -1,6 +1,7 @@
 #include "../../INC/minishell.h"
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -86,7 +87,7 @@ void	when_child(t_env *env, char **command_list)
 		path = get_path(env, command_list, num);
 		if (path == 0)
 		{
-			printf("bash: %s: command not found\n", command_list[0]);
+			printf("minishell: %s: command not found\n", command_list[0]);
 			exit(1);
 		}
 		if (execve(path, command_list, 0) != -1)
@@ -97,12 +98,10 @@ void	when_child(t_env *env, char **command_list)
 void	do_execve(t_env *env, t_token_list *token, int *status)
 {
 	char		**command_list;
-	int			i;
 	pid_t		pid;
 
 	command_list = NULL;
 	command_list = get_command_list(token);
-	i = 0;
 	pid = fork();
 	if (pid == 0)
 		when_child(env, command_list);

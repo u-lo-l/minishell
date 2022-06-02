@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/31 19:18:44 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/02 20:51:09 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # define TRUE 1
 # define FALSE 0
 
+/*utils*/
+int				return_err(char *errstr, int ret_val);
 /*signal handler*/
 int				set_signal_handler(void);
 /*	read command*/
@@ -73,11 +75,14 @@ void			print_token_tree(t_token_tree *token_tree);
 t_token_tree	*tokenize_and_parsing(t_input *input, t_env *envlst);
 
 /*----env_list*/
-void	copy_element(char *envp, t_envnode *new_node, int len, int keylen);
-void	add_node(char *envp, t_env *env, int i);
-t_env	*env_list(char **envp);
-void	free_env_list(t_env *envlst);
-
+t_envnode	*create_envnode(char *key, char *value);
+int			modify_value(t_env *envlst, char *key, char *value);
+int			add_node_to_lst(t_env *envlst, t_envnode *node);
+int			del_node_from_lst(t_env *envlst, char *key);
+t_env		*env_list(char **envp);
+void		free_env_node(t_envnode *node);
+void		free_env_list(t_env *envlst);
+int			seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
 
 /*		execute*/
 void	execute_command(t_env *env, t_token_tree *tree);
@@ -88,26 +93,34 @@ char	**get_command_list(t_token_list *token);
 void	do_execve(t_env *env, t_token_list *token, int *status);
 void    ft_double_free(char **str);
 void	when_child(t_env *env, char **command_list);
+/*----redirection*/
+int		redir_util1(t_command *curr, int *std_fd);
+void	redir_util2(t_env *envlst, t_command *curr, int *std_fd, int *red_fd);
+int		check_infile(t_token_list *inredir);
+int		do_inredir(t_token_list *inredir);
+void	read_here_doc(t_token *curr, int *fd);
+int		do_here_doc(t_command *command);
+void	push_outfile(int fd, int *red_fd);
+int		open_outredir(t_token *tail, int fd);
+void	do_outredir(t_token_list *outredir, int *red_fd);
 
 /*minishell builtins*/
 /*----env*/
-int		ft_keylen(char *str);
-int		ft_cmp(char *str1, char *str);
+void 	print_one_env(t_envnode *node, char value_c);
 void	do_env(t_env *envlst);
 char	*search_key(t_env *envlst, char *key);
 /*----unset*/
 void	free_head_tail(t_env *envlst, t_envnode *target);
-void	traversal_env(t_env *envlst, t_token *curr);
-t_env	*do_unset(t_env *envlst, t_token_list *unset_token);
+t_env	*do_unset(t_token_list *unset_token, t_env *envlst);
 /*----pwd*/
-void	do_pwd(void);
+void	do_pwd(t_env *envlst);
 /*----echo*/
-void	do_echo(t_token_list *echo_token);
+void	do_echo(t_token_list *echo_token, t_env *envlst);
 /*----export*/
-void	do_export(t_env *envlst, t_token_list *export_token);
+void	do_export(t_token_list *export_token, t_env *envlst);
 /*----cd*/
-void	do_cd(t_token_list *cd_token);
+int		do_cd(t_token_list *cd_token, t_env *envlst);
 /*----exit*/
-void	do_exit(t_token_list *token);
+void	do_exit(t_token_list *token, t_env *envlst);
 
 #endif
