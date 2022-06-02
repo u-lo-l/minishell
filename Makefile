@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+         #
+#    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/05/31 18:18:56 by yyoo             ###   ########.fr        #
+#    Updated: 2022/06/02 11:16:20 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ LIBS = ./LIBFT/libft.a
 
 # 사용하는 파일들 여기에 추가
 OBJS_FILES = main.o\
+				utils.o \
 				read_command.o\
 				signal_handler.o\
 				env_list.o\

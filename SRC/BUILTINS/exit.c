@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 17:34:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/02 00:14:18 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/02 11:30:29 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/errno.h>
 #include <stdlib.h>
 
-void	do_exit(t_token_list *toklst)
+void	do_exit(t_token_list *toklst, t_env *envlst)
 {
 	int		i;
 	int		exit_num;
@@ -25,7 +25,10 @@ void	do_exit(t_token_list *toklst)
 	if (toklst->head->next == NULL)
 		exit(0);
 	if (toklst->head->next->next != NULL)
+	{
 		ft_putstr_fd("minishell : exit : too many args\n", 2);
+		envlst->error = 1;
+	}
 	else
 	{
 		exit_str = toklst->head->next->text;

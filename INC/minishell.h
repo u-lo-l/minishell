@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/01 22:45:46 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/02 11:28:19 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # define TRUE 1
 # define FALSE 0
 
+/*utils*/
+int				return_err(char *errstr, int ret_val);
 /*signal handler*/
 int				set_signal_handler(void);
 /*	read command*/
@@ -94,24 +96,21 @@ void	when_child(t_env *env, char **command_list);
 
 /*minishell builtins*/
 /*----env*/
-int		ft_keylen(char *str);
-int		ft_cmp(char *str1, char *str);
 void 	print_one_env(t_envnode *node, char value_c);
 void	do_env(t_env *envlst);
 char	*search_key(t_env *envlst, char *key);
 /*----unset*/
 void	free_head_tail(t_env *envlst, t_envnode *target);
-void	traversal_env(t_env *envlst, t_token *curr);
-t_env	*do_unset(t_env *envlst, t_token_list *unset_token);
+t_env	*do_unset(t_token_list *unset_token, t_env *envlst);
 /*----pwd*/
-void	do_pwd(void);
+void	do_pwd(t_env *envlst);
 /*----echo*/
-void	do_echo(t_token_list *echo_token);
+void	do_echo(t_token_list *echo_token, t_env *envlst);
 /*----export*/
-void	do_export(t_env *envlst, t_token_list *export_token);
+void	do_export(t_token_list *export_token, t_env *envlst);
 /*----cd*/
-void	do_cd(t_token_list *cd_token);
+int		do_cd(t_token_list *cd_token, t_env *envlst);
 /*----exit*/
-void	do_exit(t_token_list *token);
+void	do_exit(t_token_list *token, t_env *envlst);
 
 #endif
