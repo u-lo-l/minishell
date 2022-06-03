@@ -14,7 +14,7 @@ void	push_outfile(int outfile_fd, int *red_fd)
 	r = 1;
 	while (r > 0)
 	{
-		r = read(red_fd[0], buf, 1);
+		r = read(red_fd[0], buf, 1); // ?????
 		if (r < 1)
 			break ;
 		write(outfile_fd, buf, 1);

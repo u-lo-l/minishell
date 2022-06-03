@@ -17,6 +17,7 @@ int	check_infile(t_token_list *inredir)
 		if (stat(curr->text, &buf) == -1)
 		{
 			printf("minishell: %s: No such file or directory\n", curr->text);
+			// exit(1); //curr->text이 존재 X
 			return (1);
 		}
 		curr = curr->next;
@@ -36,6 +37,7 @@ int	do_inredir(t_token_list *inredir)
 	return (0);
 }
 
+<<<<<<< HEAD
 /*
  * ft_cmp 대신 비슷한 기존 함수인 ft_strncmp사용
  * ft_cmp 사용 시 EOF 일 때 종료 안 됨.
@@ -89,16 +91,28 @@ void	read_here_doc(t_token *currtok, int *fd)
 	}
 }
 */
+=======
+>>>>>>> parent of b4ddad5... Norm redir
 int	do_here_doc(t_command *command)
 {
 	t_token		*curr;
+	char		buf[1024];
+	int			r;
 	int			fd[2];
 
 	pipe(fd);
 	curr = command->here_doc->head;
-	while (curr)
+	while(curr)
 	{
-		read_here_doc(curr, fd);
+		while (1)
+		{
+			write(1, "> ", 2);
+			r = read(0, buf, 1024);
+			buf[r] = 0;
+			if (ft_cmp(curr->text, buf))
+				break ;
+			write(fd[1], buf, ft_strlen(buf));
+		}
 		close(fd[1]);
 		dup2(fd[0], 0);
 		curr = curr->next;
