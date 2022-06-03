@@ -43,7 +43,7 @@ int	open_outredir(t_token *tail, int outfile_fd)
 	return (outfile_fd);
 }
 
-void	do_outredir(t_token_list *outredir, int *red_fd)
+void	do_outredir(t_command *commandlst, int *red_fd)
 {
 	struct stat	buf;
 	t_token		*curr;
@@ -51,7 +51,7 @@ void	do_outredir(t_token_list *outredir, int *red_fd)
 
 	close(red_fd[1]);
 	close(1);
-	curr = outredir->head;
+	curr = commandlst->output_redir->head;
 	while (curr->next)
 	{
 		if (stat(curr->text, &buf) == -1)
@@ -65,5 +65,8 @@ void	do_outredir(t_token_list *outredir, int *red_fd)
 		curr = curr->next;
 	}
 	outfile_fd = open_outredir(curr, outfile_fd);
-	push_outfile(outfile_fd, red_fd);
+	if ((commandlst->input_redir->num_of_tokens == 0) \
+		|| (commandlst->input_redir->num_of_tokens > 0 \
+		&& commandlst->output_redir->tail->type == 2))
+		push_outfile(outfile_fd, red_fd);
 }

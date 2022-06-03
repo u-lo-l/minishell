@@ -54,7 +54,7 @@ void	redir_util2(t_env *envlst, t_command *curr, int *std_fd, int *red_fd)
 	if (curr->simple_command->num_of_tokens > 0)
 		check_builtin(envlst, curr->simple_command);
 	if (curr->output_redir->num_of_tokens > 0)
-		do_outredir(curr->output_redir, red_fd);
+		do_outredir(curr, red_fd);
 	if (curr->input_redir->num_of_tokens > 0 \
 		|| curr->here_doc->num_of_tokens > 0)
 	{

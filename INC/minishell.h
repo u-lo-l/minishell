@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/02 20:51:09 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/03 14:49:41 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	read_here_doc(t_token *curr, int *fd);
 int		do_here_doc(t_command *command);
 void	push_outfile(int fd, int *red_fd);
 int		open_outredir(t_token *tail, int fd);
-void	do_outredir(t_token_list *outredir, int *red_fd);
+void	do_outredir(t_command *commamdlst, int *red_fd);
 
 /*minishell builtins*/
 /*----env*/
