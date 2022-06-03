@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/03 14:49:41 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/03 17:53:24 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		do_here_doc(t_command *command);
 void	push_outfile(int fd, int *red_fd);
 int		open_outredir(t_token *tail, int fd);
 void	do_outredir(t_command *commamdlst, int *red_fd);
+void	make_outfile(t_command *commandlst);
 
 /*minishell builtins*/
 /*----env*/

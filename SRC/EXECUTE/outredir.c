@@ -43,27 +43,35 @@ int	open_outredir(t_token *tail, int outfile_fd)
 	return (outfile_fd);
 }
 
-void	do_outredir(t_command *commandlst, int *red_fd)
+void	make_outfile(t_command *commandlst)
 {
-	struct stat	buf;
 	t_token		*curr;
+	struct stat	buf;
 	int			outfile_fd;
 
-	close(red_fd[1]);
-	close(1);
 	curr = commandlst->output_redir->head;
-	while (curr->next)
+	while (curr)
 	{
 		if (stat(curr->text, &buf) == -1)
-			outfile_fd = open(curr->text, O_CREAT | O_RDWR, 0755);
+			outfile_fd = open(curr->text, O_CREAT | O_TRUNC | O_RDWR, 0755);
 		else
-		{
-			if (curr->type == e_outrdr)
-				outfile_fd = open(curr->text, O_TRUNC | O_RDWR);
-		}
+			outfile_fd = open(curr->text, O_TRUNC | O_RDWR);
 		close(outfile_fd);
 		curr = curr->next;
 	}
+
+}
+
+
+void	do_outredir(t_command *commandlst, int *red_fd)
+{
+	t_token		*curr;
+	int			outfile_fd;
+
+	outfile_fd = 0;
+	close(red_fd[1]);
+	close(1);
+	curr = commandlst->output_redir->tail;
 	outfile_fd = open_outredir(curr, outfile_fd);
 	if ((commandlst->input_redir->num_of_tokens == 0) \
 		|| (commandlst->input_redir->num_of_tokens > 0 \
