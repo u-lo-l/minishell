@@ -37,7 +37,6 @@ int	do_inredir(t_token_list *inredir)
 	return (0);
 }
 
-<<<<<<< HEAD
 /*
  * ft_cmp 대신 비슷한 기존 함수인 ft_strncmp사용
  * ft_cmp 사용 시 EOF 일 때 종료 안 됨.
@@ -91,8 +90,6 @@ void	read_here_doc(t_token *currtok, int *fd)
 	}
 }
 */
-=======
->>>>>>> parent of b4ddad5... Norm redir
 int	do_here_doc(t_command *command)
 {
 	t_token		*curr;
