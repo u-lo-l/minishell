@@ -26,14 +26,14 @@ int	open_outredir(t_token *tail, int outfile_fd)
 {
 	struct stat	buf;
 
-	if (tail->type == 1)
+	if (tail->type == e_outrdr)
 	{
 		if (stat(tail->text, &buf) == -1)
 			outfile_fd = open(tail->text, O_CREAT | O_TRUNC | O_RDWR, 0755);
 		else
 			outfile_fd = open(tail->text, O_TRUNC | O_RDWR);
 	}
-	else if (tail->type == 2)
+	else if (tail->type == e_appendrdr)
 	{
 		if (stat(tail->text, &buf) == -1)
 			outfile_fd = open(tail->text, O_CREAT | O_APPEND | O_RDWR, 0755);
@@ -58,7 +58,7 @@ void	do_outredir(t_token_list *outredir, int *red_fd)
 			outfile_fd = open(curr->text, O_CREAT | O_RDWR, 0755);
 		else
 		{
-			if (curr->type == 1)
+			if (curr->type == e_outrdr)
 				outfile_fd = open(curr->text, O_TRUNC | O_RDWR);
 		}
 		close(outfile_fd);
