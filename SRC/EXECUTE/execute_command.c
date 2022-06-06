@@ -1,30 +1,32 @@
 #include "../../INC/minishell.h"
 
-void	check_builtin(t_env *envlst, t_token_list *toklst)
+int	check_builtin(t_env *envlst, t_token_list *toklst)
 {
 	int	status;
-
+	
 	if (envlst == NULL || toklst->head == NULL)
-		return ;
-	if (!ft_strncmp(toklst->head->text, "echo", 5))
-		do_echo(toklst, envlst);
+		return_err("unexpected error", 1);
+	else if (!ft_strncmp(toklst->head->text, "echo", 5))
+		envlst->error = do_echo(toklst);
 	else if (!ft_strncmp(toklst->head->text, "cd", 3))
 		envlst->error = do_cd(toklst, envlst);
 	else if (!ft_strncmp(toklst->head->text, "pwd", 4))
-		do_pwd(envlst);
+		envlst->error = do_pwd();
 	else if (!ft_strncmp(toklst->head->text, "export", 7))
-		do_export(toklst, envlst);
+		envlst->error = do_export(toklst, envlst);
 	else if (!ft_strncmp(toklst->head->text, "unset", 6))
-		do_unset(toklst, envlst);
+		envlst->error = do_unset(toklst, envlst);
 	else if (!ft_strncmp(toklst->head->text, "env", 4))
-		do_env(envlst);
+		envlst->error = do_env(envlst);
 	else if (!ft_strncmp(toklst->head->text, "exit", 5))
-		do_exit(toklst, envlst);
+		envlst->error = do_exit(toklst);
 	else
-		do_execve(envlst, toklst, &status);
+		envlst->error = do_execve(envlst, toklst, &status);
+	return (envlst->error);
 }
 
-void	execute_command(t_env *envlst, t_token_tree *toktree)
+/* 얘도 exit status 반환해야지 */
+int	execute_command(t_env *envlst, t_token_tree *toktree)
 {
 	t_command	*curr;
 	int			std_fd[2];
@@ -73,7 +75,7 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 		}
 		curr = curr->next_cmd;
 	}
+	return (0);
 	// close(0);
 	// dup2(in_fd, 0);
-
 }

@@ -43,6 +43,7 @@ int	do_inredir(t_token_list *inredir)
  * read == 0 or -1인 경우 예외처리 추가 함.
  * buf[r]이 아닌 buf[r - 1]을 하여 개행문자 삭제함.
 */
+/*
 void	read_here_doc(t_token *curr, int *fd)
 {
 	char	buf[1024];
@@ -60,7 +61,7 @@ void	read_here_doc(t_token *curr, int *fd)
 		write(fd[1], buf, ft_strlen(buf));
 		write(fd[1], "\n", 1);
 	}
-}
+}*/
 
 /*
  * 고정된 버퍼와 read사용 시 읽을 수 있는 문자열의 길이에 제한이 생김.
@@ -105,10 +106,13 @@ int	do_here_doc(t_command *command)
 		{
 			write(1, "> ", 2);
 			r = read(0, buf, 1024);
-			buf[r] = 0;
-			if (ft_cmp(curr->text, buf))
+			if (r <= 0)
+				return (0);
+			buf[r - 1] = 0;
+			if (ft_strncmp(curr->text, buf, r) == 0)
 				break ;
-			write(fd[1], buf, ft_strlen(buf));
+			write(fd[1], buf, r - 1);
+			write(fd[1], "\n", 1);
 		}
 		close(fd[1]);
 		dup2(fd[0], 0);

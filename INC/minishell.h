@@ -6,11 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/06/02 20:51:09 by dkim2            ###   ########.fr       */
-=======
-/*   Updated: 2022/06/02 17:48:58 by yyoo             ###   ########.fr       */
->>>>>>> parent of b4ddad5... Norm redir
+/*   Updated: 2022/06/06 13:05:01 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +15,7 @@
 # include "../LIBFT/libft.h"
 # include "minishell_datastructure.h"
 # include <stdio.h>
-# define TRUE 1
-# define FALSE 0
+
 
 /*utils*/
 int				return_err(char *errstr, int ret_val);
@@ -89,12 +84,12 @@ void		free_env_list(t_env *envlst);
 int			seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
 
 /*		execute*/
-void	execute_command(t_env *env, t_token_tree *tree);
-void    check_builtin(t_env *env, t_token_list *token);
+int		execute_command(t_env *env, t_token_tree *tree);
+int	    check_builtin(t_env *env, t_token_list *token);
 char	*get_path(t_env *env, char **command_list, int num);
 char	**split_path(t_env *env);
 char	**get_command_list(t_token_list *token);
-void	do_execve(t_env *env, t_token_list *token, int *status);
+int		do_execve(t_env *env, t_token_list *token, int *status);
 void    ft_double_free(char **str);
 void	when_child(t_env *env, char **command_list);
 /*----redirection*/
@@ -108,20 +103,20 @@ void	do_outredir(t_token_list *outredir, int *red_fd);
 /*minishell builtins*/
 /*----env*/
 void 	print_one_env(t_envnode *node, char value_c);
-void	do_env(t_env *envlst);
+int		do_env(t_env *envlst);
 char	*search_key(t_env *envlst, char *key);
 /*----unset*/
 void	free_head_tail(t_env *envlst, t_envnode *target);
-t_env	*do_unset(t_token_list *unset_token, t_env *envlst);
+int		do_unset(t_token_list *unset_token, t_env *envlst);
 /*----pwd*/
-void	do_pwd(t_env *envlst);
+int		do_pwd(void);
 /*----echo*/
-void	do_echo(t_token_list *echo_token, t_env *envlst);
+int		do_echo(t_token_list *echo_token);
 /*----export*/
-void	do_export(t_token_list *export_token, t_env *envlst);
+int		do_export(t_token_list *export_token, t_env *envlst);
 /*----cd*/
 int		do_cd(t_token_list *cd_token, t_env *envlst);
 /*----exit*/
-void	do_exit(t_token_list *token, t_env *envlst);
+int		do_exit(t_token_list *token);
 
 #endif

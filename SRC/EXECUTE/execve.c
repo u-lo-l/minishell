@@ -95,7 +95,7 @@ void	when_child(t_env *env, char **command_list)
 	}
 }
 
-void	do_execve(t_env *env, t_token_list *token, int *status)
+int		do_execve(t_env *env, t_token_list *token, int *status)
 {
 	char		**command_list;
 	pid_t		pid;
@@ -110,4 +110,5 @@ void	do_execve(t_env *env, t_token_list *token, int *status)
 		wait(status);
 		*status = *status >> 8;
 	}
+	return (0);
 }

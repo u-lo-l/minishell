@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:37 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/01 22:51:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/06 13:38:07 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ int	del_node_from_lst(t_env *envlst, char *key)
 	curr_node = envlst->phead;
 	while (curr_node)
 	{
-		if (!ft_strncmp(curr_node->key, key, ft_strlen(key)))
+		if (!ft_strncmp(curr_node->key, key, ft_strlen(key) + 1))
 		{
 			if (curr_node == envlst->phead)
 				envlst->phead = curr_node->nextnode;
 			if (curr_node == envlst->ptail)
 				envlst->ptail = curr_node->prevnode;
 			if (curr_node != envlst->phead)
-				envlst->ptail->nextnode = curr_node->nextnode;
+				curr_node->prevnode->nextnode = curr_node->nextnode;
 			if (curr_node != envlst->ptail)
-				envlst->phead->prevnode = curr_node->prevnode;
+				curr_node->nextnode->prevnode = curr_node->prevnode;
 			free_env_node(curr_node);
 			envlst->element--;
 			break ;

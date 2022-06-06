@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:27 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/02 11:33:11 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/06 13:21:39 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,26 @@
 #include <stdlib.h>
 #include "../../INC/minishell.h"
 
-void	do_env(t_env *env)
+int	do_env(t_env *env)
 {
 	t_envnode	*curr;
+	int			i;
 
+	if (env == NULL)
+		return (return_err("env : unexpected error", 1));
 	curr = env->phead;
+	i = 0;
 	while (curr)
 	{
 		print_one_env(curr, 0);
 		curr = curr->nextnode;
+		if (++i > env->element)
+		{
+			printf("hmmmmm\n");
+			break;
+		}
 	}
+	return (0);
 }
 
 char	*search_key(t_env *env, char *key)
