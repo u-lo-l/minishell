@@ -95,11 +95,22 @@ void	when_child(t_env *env, char **command_list)
 	}
 }
 
-void	do_execve(t_env *env, t_token_list *token, int *status)
+void	pipe_do_execve(t_env *env, t_token_list *token)
+{
+	char		**command_list;
+
+	command_list = NULL;
+	command_list = get_command_list(token);
+	when_child(env, command_list);
+}
+
+void	do_execve(t_env *env, t_token_list *token)
 {
 	char		**command_list;
 	pid_t		pid;
-
+	int			status;
+	
+	status = 0;
 	command_list = NULL;
 	command_list = get_command_list(token);
 	pid = fork();
@@ -107,7 +118,7 @@ void	do_execve(t_env *env, t_token_list *token, int *status)
 		when_child(env, command_list);
 	else if (pid > 0)
 	{
-		wait(status);
-		*status = *status >> 8;
+		wait(&status);
+		status = status >> 8;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/06 14:29:57 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/06 21:37:46 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,12 @@ int			seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
 
 /*		execute*/
 void	execute_command(t_env *env, t_token_tree *tree);
-void    check_builtin(t_env *env, t_token_list *token);
+void    check_builtin(t_env *env, t_token_list *token, int command_num);
 char	*get_path(t_env *env, char **command_list, int num);
 char	**split_path(t_env *env);
 char	**get_command_list(t_token_list *token);
-void	do_execve(t_env *env, t_token_list *token, int *status);
+void	pipe_do_execve(t_env *env, t_token_list *token);
+void	do_execve(t_env *env, t_token_list *token);
 void    ft_double_free(char **str);
 void	when_child(t_env *env, char **command_list);
 /*----redirection & pipe*/
@@ -103,8 +104,8 @@ int		open_outredir(t_token *tail, int fd);
 void	do_outredir(t_command *commamdlst, int *red_fd);
 void	make_outfile(t_command *commandlst);
 int		no_pipe_util1(t_command *curr, int *std_fd);
-void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd, int *red_fd);
-int		pipe_util1(t_command *curr, int *std_fd);
+void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
+int		pipe_util1(t_command *curr, int *std_fd, int *pipe_fd);
 void	pipe_util2(t_env *envlst, t_command *curr, int *std_fd, int *red_fd);
 
 
