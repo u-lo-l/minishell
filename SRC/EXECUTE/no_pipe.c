@@ -1,6 +1,6 @@
 #include "../../INC/minishell.h"
 
-int	pipe_util1(t_command *curr, int *std_fd)
+int	no_pipe_util1(t_command *curr, int *std_fd)
 {
 	if (curr->here_doc->num_of_tokens > 0)
 	{
@@ -20,7 +20,7 @@ int	pipe_util1(t_command *curr, int *std_fd)
 	return (0);
 }
 
-void	pipe_util2(t_env *envlst, t_command *curr, int *std_fd, int *red_fd)
+void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd, int *red_fd)
 {
 	if (curr->output_redir->num_of_tokens > 0)
 	{

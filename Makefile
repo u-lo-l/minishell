@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
+#    By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/06/02 20:50:53 by dkim2            ###   ########.fr        #
+#    Updated: 2022/06/06 14:27:30 by yyoo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,9 @@ OBJS_FILES = main.o\
 				EXECUTE/execve.o\
 				EXECUTE/execve_util.o\
 				EXECUTE/inredir.o\
-				EXECUTE/outredir.o
+				EXECUTE/outredir.o\
+				EXECUTE/no_pipe.o\
+				EXECUTE/pipe.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 
 SRCS = ${OBJS.o=.c}
