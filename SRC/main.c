@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/06 14:04:46 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/07 17:02:26 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (cmd_token_tree->num_of_commands != 0)
 				execute_command(envlst, cmd_token_tree);
-			print_token_tree(cmd_token_tree);
+			// print_token_tree(cmd_token_tree);
 		}
 		free_token_tree(cmd_token_tree);
 	}

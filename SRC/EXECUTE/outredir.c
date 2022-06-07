@@ -62,7 +62,6 @@ void	make_outfile(t_command *commandlst)
 
 }
 
-
 void	do_outredir(t_command *commandlst, int *red_fd)
 {
 	t_token		*curr;

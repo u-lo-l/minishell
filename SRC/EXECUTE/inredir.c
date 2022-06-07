@@ -16,7 +16,9 @@ int	check_infile(t_token_list *inredir)
 	{
 		if (stat(curr->text, &buf) == -1)
 		{
-			printf("minishell: %s: No such file or directory\n", curr->text);
+			write(2, "minishell: ", 11);
+			write(2, curr->text, ft_strlen(curr->text));
+			write(2, ": No such file or directory\n", 28);
 			return (1);
 		}
 		curr = curr->next;
@@ -94,15 +96,19 @@ int	do_here_doc(t_command *command)
 	t_token		*curr;
 	int			fd[2];
 
-	pipe(fd);
 	curr = command->here_doc->head;
 	while (curr)
 	{
+		pipe(fd);
 		read_here_doc(curr, fd);
 		close(fd[1]);
-		dup2(fd[0], 0);
 		curr = curr->next;
+		if (curr)
+		{
+			close(fd[0]);
+		}
 	}
+	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
 		if (check_infile(command->input_redir))

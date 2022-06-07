@@ -1,5 +1,6 @@
 #include "../../INC/minishell.h"
 #include <sys/wait.h>
+#include <stdlib.h>
 
 void	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 {
@@ -79,13 +80,26 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 			if (pid == 0)
 			{
 				close(pipe_fd2[0]);
+
+				if (pipe_util1(curr, std_fd))
+					break ;
+
 				dup2(pipe_fd2[1], 1);
-				check_builtin(envlst, curr->simple_command, toktree->num_of_commands);
+				if (curr->output_redir->num_of_tokens > 0)
+					make_outfile(curr);
+				if (curr->simple_command->num_of_tokens > 0)
+					check_builtin(envlst, curr->simple_command, toktree->num_of_commands);
+				if (curr->simple_command->num_of_tokens == 0)
+					exit(1);
 			}
 			else
 			{
 				close(pipe_fd2[1]);
 				wait(&status);
+				if (curr->output_redir->num_of_tokens > 0)
+				{
+					do_outredir(curr, pipe_fd2);
+				}
 			}
 			dup2(pipe_fd1[0], 0);
 			

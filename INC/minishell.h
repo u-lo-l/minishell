@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/06 21:37:46 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/07 16:34:52 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,10 @@ void	do_outredir(t_command *commamdlst, int *red_fd);
 void	make_outfile(t_command *commandlst);
 int		no_pipe_util1(t_command *curr, int *std_fd);
 void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
-int		pipe_util1(t_command *curr, int *std_fd, int *pipe_fd);
+int		pipe_util1(t_command *curr, int *std_fd);
 void	pipe_util2(t_env *envlst, t_command *curr, int *std_fd, int *red_fd);
 
+int	pipe_here_doc(t_command * command, int *std_fd);
 
 
 /*minishell builtins*/

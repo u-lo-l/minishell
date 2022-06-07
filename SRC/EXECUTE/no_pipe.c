@@ -31,7 +31,7 @@ void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd)
 		dup2(red_fd[1], 1);
 	}
 	if (curr->simple_command->num_of_tokens > 0)
-		check_builtin(envlst, curr->simple_command);
+		check_builtin(envlst, curr->simple_command, 1);
 	if (curr->output_redir->num_of_tokens > 0)
 	{
 		do_outredir(curr, red_fd);
