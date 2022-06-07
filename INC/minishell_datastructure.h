@@ -88,7 +88,15 @@ typedef struct s_env
 	t_envnode	*ptail;
 }   t_env;
 
-/**/
+/* fd */
+typedef struct s_fd
+{
+	int	std_fd[2];
+	int	pipe_fd1[2];
+	int	pipe_fd2[2];
+}	t_fd;
+
+
 
 /**/
 

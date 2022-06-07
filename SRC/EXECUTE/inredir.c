@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inredir.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
+/*   Updated: 2022/06/08 02:31:51 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INC/minishell.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -16,8 +28,9 @@ int	check_infile(t_token_list *inredir)
 	{
 		if (stat(curr->text, &buf) == -1)
 		{
-			printf("minishell: %s: No such file or directory\n", curr->text);
-			// exit(1); //curr->text이 존재 X
+			ft_putstr_fd("minishell : " ,2);
+			ft_putstr_fd(curr->text, 2);
+			ft_putstr_fd(": No such file or directory", 2);
 			return (1);
 		}
 		curr = curr->next;
@@ -98,26 +111,19 @@ int	do_here_doc(t_command *command)
 	int			r;
 	int			fd[2];
 
-	pipe(fd);
 	curr = command->here_doc->head;
 	while(curr)
 	{
-		while (1)
-		{
-			write(1, "> ", 2);
-			r = read(0, buf, 1024);
-			if (r <= 0)
-				return (0);
-			buf[r - 1] = 0;
-			if (ft_strncmp(curr->text, buf, r) == 0)
-				break ;
-			write(fd[1], buf, r - 1);
-			write(fd[1], "\n", 1);
-		}
+		pipe(fd);
+		read_here_doc(curr, fd);
 		close(fd[1]);
-		dup2(fd[0], 0);
 		curr = curr->next;
+		if (curr)
+		{
+			close(fd[0]);
+		}
 	}
+	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
 		if (check_infile(command->input_redir))
