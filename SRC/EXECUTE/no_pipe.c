@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   no_pipe.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/07 20:20:03 by yyoo              #+#    #+#             */
+/*   Updated: 2022/06/07 20:20:04 by yyoo             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INC/minishell.h"
 
 int	no_pipe_util1(t_command *curr, int *std_fd)
@@ -47,4 +59,15 @@ void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd)
 		dup2(std_fd[1], 1);
 		close(std_fd[1]);
 	}
+}
+
+int	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
+{
+	if (toktree->num_of_commands == 1)
+	{
+		if (no_pipe_util1(curr, fd->std_fd))
+			return (1);
+		no_pipe_util2(envlst, curr, fd->std_fd);
+	}
+	return (0);
 }

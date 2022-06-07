@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/07 16:34:52 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/07 20:06:51 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	pipe_do_execve(t_env *env, t_token_list *token);
 void	do_execve(t_env *env, t_token_list *token);
 void    ft_double_free(char **str);
 void	when_child(t_env *env, char **command_list);
+void	after_execute(t_token_tree *toktree, t_fd *fd);
+
 /*----redirection & pipe*/
 int		check_infile(t_token_list *inredir);
 int		do_inredir(t_token_list *inredir);
@@ -105,10 +107,15 @@ void	do_outredir(t_command *commamdlst, int *red_fd);
 void	make_outfile(t_command *commandlst);
 int		no_pipe_util1(t_command *curr, int *std_fd);
 void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
-int		pipe_util1(t_command *curr, int *std_fd);
-void	pipe_util2(t_env *envlst, t_command *curr, int *std_fd, int *red_fd);
+int 	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
 
-int	pipe_here_doc(t_command * command, int *std_fd);
+void	copy_std_fd(t_fd *fd);
+
+int		pipe_here_doc(t_command * command, int *std_fd);
+int		pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
+int		do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
+void	after_execute(t_token_tree *toktree, t_fd *fd);
+void	print_result(int *fd1);
 
 
 /*minishell builtins*/

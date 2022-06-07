@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
+/*   Updated: 2022/06/07 20:19:58 by yyoo             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INC/minishell.h"
-#include <sys/wait.h>
 #include <stdlib.h>
 
 void	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
@@ -22,7 +33,7 @@ void	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 		do_exit(toklst, envlst);
 	else
 	{
-		if(command_num > 1)
+		if (command_num > 1)
 			pipe_do_execve(envlst, toklst);
 		else
 			do_execve(envlst, toklst);
@@ -39,79 +50,48 @@ void	print_result(int *fd1)
 	{
 		r = read(fd1[0], buf, 1024);
 		if (r < 1)
-			break;
+			break ;
 		buf[r] = 0;
 		printf("%s", buf);
 	}
 	close(fd1[0]);
 }
 
+void	after_execute(t_token_tree *toktree, t_fd *fd)
+{
+	dup2(fd->std_fd[0], 0);
+	dup2(fd->std_fd[1], 1);
+	if (toktree->num_of_commands > 1)
+	{
+		close(fd->pipe_fd1[1]);
+		print_result(fd->pipe_fd2);
+	}
+}
+
 void	execute_command(t_env *envlst, t_token_tree *toktree)
 {
 	t_command	*curr;
-	int			std_fd[2];
-	int			pipe_fd1[2];
-	int			pipe_fd2[2];
+	t_fd		*fd;
 	int			count;
-	int			pid;
-	int			status;
 
-	status = 0;
+	fd = malloc(sizeof(t_fd));
 	count = 1;
 	curr = toktree->head_cmd;
-	std_fd[0] = dup(0);
-	std_fd[1] = dup(1);
-	pipe(pipe_fd1);
+	copy_std_fd(fd);
+	pipe(fd->pipe_fd1);
 	while (curr)
 	{
-		if (toktree->num_of_commands == 1)
-		{
-			if (no_pipe_util1(curr, std_fd))
-				break ;
-			no_pipe_util2(envlst, curr, std_fd);	
-		}
+		if (no_pipe(envlst, toktree, curr, fd))
+			break ;
 		else
 		{
 			if (count > 1)
-				dup2(pipe_fd2[0], 0);
-			pipe(pipe_fd2);
-			dup2(pipe_fd1[1], 1);
-			pid = fork();
-			if (pid == 0)
-			{
-				close(pipe_fd2[0]);
-
-				if (pipe_util1(curr, std_fd))
-					break ;
-
-				dup2(pipe_fd2[1], 1);
-				if (curr->output_redir->num_of_tokens > 0)
-					make_outfile(curr);
-				if (curr->simple_command->num_of_tokens > 0)
-					check_builtin(envlst, curr->simple_command, toktree->num_of_commands);
-				if (curr->simple_command->num_of_tokens == 0)
-					exit(1);
-			}
-			else
-			{
-				close(pipe_fd2[1]);
-				wait(&status);
-				if (curr->output_redir->num_of_tokens > 0)
-				{
-					do_outredir(curr, pipe_fd2);
-				}
-			}
-			dup2(pipe_fd1[0], 0);
-			
+				dup2(fd->pipe_fd2[0], 0);
+			if (do_pipe(envlst, toktree, curr, fd))
+				break ;
 		}
 		count++;
 		curr = curr->next_cmd;
 	}
-	dup2(std_fd[0], 0);
-	dup2(std_fd[1], 1);
-	if (toktree->num_of_commands > 1)
-	{
-		close(pipe_fd1[1]);
-		print_result(pipe_fd2);
-	}
+	after_execute(toktree, fd);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   outredir.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/07 20:20:06 by yyoo              #+#    #+#             */
+/*   Updated: 2022/06/07 20:20:07 by yyoo             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INC/minishell.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -59,7 +71,6 @@ void	make_outfile(t_command *commandlst)
 		close(outfile_fd);
 		curr = curr->next;
 	}
-
 }
 
 void	do_outredir(t_command *commandlst, int *red_fd)
