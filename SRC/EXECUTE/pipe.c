@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 14:44:01 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 16:56:38 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	{
 		close(fd->pipe_fd2[1]);
 		wait(&status);
+		status = status >> 8;
 		if (curr->output_redir->num_of_tokens > 0)
 			do_outredir(curr, fd->pipe_fd2);
 	}
