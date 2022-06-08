@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 19:28:22 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 20:14:00 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,11 @@ char	**get_command_list(t_token_list *token)
 	i = 0;
 	while (curr)
 	{
-		command_list[i] = malloc(sizeof(char) * ft_strlen(curr->text));
 		command_list[i] = curr->text;
 		i++;
 		curr = curr->next;
 	}
-	command_list[i] = 0;
+	command_list[i] = NULL;
 	return (command_list);
 }
 
@@ -73,7 +72,7 @@ void	pipe_do_execve(t_env *env, t_token_list *token)
 	command_list = NULL;
 	command_list = get_command_list(token);
 	when_child(env, command_list);
-
+	free(command_list);
 }
 
 void	do_execve(t_env *env, t_token_list *token)
@@ -92,7 +91,6 @@ void	do_execve(t_env *env, t_token_list *token)
 	{
 		wait(&status);
 		status = status >> 8;
-		// write(2, "1111\n", 5);
 	}
-	
+	free(command_list);
 }
