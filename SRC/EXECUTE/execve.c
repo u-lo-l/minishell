@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 02:30:15 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 02:36:39 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	pipe_do_execve(t_env *env, t_token_list *token)
 	when_child(env, command_list);
 }
 
-int	do_execve(t_env *env, t_token_list *token)
+void	do_execve(t_env *env, t_token_list *token)
 {
 	char		**command_list;
 	pid_t		pid;
@@ -88,5 +88,4 @@ int	do_execve(t_env *env, t_token_list *token)
 		wait(&status);
 		status = status >> 8;
 	}
-	return (0);
 }

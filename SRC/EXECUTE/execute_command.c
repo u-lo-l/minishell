@@ -6,17 +6,17 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 02:29:28 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 02:36:11 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-int	check_builtin(t_env *envlst, t_token_list *toklst)
+int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 {
 	if (envlst == NULL || toklst->head == NULL)
-		return_err("unexpected error", 1);
+		return (return_err("unexpected error", 1));
 	else if (!ft_strncmp(toklst->head->text, "echo", 5))
 		envlst->error = do_echo(toklst);
 	else if (!ft_strncmp(toklst->head->text, "cd", 3))
@@ -38,6 +38,7 @@ int	check_builtin(t_env *envlst, t_token_list *toklst)
 		else
 			do_execve(envlst, toklst);
 	}
+	return (0);
 }
 
 void	print_result(int *fd1)
@@ -69,7 +70,7 @@ void	after_execute(t_token_tree *toktree, t_fd *fd)
 }
 
 /* 얘도 exit status 반환해야지 */
-int	execute_command(t_env *envlst, t_token_tree *toktree)
+void	execute_command(t_env *envlst, t_token_tree *toktree)
 {
 	t_command	*curr;
 	t_fd		*fd;

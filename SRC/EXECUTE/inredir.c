@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 02:31:51 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 13:38:16 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	do_inredir(t_token_list *inredir)
  * read == 0 or -1인 경우 예외처리 추가 함.
  * buf[r]이 아닌 buf[r - 1]을 하여 개행문자 삭제함.
 */
-/*
+
 void	read_here_doc(t_token *curr, int *fd)
 {
 	char	buf[1024];
@@ -71,10 +71,10 @@ void	read_here_doc(t_token *curr, int *fd)
 		buf[r - 1] = 0;
 		if (ft_strncmp(curr->text, buf, ft_strlen(buf) + 1) == 0)
 			break ;
-		write(fd[1], buf, ft_strlen(buf));
-		write(fd[1], "\n", 1);
+		ft_putstr_fd(buf, fd[1]);
+		ft_putstr_fd("\n", fd[1]);
 	}
-}*/
+}
 
 /*
  * 고정된 버퍼와 read사용 시 읽을 수 있는 문자열의 길이에 제한이 생김.
@@ -98,8 +98,8 @@ void	read_here_doc(t_token *currtok, int *fd)
 			break ;
 		else if (ft_strncmp(key, buffer, key_len + 1) == 0)
 			break ;
-		write(fd[1], buffer, ft_strlen(buffer));
-		write(fd[1], "\n", 1);
+		ft_putstr_fd(buffer, fd[1]);
+		ft_putstr_fd("\n", fd[1]);
 		free(buffer);
 	}
 }
@@ -107,8 +107,6 @@ void	read_here_doc(t_token *currtok, int *fd)
 int	do_here_doc(t_command *command)
 {
 	t_token		*curr;
-	char		buf[1024];
-	int			r;
 	int			fd[2];
 
 	curr = command->here_doc->head;
@@ -118,10 +116,8 @@ int	do_here_doc(t_command *command)
 		read_here_doc(curr, fd);
 		close(fd[1]);
 		curr = curr->next;
-		if (curr)
-		{
+		if (curr != NULL)
 			close(fd[0]);
-		}
 	}
 	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
