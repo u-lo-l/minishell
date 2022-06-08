@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 13:59:11 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 14:44:01 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int	pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 		if (do_inredir(curr->input_redir))
 			return (1);
 	}
-	dup2(fd->pipe_fd2[1], 1);
+	if (toktree->tail_cmd != curr)
+		dup2(fd->pipe_fd2[1], 1);
 	if (curr->output_redir->num_of_tokens > 0)
 		make_outfile(curr);
 	if (curr->simple_command->num_of_tokens > 0)
@@ -73,6 +74,8 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	if (pid == 0)
 	{
 		close(fd->pipe_fd2[0]);
+		if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
+			dup2(fd->std_fd[1], 1);
 		if (pipe_util1(envlst, toktree, curr, fd))
 			return (1);
 	}

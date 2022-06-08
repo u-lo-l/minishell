@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 14:03:21 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 14:34:57 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 		|| !ft_strncmp(toklst->head->text, "unset", 6) \
 		|| !ft_strncmp(toklst->head->text, "env", 4) \
 		|| !ft_strncmp(toklst->head->text, "exit", 5))
-		if_builtin(envlst, toklst);
+		if_builtin(envlst, toklst, command_num);
 	else
 	{
 		if (command_num > 1)
@@ -75,8 +75,11 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 	pipe(fd->pipe_fd1);
 	while (curr)
 	{
-		if (no_pipe(envlst, toktree, curr, fd))
-			break ;
+		if (toktree->num_of_commands == 1)
+		{
+			if (no_pipe(envlst, toktree, curr, fd))
+				break ;
+		}
 		else
 		{
 			if (count > 1)
@@ -87,5 +90,7 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 		count++;
 		curr = curr->next_cmd;
 	}
-	after_execute(toktree, fd);
+	dup2(fd->std_fd[0], 0);
+	dup2(fd->std_fd[1], 1);
+	// after_execute(toktree, fd);
 }
