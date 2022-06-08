@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 13:54:48 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 15:21:55 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 		input = read_command("mini >>  ");
 		if (input == NULL)
 			break ;	
-		printf("\033[34minput : {%s}\033[0m\n", input->cmd);
+		printf("\033[33minput : {%s}\033[0m\n", input->cmd);
 		cmd_token_tree = tokenize_and_parsing(input, envlst);
 		free(input->cmd);
 		free(input);

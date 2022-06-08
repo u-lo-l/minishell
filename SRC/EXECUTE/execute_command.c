@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 15:07:17 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 15:21:32 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 {
 	if (envlst == NULL || toklst->head == NULL)
-		return ;
+		return (0);
 	if (!ft_strncmp(toklst->head->text, "echo", 5) \
 		|| !ft_strncmp(toklst->head->text, "cd", 3) \
 		|| !ft_strncmp(toklst->head->text, "pwd", 4) \
