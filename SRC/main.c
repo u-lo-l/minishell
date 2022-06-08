@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 17:16:13 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 17:25:07 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	init_shell(int argc, char **argv, char **envp, struct termios *atr)
 	temp_attr.c_lflag &= ~ECHOCTL;
 	if (tcsetattr(0, TCSANOW, &temp_attr) == -1)
 		return (FALSE);
-	ft_putstr_fd("minishell start\n", 2);	
+	ft_putstr_fd("\033[35mminishell start\033[0m\n", 2);	
 	return (TRUE);
 }
 
@@ -52,7 +52,7 @@ static int	finish_shell(t_env *envlst, struct termios *origin_atr)
 	if (isatty(0) == FALSE)
 		return (FALSE);
 	tcsetattr(0, TCSANOW, origin_atr);
-	ft_putstr_fd("minishell end\n", 2);
+	ft_putstr_fd("\033[35mminishell end\033[0m\n", 2);
 	return (0);
 }
 /*
