@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:03 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 18:11:59 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 19:41:33 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,26 +65,14 @@ void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd)
 
 int	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 {
-	// int	pid;
-	// int	status;
-
-	// status = 0;
-	// pid = fork();
-	// if (pid == 0)
-	// {
-		if (toktree->num_of_commands == 1)
+	if (toktree->num_of_commands == 1)
+	{
+		if (no_pipe_util1(curr, fd->std_fd))
 		{
-			if (no_pipe_util1(curr, fd->std_fd))
-				return (1);
-			no_pipe_util2(envlst, curr, fd->std_fd);
+			envlst->error = 1;
+			return (1);
 		}
-	// 	// exit(1);
-	// }
-	// else
-	// {
-	// 	wait(&status);
-	// 	status = status >> 8;
-	// }
-	
+		no_pipe_util2(envlst, curr, fd->std_fd);
+	}
 	return (0);
 }
