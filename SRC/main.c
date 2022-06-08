@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/02 20:48:42 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 13:54:48 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INC/minishell.h"
 #include <stdlib.h>
-
+#include <termios.h>
 /*
  * 전역변수가 하나 필요하다.
  * 자식 프로세스의 exit status를 저장 할 변수가 전역변수로서 설정되어야한다.
@@ -25,15 +25,33 @@
  *	이 부분에서 빌트인 또한 초기화 될 것이다. (MAYBE)
  *	시그널 핸들러 처리도 여기 넣을 수 있다.
 */
-int	init_shell(int argc, char **argv, char **envp)
+static int	init_shell(int argc, char **argv, char **envp, struct termios *atr)
 {
 	if (argc > 1 || argv[1] != NULL || envp == NULL)
 		return (FALSE);
 	if (set_signal_handler() == FALSE)
 		return (FALSE);
+	if (isatty(0) == FALSE)
+		return (FALSE);
+	if (tcgetattr(0, atr) == -1)
+		return (FALSE);
+	atr->c_lflag &= ~ECHOCTL;
+	if (tcsetattr(0, TCSANOW, atr) == -1)
+		return (FALSE);
 	return (TRUE);
 }
 
+static int	finish_shell(t_env *envlst, struct termios *atr)
+{
+	if (envlst)
+		free_env_list(envlst);
+	if (isatty(0) == FALSE)
+		return (FALSE);
+	tcgetattr(0, atr);
+	atr->c_lflag |= ECHOCTL;
+	tcsetattr(0, TCSANOW, atr);
+	return (0);
+}
 /*
  *	작은 쉘을 구현하는 부분이다.
  *	필요 기능 : 
@@ -61,8 +79,9 @@ int	main(int argc, char **argv, char **envp)
 	t_input			*input;
 	t_env			*envlst;
 	t_token_tree	*cmd_token_tree;
+	struct termios	attr;
 
-	if (init_shell(argc, argv, envp) == FALSE)
+	if (init_shell(argc, argv, envp, &attr) == FALSE)
 		return (1);
 	envlst = env_list(envp);
 	if (envlst == NULL)
@@ -72,20 +91,15 @@ int	main(int argc, char **argv, char **envp)
 		input = read_command("mini >>  ");
 		if (input == NULL)
 			break ;	
-		printf("\033[33minput : {%s}\033[0m\n", input->cmd);
+		printf("\033[34minput : {%s}\033[0m\n", input->cmd);
 		cmd_token_tree = tokenize_and_parsing(input, envlst);
 		free(input->cmd);
 		free(input);
 		if (cmd_token_tree == NULL)
-			printf("BAD SYNTAX\n");
-		else
-		{
-			if (cmd_token_tree->num_of_commands != 0)
-				execute_command(envlst, cmd_token_tree);
-			print_token_tree(cmd_token_tree);
-		}
+			ft_putstr_fd("BAD SYNTAX", 2);
+		else if (cmd_token_tree->num_of_commands != 0)
+			execute_command(envlst, cmd_token_tree);
 		free_token_tree(cmd_token_tree);
 	}
-	free_env_list(envlst);
-	return (0);
+	return (finish_shell(envlst, &attr));
 }

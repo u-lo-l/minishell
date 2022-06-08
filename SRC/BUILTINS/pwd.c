@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:44 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/02 12:49:40 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/06 12:49:16 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include <limits.h>
 
-static void	pwd_err(t_env *envlst)
+static void	pwd_err(void)
 {
 	if (errno == EACCES)
 		ft_putstr_fd("permission denied\n", 2);
@@ -35,20 +35,22 @@ static void	pwd_err(t_env *envlst)
 						pathname of the working dir\n", 2);
 	else
 		ft_putstr_fd("unexpected error\n", 2);
-	envlst->error = 1;
 }
 
-void	do_pwd(t_env *envlst)
+int	do_pwd(void)
 {
 	char	buff[PATH_MAX];
 
 	if (!getcwd(buff, PATH_MAX))
-		pwd_err(envlst);
+	{
+		pwd_err();
+		return (1);
+	}
 	else
 	{
 		ft_putstr_fd(buff, 1);
 		ft_putstr_fd("\n", 1);
-		envlst->error = 0;
+		return (0);
 	}
 }
 

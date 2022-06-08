@@ -1,6 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell_datastructure.h                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/06 11:16:32 by dkim2             #+#    #+#             */
+/*   Updated: 2022/06/06 11:16:36 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_DATASTRUCTURE_H
 # define MINISHELL_DATASTRUCTURE_H
 
+# define TRUE 1
+# define FALSE 0
+# ifndef NULL
+#  define NULL (void *)0
+# endif
 /*global variable*/
 
 /*read line*/
@@ -71,7 +88,15 @@ typedef struct s_env
 	t_envnode	*ptail;
 }   t_env;
 
-/**/
+/* fd */
+typedef struct s_fd
+{
+	int	std_fd[2];
+	int	pipe_fd1[2];
+	int	pipe_fd2[2];
+}	t_fd;
+
+
 
 /**/
 

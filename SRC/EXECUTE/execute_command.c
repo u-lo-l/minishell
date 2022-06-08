@@ -1,79 +1,99 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
+/*   Updated: 2022/06/08 02:36:11 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INC/minishell.h"
+#include <stdlib.h>
 
-void	check_builtin(t_env *envlst, t_token_list *toklst)
+int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 {
-	int	status;
-
 	if (envlst == NULL || toklst->head == NULL)
-		return ;
-	if (!ft_strncmp(toklst->head->text, "echo", 5))
-		do_echo(toklst, envlst);
+		return (return_err("unexpected error", 1));
+	else if (!ft_strncmp(toklst->head->text, "echo", 5))
+		envlst->error = do_echo(toklst);
 	else if (!ft_strncmp(toklst->head->text, "cd", 3))
 		envlst->error = do_cd(toklst, envlst);
 	else if (!ft_strncmp(toklst->head->text, "pwd", 4))
-		do_pwd(envlst);
+		envlst->error = do_pwd();
 	else if (!ft_strncmp(toklst->head->text, "export", 7))
-		do_export(toklst, envlst);
+		envlst->error = do_export(toklst, envlst);
 	else if (!ft_strncmp(toklst->head->text, "unset", 6))
-		do_unset(toklst, envlst);
+		envlst->error = do_unset(toklst, envlst);
 	else if (!ft_strncmp(toklst->head->text, "env", 4))
-		do_env(envlst);
+		envlst->error = do_env(envlst);
 	else if (!ft_strncmp(toklst->head->text, "exit", 5))
-		do_exit(toklst, envlst);
+		envlst->error = do_exit(toklst);
 	else
-		do_execve(envlst, toklst, &status);
+	{
+		if (command_num > 1)
+			pipe_do_execve(envlst, toklst);
+		else
+			do_execve(envlst, toklst);
+	}
+	return (0);
 }
 
+void	print_result(int *fd1)
+{
+	int		r;
+	char	buf[1024];
+
+	r = 1;
+	while (1)
+	{
+		r = read(fd1[0], buf, 1024);
+		if (r < 1)
+			break ;
+		buf[r] = 0;
+		printf("%s", buf);
+	}
+	close(fd1[0]);
+}
+
+void	after_execute(t_token_tree *toktree, t_fd *fd)
+{
+	dup2(fd->std_fd[0], 0);
+	dup2(fd->std_fd[1], 1);
+	if (toktree->num_of_commands > 1)
+	{
+		close(fd->pipe_fd1[1]);
+		print_result(fd->pipe_fd2);
+	}
+}
+
+/* 얘도 exit status 반환해야지 */
 void	execute_command(t_env *envlst, t_token_tree *toktree)
 {
 	t_command	*curr;
-	int			std_fd[2];
-	int			red_fd[2];
+	t_fd		*fd;
+	int			count;
 
+	fd = malloc(sizeof(t_fd));
+	count = 1;
 	curr = toktree->head_cmd;
+	copy_std_fd(fd);
+	pipe(fd->pipe_fd1);
 	while (curr)
 	{
-		std_fd[0] = dup(0);
-		std_fd[1] = dup(1);
-		// if (toktree->num_of_commands == 1) 파이프 개수 = num_of_commands - 1
-		if (curr->here_doc->num_of_tokens > 0)
+		if (no_pipe(envlst, toktree, curr, fd))
+			break ;
+		else
 		{
-			if (do_here_doc(curr))
-			{
-				close(0);
-				dup2(std_fd[0], 0);
-				break ;
-			}
-		}
-		if (curr->input_redir->num_of_tokens > 0 \
-			&& curr->here_doc->num_of_tokens == 0)
-		{
-			if (do_inredir(curr->input_redir))
+			if (count > 1)
+				dup2(fd->pipe_fd2[0], 0);
+			if (do_pipe(envlst, toktree, curr, fd))
 				break ;
 		}
-		if (curr->output_redir->num_of_tokens > 0)
-		{
-			pipe(red_fd);
-			dup2(red_fd[1], 1);
-		}
-		if (curr->simple_command->num_of_tokens > 0)
-			check_builtin(envlst, curr->simple_command);
-		if (curr->output_redir->num_of_tokens > 0){
-			do_outredir(curr->output_redir, red_fd);
-		}
-		if (curr->input_redir->num_of_tokens > 0 || curr->here_doc->num_of_tokens > 0)
-		{
-			dup2(std_fd[0], 0);
-			close(std_fd[0]);
-		}
-		if (curr->output_redir->num_of_tokens > 0)
-		{
-			dup2(std_fd[1], 1);
-			close(std_fd[1]);
-		}
+		count++;
 		curr = curr->next_cmd;
 	}
-	// close(0);
-	// dup2(in_fd, 0);
-
+	after_execute(toktree, fd);
 }

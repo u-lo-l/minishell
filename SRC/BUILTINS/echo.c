@@ -6,14 +6,14 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:17 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/02 11:45:35 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/06 13:13:12 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-void	do_echo(t_token_list *echo_token, t_env *envlst)
+int	do_echo(t_token_list *echo_token)
 {
 	t_token	*curr;
 	int		n;
@@ -21,10 +21,13 @@ void	do_echo(t_token_list *echo_token, t_env *envlst)
 	n = 0;
 	curr = echo_token->head;
 	if (ft_strncmp(curr->text, "echo", 5))
-		return ;
+		return (return_err("echo : unexpected error", 1));
 	curr = curr->next;
 	if (curr == NULL)
-		return ;
+	{
+		ft_putstr_fd("\n", 1);
+		return (0);
+	}
 	else if (!ft_strncmp(curr->text, "-n", 3))
 	{
 		curr = curr->next;
@@ -39,5 +42,5 @@ void	do_echo(t_token_list *echo_token, t_env *envlst)
 	}
 	if (n != 1)
 		printf("\n");
-	envlst->error = 0;
+	return (0);
 }

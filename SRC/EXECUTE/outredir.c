@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   outredir.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/07 20:20:06 by yyoo              #+#    #+#             */
+/*   Updated: 2022/06/08 02:32:05 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INC/minishell.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -43,27 +55,36 @@ int	open_outredir(t_token *tail, int outfile_fd)
 	return (outfile_fd);
 }
 
-void	do_outredir(t_token_list *outredir, int *red_fd)
+void	make_outfile(t_command *commandlst)
 {
-	struct stat	buf;
 	t_token		*curr;
+	struct stat	buf;
 	int			outfile_fd;
 
-	close(red_fd[1]);
-	close(1);
-	curr = outredir->head;
-	while (curr->next)
+	curr = commandlst->output_redir->head;
+	while (curr)
 	{
 		if (stat(curr->text, &buf) == -1)
-			outfile_fd = open(curr->text, O_CREAT | O_RDWR, 0755);
+			outfile_fd = open(curr->text, O_CREAT | O_TRUNC | O_RDWR, 0755);
 		else
-		{
-			if (curr->type == e_outrdr)
-				outfile_fd = open(curr->text, O_TRUNC | O_RDWR);
-		}
+			outfile_fd = open(curr->text, O_TRUNC | O_RDWR);
 		close(outfile_fd);
 		curr = curr->next;
 	}
+}
+
+void	do_outredir(t_command *commandlst, int *red_fd)
+{
+	t_token		*curr;
+	int			outfile_fd;
+
+	outfile_fd = 0;
+	close(red_fd[1]);
+	close(1);
+	curr = commandlst->output_redir->tail;
 	outfile_fd = open_outredir(curr, outfile_fd);
-	push_outfile(outfile_fd, red_fd);
+	if ((commandlst->input_redir->num_of_tokens == 0) \
+		|| (commandlst->input_redir->num_of_tokens > 0 \
+		&& commandlst->output_redir->tail->type == 2))
+		push_outfile(outfile_fd, red_fd);
 }

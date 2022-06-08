@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inredir.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
+/*   Updated: 2022/06/08 13:38:16 by dkim2            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../INC/minishell.h"
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -16,8 +28,9 @@ int	check_infile(t_token_list *inredir)
 	{
 		if (stat(curr->text, &buf) == -1)
 		{
-			printf("minishell: %s: No such file or directory\n", curr->text);
-			// exit(1); //curr->text이 존재 X
+			ft_putstr_fd("minishell : " ,2);
+			ft_putstr_fd(curr->text, 2);
+			ft_putstr_fd(": No such file or directory", 2);
 			return (1);
 		}
 		curr = curr->next;
@@ -43,6 +56,7 @@ int	do_inredir(t_token_list *inredir)
  * read == 0 or -1인 경우 예외처리 추가 함.
  * buf[r]이 아닌 buf[r - 1]을 하여 개행문자 삭제함.
 */
+
 void	read_here_doc(t_token *curr, int *fd)
 {
 	char	buf[1024];
@@ -57,8 +71,8 @@ void	read_here_doc(t_token *curr, int *fd)
 		buf[r - 1] = 0;
 		if (ft_strncmp(curr->text, buf, ft_strlen(buf) + 1) == 0)
 			break ;
-		write(fd[1], buf, ft_strlen(buf));
-		write(fd[1], "\n", 1);
+		ft_putstr_fd(buf, fd[1]);
+		ft_putstr_fd("\n", fd[1]);
 	}
 }
 
@@ -84,8 +98,8 @@ void	read_here_doc(t_token *currtok, int *fd)
 			break ;
 		else if (ft_strncmp(key, buffer, key_len + 1) == 0)
 			break ;
-		write(fd[1], buffer, ft_strlen(buffer));
-		write(fd[1], "\n", 1);
+		ft_putstr_fd(buffer, fd[1]);
+		ft_putstr_fd("\n", fd[1]);
 		free(buffer);
 	}
 }
@@ -93,27 +107,19 @@ void	read_here_doc(t_token *currtok, int *fd)
 int	do_here_doc(t_command *command)
 {
 	t_token		*curr;
-	char		buf[1024];
-	int			r;
 	int			fd[2];
 
-	pipe(fd);
 	curr = command->here_doc->head;
 	while(curr)
 	{
-		while (1)
-		{
-			write(1, "> ", 2);
-			r = read(0, buf, 1024);
-			buf[r] = 0;
-			if (ft_cmp(curr->text, buf))
-				break ;
-			write(fd[1], buf, ft_strlen(buf));
-		}
+		pipe(fd);
+		read_here_doc(curr, fd);
 		close(fd[1]);
-		dup2(fd[0], 0);
 		curr = curr->next;
+		if (curr != NULL)
+			close(fd[0]);
 	}
+	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
 		if (check_infile(command->input_redir))
