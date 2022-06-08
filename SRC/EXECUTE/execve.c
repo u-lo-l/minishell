@@ -36,7 +36,16 @@ char	**get_command_list(t_token_list *token)
 	return (command_list);
 }
 
-void	when_child(t_env *env, char **command_list)
+void	child_err(t_env *envlst, char *command)
+{
+	write(2, "minishell: ", 11);
+	write(2, command, ft_strlen(command));
+	write(2, ": command not found\n", 20);
+	envlst->error = 1;
+	exit(1);
+}
+
+void	when_child(t_env *envlst, char **command_list)
 {
 	char		*path;
 	char		**converted_envlst;
@@ -44,7 +53,7 @@ void	when_child(t_env *env, char **command_list)
 	int			num;
 
 	num = 0;
-	converted_envlst = envlst_to_arr(env);
+	converted_envlst = envlst_to_arr(envlst);
 	if (converted_envlst == NULL)
 		return ;
 	if (stat(command_list[0], &buf) != -1)
@@ -54,28 +63,25 @@ void	when_child(t_env *env, char **command_list)
 	}
 	else
 	{
-		path = get_path(env, command_list, num);
+		path = get_path(envlst, command_list, num);
 		if (path == 0)
-		{
-			printf("minishell: %s: command not found\n", command_list[0]);
-			exit(1);
-		}
+			child_err(envlst, command_list[0]);
 		if (execve(path, command_list, converted_envlst) != -1)
 			exit(1);
 	}
 }
 
-void	pipe_do_execve(t_env *env, t_token_list *token)
+void	pipe_do_execve(t_env *envlst, t_token_list *token)
 {
 	char		**command_list;
 
 	command_list = NULL;
 	command_list = get_command_list(token);
-	when_child(env, command_list);
+	when_child(envlst, command_list);
 	free(command_list);
 }
 
-void	do_execve(t_env *env, t_token_list *token)
+void	do_execve(t_env *envlst, t_token_list *token)
 {
 	char		**command_list;
 	pid_t		pid;
@@ -86,11 +92,11 @@ void	do_execve(t_env *env, t_token_list *token)
 	command_list = get_command_list(token);
 	pid = fork();
 	if (pid == 0)
-		when_child(env, command_list);
+		when_child(envlst, command_list);
 	else if (pid > 0)
 	{
 		wait(&status);
-		status = status >> 8;
+		envlst->error = status >> 8;
 	}
 	free(command_list);
 }

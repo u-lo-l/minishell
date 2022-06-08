@@ -16,13 +16,13 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-char	**split_path(t_env *env)
+char	**split_path(t_env *envlst)
 {
 	t_envnode	*curr;
 	char		**path;
 
 	path = NULL;
-	curr = env->phead;
+	curr = envlst->phead;
 	while (curr)
 	{
 		if (ft_strnstr(curr->key, "PATH", 4))
@@ -35,7 +35,7 @@ char	**split_path(t_env *env)
 	return (path);
 }
 
-char	*get_path(t_env *env, char **command_list, int num)
+char	*get_path(t_env *envlst, char **command_list, int num)
 {
 	struct stat	buf;
 	char		**path;
@@ -43,7 +43,7 @@ char	*get_path(t_env *env, char **command_list, int num)
 	char		*str;
 	int			i;
 
-	path = split_path(env);
+	path = split_path(envlst);
 	while (path[num])
 		num++;
 	str = ft_strjoin("/", command_list[0]);

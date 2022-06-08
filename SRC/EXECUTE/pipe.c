@@ -58,7 +58,7 @@ int	pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	if (curr->simple_command->num_of_tokens > 0)
 		check_builtin(envlst, curr->simple_command, toktree->num_of_commands);
 	if (curr->simple_command->num_of_tokens == 0)
-		exit(1);
+		exit(0);
 	return (0);
 }
 

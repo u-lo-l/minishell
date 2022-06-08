@@ -74,68 +74,69 @@ void			print_token_tree(t_token_tree *token_tree);
 t_token_tree	*tokenize_and_parsing(t_input *input, t_env *envlst);
 
 /*----env_list*/
-t_envnode	*create_envnode(char *key, char *value);
-int			modify_value(t_env *envlst, char *key, char *value);
-int			add_node_to_lst(t_env *envlst, t_envnode *node);
-int			del_node_from_lst(t_env *envlst, char *key);
-t_env		*env_list(char **envp);
-void		free_env_node(t_envnode *node);
-void		free_env_list(t_env *envlst);
-int			seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
-char		**envlst_to_arr(t_env *envlst);
+t_envnode		*create_envnode(char *key, char *value);
+int				modify_value(t_env *envlst, char *key, char *value);
+int				add_node_to_lst(t_env *envlst, t_envnode *node);
+int				del_node_from_lst(t_env *envlst, char *key);
+t_env			*env_list(char **envp);
+void			free_env_node(t_envnode *node);
+void			free_env_list(t_env *envlst);
+int				seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
+char			**envlst_to_arr(t_env *envlst);
 
 
 /*		execute*/
-void	execute_command(t_env *env, t_token_tree *tree);
-int		check_builtin(t_env *env, t_token_list *token, int command_num);
-char	*get_path(t_env *env, char **command_list, int num);
-char	**split_path(t_env *env);
-char	**get_command_list(t_token_list *token);
-void	pipe_do_execve(t_env *env, t_token_list *token);
-void	do_execve(t_env *env, t_token_list *token);
-void    ft_double_free(char **str);
-void	when_child(t_env *env, char **command_list);
-void	after_execute(t_token_tree *toktree, t_fd *fd);
+void			execute_command(t_env *env, t_token_tree *tree);
+int				check_builtin(t_env *env, t_token_list *token, int command_num);
+char			*get_path(t_env *env, char **command_list, int num);
+char			**split_path(t_env *env);
+char			**get_command_list(t_token_list *token);
+void			pipe_do_execve(t_env *env, t_token_list *token);
+void			do_execve(t_env *env, t_token_list *token);
+void			ft_double_free(char **str);
+void			child_err(t_env *envlst, char *command);
+void			when_child(t_env *env, char **command_list);
+void			after_execute(t_token_tree *toktree, t_fd *fd);
 
 /*----redirection & pipe*/
-int		check_infile(t_token_list *inredir);
-int		do_inredir(t_token_list *inredir);
-int		do_here_doc(t_command *command);
-void	push_outfile(int fd, int *red_fd);
-int		open_outredir(t_token *tail, int fd);
-void	do_outredir(t_command *commamdlst, int *red_fd);
-void	make_outfile(t_command *commandlst);
-int		no_pipe_util1(t_command *curr, int *std_fd);
-void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
-int 	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
+int				check_infile(t_token_list *inredir);
+int				do_inredir(t_token_list *inredir);
+int				do_here_doc(t_command *command);
+void			push_outfile(int fd, int *red_fd);
+int				open_outredir(t_token *tail, int fd);
+void			do_outredir(t_command *commamdlst, int *red_fd);
+void			make_outfile(t_command *commandlst);
+int				no_pipe_util1(t_command *curr, int *std_fd);
+void			no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
+int				no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
 
-void	copy_std_fd(t_fd *fd);
-int		pipe_here_doc(t_command * command, int *std_fd);
-void	read_here_doc(t_token *currtok, int *fd);
-int		pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
-int		do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
-void	after_execute(t_token_tree *toktree, t_fd *fd);
-void	print_result(int *fd1);
+void			copy_std_fd(t_fd *fd);
+int				pipe_here_doc(t_command * command, int *std_fd);
+void			read_here_doc(t_token *currtok, int *fd);
+int				pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
+int				do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
+void			after_execute(t_token_tree *toktree, t_fd *fd);
+void			print_result(int *fd1);
 
 
 /*minishell builtins*/
-void    if_builtin(t_env *envlst, t_token_list *toklst, int command_num);
+void			if_builtin(t_env *envlst, t_token_list *toklst, int command_num);
 /*----env*/
-void 	print_one_env(t_envnode *node, char value_c);
-int		do_env(t_env *envlst);
-char	*search_key(t_env *envlst, char *key);
+void			print_one_env(t_envnode *node, char value_c);
+int				do_env(t_env *envlst);
+char			*search_key(t_env *envlst, char *key);
 /*----unset*/
-void	free_head_tail(t_env *envlst, t_envnode *target);
-int		do_unset(t_token_list *unset_token, t_env *envlst);
+void			free_head_tail(t_env *envlst, t_envnode *target);
+int				do_unset(t_token_list *unset_token, t_env *envlst);
 /*----pwd*/
-int		do_pwd(void);
+int				do_pwd(void);
 /*----echo*/
-int		do_echo(t_token_list *echo_token);
+int				do_echo(t_token_list *echo_token);
 /*----export*/
-int		do_export(t_token_list *export_token, t_env *envlst);
+int				do_export(t_token_list *export_token, t_env *envlst);
 /*----cd*/
-int		do_cd(t_token_list *cd_token, t_env *envlst);
+int				do_cd(t_token_list *cd_token, t_env *envlst);
 /*----exit*/
-int		do_exit(t_token_list *token);
+int				do_exit(t_token_list *token);
 
 #endif
