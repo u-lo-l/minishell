@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 16:58:00 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 18:03:14 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 		|| !ft_strncmp(toklst->head->text, "unset", 6) \
 		|| !ft_strncmp(toklst->head->text, "env", 4) \
 		|| !ft_strncmp(toklst->head->text, "exit", 5))
-		if_builtin(envlst, toklst);
+		if_builtin(envlst, toklst, command_num);
 	else
 	{
 		if (command_num > 1)

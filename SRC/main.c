@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 17:25:07 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 18:22:18 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
  *	이 부분에서 빌트인 또한 초기화 될 것이다. (MAYBE)
  *	시그널 핸들러 처리도 여기 넣을 수 있다.
 */
-static int	init_shell(int argc, char **argv, char **envp, struct termios *atr)
+static int	init_shell(int argc, char **argv, struct termios *atr)
 {
 	struct termios	temp_attr;
 
-	if (argc > 1 || argv[1] != NULL || envp == NULL)
+	if (argc > 1 || argv[1] != NULL)
 		return (FALSE);
 	if (set_signal_handler() == FALSE)
 		return (FALSE);
@@ -84,7 +84,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token_tree	*cmd_token_tree;
 	struct termios	origin_attr;
 
-	if (init_shell(argc, argv, envp, &origin_attr) == FALSE)
+	if (init_shell(argc, argv, &origin_attr) == FALSE)
 		exit (return_err("unexpected error", 1));
 	envlst = env_list(envp);
 	if (envlst == NULL)

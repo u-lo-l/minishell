@@ -1,7 +1,7 @@
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-void	if_builtin(t_env *envlst, t_token_list *toklst)
+void	if_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 {
 	if (!ft_strncmp(toklst->head->text, "echo", 5))
 		envlst->error = do_echo(toklst);
@@ -17,5 +17,6 @@ void	if_builtin(t_env *envlst, t_token_list *toklst)
 		envlst->error = do_env(envlst);
 	else if (!ft_strncmp(toklst->head->text, "exit", 5))
 		envlst->error = do_exit(toklst);
-	exit(1);
+	if (command_num > 1)
+		exit(1);
 }

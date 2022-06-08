@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 17:23:17 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 18:02:51 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	print_result(int *fd1);
 
 
 /*minishell builtins*/
-void    if_builtin(t_env *envlst, t_token_list *toklst);
+void    if_builtin(t_env *envlst, t_token_list *toklst, int command_num);
 /*----env*/
 void 	print_one_env(t_envnode *node, char value_c);
 int		do_env(t_env *envlst);
