@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 16:57:49 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 17:23:17 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 /*utils*/
 int				return_err(char *errstr, int ret_val);
+int				is_env_name(char *name);
+
 /*signal handler*/
 int				set_signal_handler(void);
 /*	read command*/

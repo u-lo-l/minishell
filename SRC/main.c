@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 15:21:55 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 17:16:13 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 */
 static int	init_shell(int argc, char **argv, char **envp, struct termios *atr)
 {
+	struct termios	temp_attr;
+
 	if (argc > 1 || argv[1] != NULL || envp == NULL)
 		return (FALSE);
 	if (set_signal_handler() == FALSE)
@@ -35,21 +37,22 @@ static int	init_shell(int argc, char **argv, char **envp, struct termios *atr)
 		return (FALSE);
 	if (tcgetattr(0, atr) == -1)
 		return (FALSE);
-	atr->c_lflag &= ~ECHOCTL;
-	if (tcsetattr(0, TCSANOW, atr) == -1)
+	temp_attr = *atr;
+	temp_attr.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(0, TCSANOW, &temp_attr) == -1)
 		return (FALSE);
+	ft_putstr_fd("minishell start\n", 2);	
 	return (TRUE);
 }
 
-static int	finish_shell(t_env *envlst, struct termios *atr)
+static int	finish_shell(t_env *envlst, struct termios *origin_atr)
 {
 	if (envlst)
 		free_env_list(envlst);
 	if (isatty(0) == FALSE)
 		return (FALSE);
-	tcgetattr(0, atr);
-	atr->c_lflag |= ECHOCTL;
-	tcsetattr(0, TCSANOW, atr);
+	tcsetattr(0, TCSANOW, origin_atr);
+	ft_putstr_fd("minishell end\n", 2);
 	return (0);
 }
 /*
@@ -79,16 +82,16 @@ int	main(int argc, char **argv, char **envp)
 	t_input			*input;
 	t_env			*envlst;
 	t_token_tree	*cmd_token_tree;
-	struct termios	attr;
+	struct termios	origin_attr;
 
-	if (init_shell(argc, argv, envp, &attr) == FALSE)
-		return (1);
+	if (init_shell(argc, argv, envp, &origin_attr) == FALSE)
+		exit (return_err("unexpected error", 1));
 	envlst = env_list(envp);
 	if (envlst == NULL)
-		return (1);
+		exit (return_err("unexpected error", 1));
 	while (1)
 	{
-		input = read_command("mini >>  ");
+		input = read_command("mini >> ");
 		if (input == NULL)
 			break ;	
 		printf("\033[33minput : {%s}\033[0m\n", input->cmd);
@@ -96,10 +99,13 @@ int	main(int argc, char **argv, char **envp)
 		free(input->cmd);
 		free(input);
 		if (cmd_token_tree == NULL)
-			ft_putstr_fd("BAD SYNTAX", 2);
+		{
+			envlst->error = 1;
+			ft_putstr_fd("BAD SYNTAX\n", 2);
+		}
 		else if (cmd_token_tree->num_of_commands != 0)
 			execute_command(envlst, cmd_token_tree);
 		free_token_tree(cmd_token_tree);
 	}
-	return (finish_shell(envlst, &attr));
+	return (finish_shell(envlst, &origin_attr));
 }
