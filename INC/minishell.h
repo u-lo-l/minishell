@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 18:02:51 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 20:10:50 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 # include "../LIBFT/libft.h"
 # include "minishell_datastructure.h"
 # include <stdio.h>
-
-
 /*utils*/
 int				return_err(char *errstr, int ret_val);
 int				is_env_name(char *name);
@@ -36,9 +34,9 @@ int				is_special_char(char c);
 void			pass_space_tab(t_input *input);
 int				set_word(t_input *input, char **pword);
 char			*expand_variable(t_input *input, t_env *env_list);
-int				delimit_and_add_token_to_tree(t_token_tree *toktree,
-												char **pword,
-												enum e_token_type *type);
+int				delimit_and_add_token_to_tree(t_token_tree *toktree, \
+											char **pword, \
+											enum e_token_type *type);
 /*		tokenize special character*/
 int				case_space(t_token_tree *toktree, t_input *input, \
 							char **pword, t_toktype *type);
@@ -84,6 +82,8 @@ t_env		*env_list(char **envp);
 void		free_env_node(t_envnode *node);
 void		free_env_list(t_env *envlst);
 int			seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
+char		**envlst_to_arr(t_env *envlst);
+
 
 /*		execute*/
 void	execute_command(t_env *env, t_token_tree *tree);
@@ -110,7 +110,6 @@ void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
 int 	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
 
 void	copy_std_fd(t_fd *fd);
-
 int		pipe_here_doc(t_command * command, int *std_fd);
 void	read_here_doc(t_token *currtok, int *fd);
 int		pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);

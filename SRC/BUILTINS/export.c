@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 17:00:02 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 20:12:32 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int	show_shell_var_asscending(t_env *envlst)
 	while (++heap_elements <= envlst->element)
 	{
 		curr_node = pop_from_heap(heap, envlst->element - heap_elements + 1);
-		printf("export : ");
+		printf("declare -x : ");
 		print_one_env(curr_node, '"');
 	}
 	free(heap);
@@ -110,10 +110,7 @@ int	do_export(t_token_list *toklst, t_env *envlst)
 	if (!envlst || !toklst)
 		return (return_err("export : unexpected error", 1));
 	if (toklst->num_of_tokens == 1)
-	{
-		show_shell_var_asscending(envlst);
-		return (0);
-	}
+		return (show_shell_var_asscending(envlst));
 	curr_tok = toklst->head->next;
 	while (curr_tok)
 	{

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:37 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/06 13:38:07 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 19:57:33 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	add_node_to_lst(t_env *envlst, t_envnode *node)
 		envlst->ptail->nextnode = node;
 	}
 	envlst->ptail = node;
+	node->nextnode = NULL;
 	envlst->element++;
 	return (TRUE);
 }
@@ -40,13 +41,13 @@ int	del_node_from_lst(t_env *envlst, char *key)
 	{
 		if (!ft_strncmp(curr_node->key, key, ft_strlen(key) + 1))
 		{
-			if (curr_node == envlst->phead)
+			if (curr_node->prevnode == NULL)
 				envlst->phead = curr_node->nextnode;
-			if (curr_node == envlst->ptail)
+			if (curr_node->nextnode == NULL)
 				envlst->ptail = curr_node->prevnode;
-			if (curr_node != envlst->phead)
+			if (curr_node->prevnode != NULL)
 				curr_node->prevnode->nextnode = curr_node->nextnode;
-			if (curr_node != envlst->ptail)
+			if (curr_node->nextnode != NULL)
 				curr_node->nextnode->prevnode = curr_node->prevnode;
 			free_env_node(curr_node);
 			envlst->element--;

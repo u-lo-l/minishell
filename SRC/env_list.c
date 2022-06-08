@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 20:32:11 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 18:22:19 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 19:26:10 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,16 @@ t_env	*env_list(char **env)
 	char		*k_and_v[2];
 
 	if (!env)
+	{
+		ft_putstr_fd("null envp\n", 2);
 		return (NULL);
+	}
 	envlst = ft_calloc(1, sizeof(t_env));
 	if (!envlst)
+	{
+		ft_putstr_fd("fail to malloc\n", 2);
 		return (NULL);
+	}
 	while (TRUE)
 	{
 		k_and_v[0] = 0;
@@ -56,6 +62,7 @@ t_env	*env_list(char **env)
 		if (env[envlst->element] == NULL)
 			return (envlst);
 	}
+	ft_putstr_fd("ff....\n", 2);
 	free_env_list(envlst);
 	return (NULL);
 }

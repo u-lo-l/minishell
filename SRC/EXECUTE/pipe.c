@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 16:56:38 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 18:49:46 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,14 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 		if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
 			dup2(fd->std_fd[1], 1);
 		if (pipe_util1(envlst, toktree, curr, fd))
-			return (1);
+			exit(1);
+		exit(0);
 	}
 	else
 	{
 		close(fd->pipe_fd2[1]);
 		wait(&status);
-		status = status >> 8;
+		envlst->error = status >> 8;
 		if (curr->output_redir->num_of_tokens > 0)
 			do_outredir(curr, fd->pipe_fd2);
 	}

@@ -6,11 +6,25 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:29:32 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 16:38:03 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 19:18:31 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INC/minishell.h"
+#include <stdlib.h>
+
+void	ft_double_free(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
 
 int	return_err(char *errstr, int ret_val)
 {

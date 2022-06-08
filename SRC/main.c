@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 18:22:18 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 20:11:16 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	init_shell(int argc, char **argv, struct termios *atr)
 	temp_attr.c_lflag &= ~ECHOCTL;
 	if (tcsetattr(0, TCSANOW, &temp_attr) == -1)
 		return (FALSE);
-	ft_putstr_fd("\033[35mminishell start\033[0m\n", 2);	
+	ft_putstr_fd("\033[35mminishell start\033[0m\n", 2);
 	return (TRUE);
 }
 
@@ -85,15 +85,15 @@ int	main(int argc, char **argv, char **envp)
 	struct termios	origin_attr;
 
 	if (init_shell(argc, argv, &origin_attr) == FALSE)
-		exit (return_err("unexpected error", 1));
+		exit (return_err("unexpected error : init fail", 1));
 	envlst = env_list(envp);
 	if (envlst == NULL)
-		exit (return_err("unexpected error", 1));
+		exit (return_err("unexpected error : env fail", 1));
 	while (1)
 	{
 		input = read_command("mini >> ");
 		if (input == NULL)
-			break ;	
+			break ;
 		printf("\033[33minput : {%s}\033[0m\n", input->cmd);
 		cmd_token_tree = tokenize_and_parsing(input, envlst);
 		free(input->cmd);

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 18:31:08 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 19:28:22 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,18 @@ char	**get_command_list(t_token_list *token)
 
 void	when_child(t_env *env, char **command_list)
 {
-	struct stat	buf;
 	char		*path;
+	char		**converted_envlst;
+	struct stat	buf;
 	int			num;
 
 	num = 0;
+	converted_envlst = envlst_to_arr(env);
+	if (converted_envlst == NULL)
+		return ;
 	if (stat(command_list[0], &buf) != -1)
 	{
-		if (execve(command_list[0], command_list, 0) != -1)
+		if (execve(command_list[0], command_list, converted_envlst) != -1)
 			exit(1);
 	}
 	else
@@ -57,7 +61,7 @@ void	when_child(t_env *env, char **command_list)
 			printf("minishell: %s: command not found\n", command_list[0]);
 			exit(1);
 		}
-		if (execve(path, command_list, 0) != -1)
+		if (execve(path, command_list, converted_envlst) != -1)
 			exit(1);
 	}
 }

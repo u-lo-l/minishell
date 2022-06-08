@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+         #
+#    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/06/08 14:38:19 by yyoo             ###   ########.fr        #
+#    Updated: 2022/06/08 19:20:35 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ OBJS_FILES = main.o\
 				read_command.o\
 				signal_handler.o\
 				env_list.o\
+				envlst_to_chararr.o\
 				\
 				PARSER/token_node.o\
 				PARSER/token_list.o\
