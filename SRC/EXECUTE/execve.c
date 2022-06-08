@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 17:13:35 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 18:31:08 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	pipe_do_execve(t_env *env, t_token_list *token)
 	command_list = NULL;
 	command_list = get_command_list(token);
 	when_child(env, command_list);
+
 }
 
 void	do_execve(t_env *env, t_token_list *token)
@@ -89,4 +90,5 @@ void	do_execve(t_env *env, t_token_list *token)
 		status = status >> 8;
 		// write(2, "1111\n", 5);
 	}
+	
 }
