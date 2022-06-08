@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 14:11:54 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 15:07:34 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 # include "../LIBFT/libft.h"
 # include "minishell_datastructure.h"
 # include <stdio.h>
-# define TRUE 1
-# define FALSE 0
+
 
 /*utils*/
 int				return_err(char *errstr, int ret_val);
@@ -86,7 +85,7 @@ int			seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
 
 /*		execute*/
 void	execute_command(t_env *env, t_token_tree *tree);
-void    check_builtin(t_env *env, t_token_list *token, int command_num);
+int		check_builtin(t_env *env, t_token_list *token, int command_num);
 char	*get_path(t_env *env, char **command_list, int num);
 char	**split_path(t_env *env);
 char	**get_command_list(t_token_list *token);
@@ -99,7 +98,6 @@ void	after_execute(t_token_tree *toktree, t_fd *fd);
 /*----redirection & pipe*/
 int		check_infile(t_token_list *inredir);
 int		do_inredir(t_token_list *inredir);
-void	read_here_doc(t_token *curr, int *fd);
 int		do_here_doc(t_command *command);
 void	push_outfile(int fd, int *red_fd);
 int		open_outredir(t_token *tail, int fd);
@@ -112,6 +110,7 @@ int 	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
 void	copy_std_fd(t_fd *fd);
 
 int		pipe_here_doc(t_command * command, int *std_fd);
+void	read_here_doc(t_token *currtok, int *fd);
 int		pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
 int		do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
 void	after_execute(t_token_tree *toktree, t_fd *fd);
@@ -122,20 +121,20 @@ void	print_result(int *fd1);
 void    if_builtin(t_env *envlst, t_token_list *toklst, int command_num);
 /*----env*/
 void 	print_one_env(t_envnode *node, char value_c);
-void	do_env(t_env *envlst);
+int		do_env(t_env *envlst);
 char	*search_key(t_env *envlst, char *key);
 /*----unset*/
 void	free_head_tail(t_env *envlst, t_envnode *target);
-t_env	*do_unset(t_token_list *unset_token, t_env *envlst);
+int		do_unset(t_token_list *unset_token, t_env *envlst);
 /*----pwd*/
-void	do_pwd(t_env *envlst);
+int		do_pwd(void);
 /*----echo*/
-void	do_echo(t_token_list *echo_token, t_env *envlst);
+int		do_echo(t_token_list *echo_token);
 /*----export*/
-void	do_export(t_token_list *export_token, t_env *envlst);
+int		do_export(t_token_list *export_token, t_env *envlst);
 /*----cd*/
 int		do_cd(t_token_list *cd_token, t_env *envlst);
 /*----exit*/
-void	do_exit(t_token_list *token, t_env *envlst);
+int		do_exit(t_token_list *token);
 
 #endif

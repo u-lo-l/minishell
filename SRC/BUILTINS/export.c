@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/02 09:59:16 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/06 12:45:10 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,18 @@ static int	show_shell_var_asscending(t_env *envlst)
 }
 
 /* env_list에 노드를 추가하는 함수 add_node와 비슷하게 동작 함 */
-void	do_export(t_token_list *toklst, t_env *envlst)
+int	do_export(t_token_list *toklst, t_env *envlst)
 {
 	t_envnode	*newnode;
 	t_token		*curr_tok;
 	char		*key_and_value[2];
 
 	if (!envlst || !toklst)
-		return ;
+		return (return_err("export : unexpected error", 1));
 	if (toklst->num_of_tokens == 1)
 	{
 		show_shell_var_asscending(envlst);
-		return ;
+		return (0);
 	}
 	curr_tok = toklst->head->next;
 	while (curr_tok)
@@ -128,6 +128,7 @@ void	do_export(t_token_list *toklst, t_env *envlst)
 		free(key_and_value[1]);
 		curr_tok = curr_tok->next;
 	}
+	return (0);
 }
 /*
 int main(int argc, char **argv, char **envp)

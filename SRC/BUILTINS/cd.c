@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 20:13:26 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/07 20:24:20 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 02:26:54 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,27 @@ static void	pwd_err(t_env *envlst)
 
 static int	cd_err(int errcase)
 {
-	ft_putstr_fd("minishell : cd : ", 2);
 	if (errcase == 0)
-		return (return_err("HOME is not set", 1));
+		return (return_err("cd : HOME is not set", 1));
 	else if (errcase == 1)
-		return (return_err("too many args", 1));
+		return (return_err("cd : too many args", 1));
 	if (errno == EACCES)
-		return (return_err("permision denied", 1));
+		return (return_err("cd : permision denied", 1));
 	else if (errno == EFAULT)
-		return (return_err("path is not accessible", 1));
+		return (return_err("cd : path is not accessible", 1));
 	else if (errno == EIO)
-		return (return_err("I/O error occurs", 1));
+		return (return_err("cd : I/O error occurs", 1));
 	else if (errno == ELOOP)
-		return (return_err("too many symbolic links", 1));
+		return (return_err("cd : too many symbolic links", 1));
 	else if (errno == ENAMETOOLONG)
-		return (return_err("path is too long", 1));
+		return (return_err("cd : path is too long", 1));
 	else if (errno == ENOENT)
-		return (return_err("path is not exist", 1));
+		return (return_err("cd : path is not exist", 1));
 	else if (errno == ENOMEM)
-		return (return_err("insufficient kernel memory", 1));
+		return (return_err("cd : insufficient kernel memory", 1));
 	else if (errno == ENOTDIR)
-		return (return_err("path is not directory", 1));
-	return (return_err("unexpected error", 1));
+		return (return_err("cd : path is not directory", 1));
+	return (return_err("cd : unexpected error", 1));
 }
 
 static t_envnode	*find_home(t_env *envlst)

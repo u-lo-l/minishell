@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outredir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:06 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/07 20:20:07 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 02:32:05 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	push_outfile(int outfile_fd, int *red_fd)
 	r = 1;
 	while (r > 0)
 	{
-		r = read(red_fd[0], buf, 1);
+		r = read(red_fd[0], buf, 1); // ?????
 		if (r < 1)
 			break ;
 		write(outfile_fd, buf, 1);

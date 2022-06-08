@@ -6,14 +6,14 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 14:34:57 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 15:07:17 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-void	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
+int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 {
 	if (envlst == NULL || toklst->head == NULL)
 		return ;
@@ -32,6 +32,7 @@ void	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 		else
 			do_execve(envlst, toklst);
 	}
+	return (0);
 }
 
 void	print_result(int *fd1)
@@ -62,6 +63,7 @@ void	after_execute(t_token_tree *toktree, t_fd *fd)
 	}
 }
 
+/* 얘도 exit status 반환해야지 */
 void	execute_command(t_env *envlst, t_token_tree *toktree)
 {
 	t_command	*curr;
