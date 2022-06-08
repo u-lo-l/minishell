@@ -6,7 +6,7 @@
 #    By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/06/06 14:27:30 by yyoo             ###   ########.fr        #
+#    Updated: 2022/06/08 14:04:45 by yyoo             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ OBJS_FILES = main.o\
 				PARSER/tokenize_special_char.o\
 				PARSER/scanner_function.o\
 				\
+				BUILTINS/if_builtin.o\
 				BUILTINS/echo.o\
 				BUILTINS/env.o\
 				BUILTINS/env_util.o\

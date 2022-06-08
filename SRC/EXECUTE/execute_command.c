@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/07 20:19:58 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/08 14:03:21 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,14 @@ void	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 {
 	if (envlst == NULL || toklst->head == NULL)
 		return ;
-	if (!ft_strncmp(toklst->head->text, "echo", 5))
-		do_echo(toklst, envlst);
-	else if (!ft_strncmp(toklst->head->text, "cd", 3))
-		envlst->error = do_cd(toklst, envlst);
-	else if (!ft_strncmp(toklst->head->text, "pwd", 4))
-		do_pwd(envlst);
-	else if (!ft_strncmp(toklst->head->text, "export", 7))
-		do_export(toklst, envlst);
-	else if (!ft_strncmp(toklst->head->text, "unset", 6))
-		do_unset(toklst, envlst);
-	else if (!ft_strncmp(toklst->head->text, "env", 4))
-		do_env(envlst);
-	else if (!ft_strncmp(toklst->head->text, "exit", 5))
-		do_exit(toklst, envlst);
+	if (!ft_strncmp(toklst->head->text, "echo", 5) \
+		|| !ft_strncmp(toklst->head->text, "cd", 3) \
+		|| !ft_strncmp(toklst->head->text, "pwd", 4) \
+		|| !ft_strncmp(toklst->head->text, "export", 7) \
+		|| !ft_strncmp(toklst->head->text, "unset", 6) \
+		|| !ft_strncmp(toklst->head->text, "env", 4) \
+		|| !ft_strncmp(toklst->head->text, "exit", 5))
+		if_builtin(envlst, toklst);
 	else
 	{
 		if (command_num > 1)
