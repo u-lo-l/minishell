@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:25 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/29 22:43:19 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 17:01:57 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	signal_handler(int signo)
 	if (signo == SIGINT)
 	{
 		rl_on_new_line();
-		printf("\n");
+		ft_putstr_fd("\n", 1);
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}

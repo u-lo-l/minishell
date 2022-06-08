@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/06 12:45:10 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 17:00:02 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,12 @@ int	do_export(t_token_list *toklst, t_env *envlst)
 	{
 		ft_bzero(key_and_value, sizeof(char *) * 2);
 		seperate_keyvalue(curr_tok->text, &key_and_value[0], &key_and_value[1]);
+		if (is_env_name(key_and_value[0]) == FALSE)
+		{
+			free(key_and_value[0]);
+			free(key_and_value[1]);
+			return (return_err("export : BAD SYNTAX", 1));
+		}
 		if (!modify_value(envlst, key_and_value[0], key_and_value[1]))
 		{
 			newnode = create_envnode(key_and_value[0], key_and_value[1]);

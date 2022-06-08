@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 06:01:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/28 16:47:10 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 16:36:47 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,11 @@ char	*expand_variable(t_input *input, t_env *envlst)
 			input->curr_i++;
 		if (set_word(input, &key) == FALSE)
 			return (NULL);
+		if (is_env_name(key) == FALSE)
+		{
+			free(key);
+			return (NULL);
+		}
 		value = search_key(envlst, key);
 		free(key);
 	}

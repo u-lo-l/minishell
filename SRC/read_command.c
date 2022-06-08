@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:29 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 14:01:14 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/08 17:17:30 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,17 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
-t_input	*read_command(const char *promt)
+t_input	*read_command(const char *prompt)
 {
 	t_input	*input;
 	char	*trimed_input;
 
 	input = ft_calloc(1, sizeof(t_input));
-	input->cmd = readline(promt);
+	input->cmd = readline(prompt);
 	if (input->cmd == NULL)
 	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
-//		ft_putstr_fd("\033[1A", 2);
-//		rl_redisplay();
-		ft_putstr_fd("exit\n", 2);
+		printf("\033[1A");
+		printf("%sexit\n", prompt);
 		free(input);
 		input = NULL;
 	}
