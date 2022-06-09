@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:27 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:28:43 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 16:31:57 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	do_env(t_env *env)
 		return (return_err("env : unexpected error", 1));
 	curr = env->phead;
 	i = 0;
-	printf("%d\n", env->element);
-	return (0);
 	while (curr)
 	{
 		print_one_env(curr, 0);

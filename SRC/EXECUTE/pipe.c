@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:28:40 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 16:30:57 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-<<<<<<< HEAD
-void	copy_std_fd(t_fd *fd)
-{
-	fd->std_fd[0] = dup(0);
-	fd->std_fd[1] = dup(1);
-	pipe(fd->pipe_fd1);
-}
-
-int	pipe_here_doc(t_command *command, int *std_fd)
-=======
 static int	pipe_here_doc(t_command *command, int *std_fd)
->>>>>>> merge_builtins_and_parser
 {
 	t_token		*curr;
 	int			fd[2];

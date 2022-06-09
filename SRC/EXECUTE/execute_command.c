@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:28:07 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 16:30:24 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 			if (do_pipe(envlst, toktree, curr, fd))
 				break ;
 		}
-		count_plus(curr, &count);
+		count++;
+		curr = curr->next_cmd;
 	}
 	finish_execute(toktree, fd);
 }

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:28:42 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 16:32:53 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,6 @@ static int	insert_to_heap(t_envnode **heap, t_envnode *node, int index)
 	}
 	return (TRUE);
 }
-
-// static void	swap_envnode(t_envnode **pnode1, t_envnode **pnode2)
-// {
-// 	t_envnode	*temp;
-
-// 	temp = *pnode1;
-// 	*pnode1 = *pnode2;
-// 	*pnode2 = temp;
-// }
 
 static t_envnode	*pop_from_heap(t_envnode **heap, int curr_elemnt_count)
 {
@@ -103,7 +94,7 @@ static int	show_shell_var_asscending(t_env *envlst)
 	return (TRUE);
 }
 
-void	free_key_and_value(char **key_and_value)
+static void	free_key_and_value(char **key_and_value)
 {
 	free(key_and_value[0]);
 	free(key_and_value[1]);
