@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:25 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 20:03:05 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 21:42:13 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
  */
 static void	signal_handler(int signo)
 {
+	// dprintf(1, "handler on\n");
 	if (signo == SIGINT)
 	{
 		rl_on_new_line();
@@ -65,8 +66,8 @@ int	set_signal_handler(void)
 
 int	unset_signal_handler(void)
 {
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
-		return (FALSE);
+	// if (signal(SIGINT, SIG_DFL) == SIG_ERR)
+	// 	return (FALSE);
 	if (signal(SIGQUIT, SIG_DFL) == SIG_ERR)
 		return (FALSE);
 	return (TRUE);

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 21:16:47 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 21:40:05 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	{
 		close(fd->pipe_fd2[1]);
 		wait(&status);
-		set_signal_handler();
+		// set_signal_handler();
 		envlst->error = get_child_exit_status(status);
 		if (curr->output_redir->num_of_tokens > 0 && envlst->error == 0)
 			do_outredir(curr, fd->pipe_fd2);

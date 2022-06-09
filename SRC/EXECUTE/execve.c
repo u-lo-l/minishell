@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 21:19:07 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 21:39:13 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,14 @@ static void	child_err(t_env *envlst, char *command, struct stat *buf)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command, 2);
 	envlst->error = 127;
+
 	if ((buf->st_mode & 00100) == 0)
 	{
 		ft_putstr_fd(": Permission denied\n", 2);
 		envlst->error = 126;
 	}
 	else if (command[ft_strlen(command) - 1] == '/')
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_putstr_fd(": It is a directory\n", 2);
 	else
 		ft_putstr_fd(": fail to execute command\n", 2);
 	exit(envlst->error);
@@ -66,6 +67,8 @@ void	when_child(t_env *envlst, char **command_list)
 		path = command_list[0];
 	else
 		path = get_path(envlst, command_list);
+	if (!path)
+		exit (return_err("cannot found file", 127));
 	if (execve(path, command_list, converted_envlst) == -1)
 		child_err(envlst, command_list[0], &buf);
 }
@@ -92,13 +95,16 @@ void	do_execve(t_env *envlst, t_token_list *token)
 	pid = fork();
 	if (pid == 0)
 	{
-		unset_signal_handler();
+		if (!unset_signal_handler())
+		{
+			dprintf(2, "fail1\n");
+			exit(1);
+		}
 		when_child(envlst, command_list);
 	}
 	else if (pid > 0)
 	{
 		wait(&status);
-		set_signal_handler();
 		envlst->error = get_child_exit_status(status);
 	}
 	free(command_list);
