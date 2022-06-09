@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 20:03:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 20:53:58 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,21 @@ char	**get_command_list(t_token_list *token)
 	return (command_list);
 }
 
-void	child_err(t_env *envlst, char *command)
+static void	child_err(t_env *envlst, char *command, struct stat *buf)
 {
-	write(2, "minishell: ", 11);
-	write(2, command, ft_strlen(command));
-	write(2, ": command not found\n", 20);
-	envlst->error = 1;
-	exit(1);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command, 2);
+	envlst->error = 127;
+	if ((buf->st_mode & 00100) == 0)
+	{
+		ft_putstr_fd(": Permission denied\n", 2);
+		envlst->error = 126;
+	}
+	else if (command[ft_strlen(command) - 1] == '/')
+		ft_putstr_fd(": No such file or directory\n", 2);
+	else
+		ft_putstr_fd(": fail to execute command\n", 2);
+	exit(envlst->error);
 }
 
 void	when_child(t_env *envlst, char **command_list)
@@ -50,25 +58,16 @@ void	when_child(t_env *envlst, char **command_list)
 	char		*path;
 	char		**converted_envlst;
 	struct stat	buf;
-	int			num;
 
-	num = 0;
 	converted_envlst = envlst_to_arr(envlst);
 	if (converted_envlst == NULL)
 		return ;
 	if (stat(command_list[0], &buf) != -1)
-	{
-		if (execve(command_list[0], command_list, converted_envlst) != -1)
-			exit(127);
-	}
+		path = command_list[0];
 	else
-	{
-		path = get_path(envlst, command_list, num);
-		if (path == 0)
-			child_err(envlst, command_list[0]);
-		if (execve(path, command_list, converted_envlst) != -1)
-			exit(127);
-	}
+		path = get_path(envlst, command_list);
+	if (execve(path, command_list, converted_envlst) == -1)
+		child_err(envlst, command_list[0], &buf);
 }
 
 void	pipe_do_execve(t_env *envlst, t_token_list *token)
@@ -93,7 +92,7 @@ void	do_execve(t_env *envlst, t_token_list *token)
 	pid = fork();
 	if (pid == 0)
 	{
-		unset_signal_handler();		
+		unset_signal_handler();
 		when_child(envlst, command_list);
 	}
 	else if (pid > 0)

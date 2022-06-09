@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:16:04 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 20:54:02 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**split_path(t_env *envlst)
 	return (path);
 }
 
-char	*get_path(t_env *envlst, char **command_list, int num)
+char	*get_path(t_env *envlst, char **command_list)
 {
 	struct stat	buf;
 	char		**path;
@@ -44,19 +44,15 @@ char	*get_path(t_env *envlst, char **command_list, int num)
 	int			i;
 
 	path = split_path(envlst);
-	while (path[num])
-		num++;
 	str = ft_strjoin("/", command_list[0]);
 	i = 0;
 	while (path[i])
 	{
 		simple_path = ft_strjoin(path[i], str);
 		if (stat(simple_path, &buf) != -1)
-			break ;
+			return (simple_path);
 		free(simple_path);
 		i++;
 	}
-	if (i == num)
-		return (NULL);
-	return (simple_path);
+	return (NULL);
 }
