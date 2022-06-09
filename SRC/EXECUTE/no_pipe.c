@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:03 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 19:41:33 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 17:44:25 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	no_pipe_util1(t_command *curr, int *std_fd)
 	if (curr->input_redir->num_of_tokens > 0 \
 		&& curr->here_doc->num_of_tokens == 0)
 	{
-		if (do_inredir(curr->input_redir))
+		if (do_inredir(curr, curr->input_redir))
 			return (1);
 	}
 	return (0);

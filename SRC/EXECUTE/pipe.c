@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:30:57 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 18:10:44 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	pipe_here_doc(t_command *command, int *std_fd)
 	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
-		if (check_infile(command->input_redir))
+		if (check_infile(command ,command->input_redir))
 			return (1);
 	}
 	return (0);
@@ -49,7 +49,7 @@ static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
 	if (curr->input_redir->num_of_tokens > 0 \
 		&& curr->here_doc->num_of_tokens == 0)
 	{
-		if (do_inredir(curr->input_redir))
+		if (do_inredir(curr, curr->input_redir))
 			return (1);
 	}
 	if (toktree->tail_cmd != curr)

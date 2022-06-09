@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 17:37:22 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 18:36:38 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void			when_child(t_env *env, char **command_list);
 void			after_execute(t_token_tree *toktree, t_fd *fd);
 
 /*----redirection & pipe*/
-int				check_infile(t_token_list *inredir);
-int				do_inredir(t_token_list *inredir);
+int				check_infile(t_command *curr, t_token_list *inredir);
+int				do_inredir(t_command *curr, t_token_list *inredir);
 int				do_here_doc(t_command *command);
 void			push_outfile(int fd, int *red_fd);
 int				open_outredir(t_token *tail, int fd);
