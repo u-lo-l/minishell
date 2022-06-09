@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 22:07:15 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/29 22:14:36 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 17:23:27 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_command	*create_empty_command(void)
 	new_command->input_redir = create_empty_toklst();
 	new_command->output_redir = create_empty_toklst();
 	new_command->here_doc = create_empty_toklst();
+	new_command->redirection = create_empty_toklst();
 	if (!new_command->simple_command || !new_command->here_doc || \
 		!new_command->input_redir || !new_command->output_redir)
 	{
@@ -41,7 +42,18 @@ void	free_command(t_command *command)
 	free_toklst(command->input_redir);
 	free_toklst(command->output_redir);
 	free_toklst(command->here_doc);
+	free_toklst(command->redirection);
 	free(command);
+}
+
+static t_token	*temp_duptok(t_token *tok)
+{
+	t_token	*temp;
+
+	temp = create_token(tok->text, tok->type);
+	if (!temp)
+		exit(100);
+	return (temp);
 }
 
 int	add_token_to_command(t_command *command, t_token *tok)
@@ -63,6 +75,12 @@ int	add_token_to_command(t_command *command, t_token *tok)
 		res = 0;
 		printf("bad type : %d\n", tok->type);
 	}
+	if (tok->type == e_inrdr || tok->type == e_outrdr || tok->type == e_appendrdr || tok->type == e_heredoc)
+	{
+		t_token	*temp;
+		temp = temp_duptok(tok);
+		res = add_token_to_toklst(command->redirection, temp);
+	}
 	return (res);
 }
 
@@ -75,7 +93,9 @@ void	print_command(t_command *command)
 	print_token_list(command->input_redir);
 	printf("├▪ OUT_REDIR\t: ");
 	print_token_list(command->output_redir);
-	printf("└▪ HERE_DOC\t: ");
+	printf("├▪ HERE_DOC\t: ");
 	print_token_list(command->here_doc);
+	printf("└▪ REDIRECTION\t: ");
+	print_token_list(command->redirection);
 	printf("\n");
 }

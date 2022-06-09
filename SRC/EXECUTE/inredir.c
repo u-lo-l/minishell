@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:15:31 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 16:48:42 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_infile(t_token_list *inredir)
 		{
 			ft_putstr_fd("minishell : ", 2);
 			ft_putstr_fd(curr->text, 2);
-			ft_putstr_fd(": No such file or directory", 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
 			return (1);
 		}
 		curr = curr->next;

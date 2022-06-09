@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:16:32 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 13:33:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 17:18:00 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_command
 	t_token_list		*input_redir;
 	t_token_list		*output_redir;
 	t_token_list		*here_doc;
+	t_token_list		*redirection;
 	struct s_command	*next_cmd;
 }	t_command;
 
