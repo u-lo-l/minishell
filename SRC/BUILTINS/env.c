@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:27 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/06 13:21:39 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 13:02:35 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ int	do_env(t_env *env)
 		print_one_env(curr, 0);
 		curr = curr->nextnode;
 		if (++i > env->element)
-		{
-			printf("hmmmmm\n");
-			break;
-		}
+			break ;
 	}
 	return (0);
 }

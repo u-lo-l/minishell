@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 18:32:37 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 13:24:09 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,4 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 	dup2(fd->std_fd[0], 0);
 	dup2(fd->std_fd[1], 1);
 	free(fd);
-	// after_execute(toktree, fd);
 }

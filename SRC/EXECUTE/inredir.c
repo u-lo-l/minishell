@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inredir.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 19:40:28 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 13:15:31 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_infile(t_token_list *inredir)
 	{
 		if (stat(curr->text, &buf) == -1)
 		{
-			ft_putstr_fd("minishell : " ,2);
+			ft_putstr_fd("minishell : ", 2);
 			ft_putstr_fd(curr->text, 2);
 			ft_putstr_fd(": No such file or directory", 2);
 			return (1);
@@ -110,7 +110,7 @@ int	do_here_doc(t_command *command)
 	int			fd[2];
 
 	curr = command->here_doc->head;
-	while(curr)
+	while (curr)
 	{
 		pipe(fd);
 		read_here_doc(curr, fd);

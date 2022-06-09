@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 17:34:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/06 13:01:33 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 13:04:26 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	do_exit(t_token_list *toklst)
 	int		exit_num;
 	char	*exit_str;
 
-	if (!toklst || !toklst->head || ft_strncmp(toklst->head->text, "exit", 5))
-		return(1) ;
+	if (!toklst || !toklst->head)
+		return (1);
 	if (toklst->head->next == NULL)
 		exit(0);
 	else
