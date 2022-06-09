@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inredir.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:48:42 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 18:14:24 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,46 @@
 #include <fcntl.h>
 #include <readline/readline.h>
 
-int	check_infile(t_token_list *inredir)
+static void	err_infile(t_command *curr, char *infile_text)
 {
-	t_token		*curr;
+	t_token *file;
+	int		outfile_fd;
+
+	file = curr->redirection->head;
+	while (ft_strncmp(file->text, infile_text, ft_strlen(infile_text) + 1))
+	{
+		outfile_fd = open_outredir(file, outfile_fd);
+		close(outfile_fd);
+		file = file->next;
+	}
+}
+
+int	check_infile(t_command *curr, t_token_list *inredir)
+{
+	t_token		*infile;
 	struct stat	buf;
 
-	curr = inredir->head;
-	while (curr)
+	infile = inredir->head;
+	while (infile)
 	{
-		if (stat(curr->text, &buf) == -1)
+		if (stat(infile->text, &buf) == -1)
 		{
 			ft_putstr_fd("minishell : ", 2);
-			ft_putstr_fd(curr->text, 2);
+			ft_putstr_fd(infile->text, 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
+			err_infile(curr, infile->text);
 			return (1);
 		}
-		curr = curr->next;
+		infile = infile->next;
 	}
 	return (0);
 }
 
-int	do_inredir(t_token_list *inredir)
+int	do_inredir(t_command *curr, t_token_list *inredir)
 {
 	int			in_fd;
 
-	if (check_infile(inredir))
+	if (check_infile(curr, inredir))
 		return (1);
 	in_fd = open(inredir->tail->text, O_RDONLY);
 	dup2(in_fd, 0);
@@ -122,7 +137,7 @@ int	do_here_doc(t_command *command)
 	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
-		if (check_infile(command->input_redir))
+		if (check_infile(command, command->input_redir))
 			return (1);
 	}
 	return (0);
