@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 13:40:21 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 14:33:16 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void			copy_std_fd(t_fd *fd);
 int				pipe_here_doc(t_command *command, int *std_fd);
 void			read_here_doc(t_token *currtok, int *fd);
 int				pipe_util1(t_env *envlst, t_token_tree *toktree, \
+							t_command *curr, t_fd *fd);
+void			p_child(t_env *envlst, t_token_tree *toktree, \
 							t_command *curr, t_fd *fd);
 int				do_pipe(t_env *envlst, t_token_tree *toktree, \
 							t_command *curr, t_fd *fd);

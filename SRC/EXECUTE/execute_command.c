@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:27:53 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 14:15:34 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,15 @@ void	after_execute(t_token_tree *toktree, t_fd *fd)
 	dup2(fd->std_fd[0], 0);
 	dup2(fd->std_fd[1], 1);
 	if (toktree->num_of_commands > 1)
-	{
 		close(fd->pipe_fd1[1]);
-		print_result(fd->pipe_fd2);
-	}
+	close(fd->pipe_fd1[0]);
+	free(fd);
+}
+
+void	count_plus(t_command *curr, int *count)
+{
+	count++;
+	curr = curr->next_cmd;
 }
 
 /* 얘도 exit status 반환해야지 */
@@ -74,7 +79,6 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 	count = 1;
 	curr = toktree->head_cmd;
 	copy_std_fd(fd);
-	pipe(fd->pipe_fd1);
 	while (curr)
 	{
 		if (toktree->num_of_commands == 1)
@@ -89,10 +93,7 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 			if (do_pipe(envlst, toktree, curr, fd))
 				break ;
 		}
-		count++;
-		curr = curr->next_cmd;
+		count_plus(curr, &count);
 	}
-	dup2(fd->std_fd[0], 0);
-	dup2(fd->std_fd[1], 1);
-	free(fd);
+	after_execute(toktree, fd);
 }

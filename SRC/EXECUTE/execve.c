@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 20:14:00 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 14:28:30 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	when_child(t_env *envlst, char **command_list)
 	if (stat(command_list[0], &buf) != -1)
 	{
 		if (execve(command_list[0], command_list, converted_envlst) != -1)
-			exit(1);
+			exit(127);
 	}
 	else
 	{
@@ -67,7 +67,7 @@ void	when_child(t_env *envlst, char **command_list)
 		if (path == 0)
 			child_err(envlst, command_list[0]);
 		if (execve(path, command_list, converted_envlst) != -1)
-			exit(1);
+			exit(127);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:03:40 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 14:46:22 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,12 @@ static int	show_shell_var_asscending(t_env *envlst)
 	return (TRUE);
 }
 
+void	free_key_and_value(char **key_and_value)
+{
+	free(key_and_value[0]);
+	free(key_and_value[1]);
+}
+
 /* env_list에 노드를 추가하는 함수 add_node와 비슷하게 동작 함 */
 int	do_export(t_token_list *toklst, t_env *envlst)
 {
@@ -116,8 +122,7 @@ int	do_export(t_token_list *toklst, t_env *envlst)
 		seperate_keyvalue(curr_tok->text, &key_and_value[0], &key_and_value[1]);
 		if (is_env_name(key_and_value[0]) == FALSE)
 		{
-			free(key_and_value[0]);
-			free(key_and_value[1]);
+			free_key_and_value(key_and_value);
 			return (return_err("export : BAD SYNTAX", 1));
 		}
 		if (!modify_value(envlst, key_and_value[0], key_and_value[1]))
@@ -125,37 +130,8 @@ int	do_export(t_token_list *toklst, t_env *envlst)
 			newnode = create_envnode(key_and_value[0], key_and_value[1]);
 			add_node_to_lst(envlst, newnode);
 		}
-		free(key_and_value[0]);
-		free(key_and_value[1]);
+		free_key_and_value(key_and_value);
 		curr_tok = curr_tok->next;
 	}
 	return (0);
 }
-/*
-int main(int argc, char **argv, char **envp)
-{
-	t_env *ev;
-	char	**token;
-
-	token = malloc(sizeof(char *) * 3);
-	token[0] = malloc(sizeof(char) *7);
-	token[1] = malloc(sizeof(char) *10);
-	token[2] = malloc(sizeof(char) *10);
-
-	(void)argc;
-	(void)argv;
-	ev = env_list(envp);
-	do_env(ev);
-	printf("\n#############################################\n\n");
-	
-	token[0] = "export";
-	token[1] = "A=123";
-	token[2] = "B=BBBB";
-	
-	export(ev, token);
-	do_env(ev);
-	printf("\n#############################################\n\n");
-	printf("%s\n", ev->ptail->key);
-	printf("element : %d\n", ev->element);
-}
-*/

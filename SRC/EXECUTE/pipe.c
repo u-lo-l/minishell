@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:14:53 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 14:20:29 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	copy_std_fd(t_fd *fd)
 {
 	fd->std_fd[0] = dup(0);
 	fd->std_fd[1] = dup(1);
+	pipe(fd->pipe_fd1);
 }
 
 int	pipe_here_doc(t_command *command, int *std_fd)
@@ -68,6 +69,15 @@ int	pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	return (0);
 }
 
+void	p_child(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
+{
+	close(fd->pipe_fd2[0]);
+	if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
+		dup2(fd->std_fd[1], 1);
+	if (pipe_util1(envlst, toktree, curr, fd))
+		exit(1);
+}
+
 int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 {
 	int	pid;
@@ -79,11 +89,7 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		close(fd->pipe_fd2[0]);
-		if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
-			dup2(fd->std_fd[1], 1);
-		if (pipe_util1(envlst, toktree, curr, fd))
-			exit(1);
+		p_child(envlst, toktree, curr, fd);
 		exit(0);
 	}
 	else
