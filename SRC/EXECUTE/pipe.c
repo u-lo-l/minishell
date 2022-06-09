@@ -6,13 +6,19 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 18:49:46 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 13:14:53 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <sys/wait.h>
 #include <stdlib.h>
+
+void	copy_std_fd(t_fd *fd)
+{
+	fd->std_fd[0] = dup(0);
+	fd->std_fd[1] = dup(1);
+}
 
 int	pipe_here_doc(t_command *command, int *std_fd)
 {
@@ -90,10 +96,4 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	}
 	dup2(fd->pipe_fd1[0], 0);
 	return (0);
-}
-
-void	copy_std_fd(t_fd *fd)
-{
-	fd->std_fd[0] = dup(0);
-	fd->std_fd[1] = dup(1);
 }

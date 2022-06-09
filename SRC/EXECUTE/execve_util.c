@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 19:16:16 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 13:16:04 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,3 @@ char	*get_path(t_env *env, char **command_list, int num)
 		return (NULL);
 	return (simple_path);
 }
-
