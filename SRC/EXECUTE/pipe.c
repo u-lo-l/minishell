@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 20:03:12 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 21:50:58 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
 		if (do_inredir(curr, curr->input_redir))
 			return (1);
 	}
-	if (toktree->tail_cmd != curr)
+	if (toktree->tail_cmd != curr || curr->output_redir > 0)
 		dup2(fd->pipe_fd2[1], 1);
 	if (curr->output_redir->num_of_tokens > 0)
 		make_outfile(curr);
@@ -61,15 +61,6 @@ static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
 	if (curr->simple_command->num_of_tokens == 0)
 		exit(0);
 	return (0);
-}
-
-void	p_child(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
-{
-	close(fd->pipe_fd2[0]);
-	if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
-		dup2(fd->std_fd[1], 1);
-	if (pipe_util1(envlst, toktree, curr, fd))
-		exit(1);
 }
 
 int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)

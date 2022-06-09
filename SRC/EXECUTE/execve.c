@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 20:53:58 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 22:32:40 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 
 char	**get_command_list(t_token_list *token)
 {
@@ -38,6 +39,8 @@ char	**get_command_list(t_token_list *token)
 
 static void	child_err(t_env *envlst, char *command, struct stat *buf)
 {
+	struct stat	buf;
+
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command, 2);
 	envlst->error = 127;
@@ -53,6 +56,16 @@ static void	child_err(t_env *envlst, char *command, struct stat *buf)
 	exit(envlst->error);
 }
 
+int	is_executable(char **command_list)
+{
+	struct stat	buf;
+
+	if (command_list[0][0] == '/')
+	{
+		
+	}
+}
+
 void	when_child(t_env *envlst, char **command_list)
 {
 	char		*path;
@@ -62,7 +75,8 @@ void	when_child(t_env *envlst, char **command_list)
 	converted_envlst = envlst_to_arr(envlst);
 	if (converted_envlst == NULL)
 		return ;
-	if (stat(command_list[0], &buf) != -1)
+	// if (is_executable())
+	if (stat(command_list[0], &buf) == -1)
 		path = command_list[0];
 	else
 		path = get_path(envlst, command_list);
