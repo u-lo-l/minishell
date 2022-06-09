@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:32:53 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 16:41:58 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ static t_envnode	*pop_from_heap(t_envnode **heap, int curr_elemnt_count)
 	while (i * 2 <= curr_elemnt_count)
 	{
 		c_i = i * 2;
-		if (i * 2 < curr_elemnt_count)
-		{
-			if (ft_strncmp(heap[c_i]->key, heap[c_i + 1]->key, \
-				ft_strlen(heap[c_i]->key) + 1) > 0)
-				c_i++;
-		}
+		if (i * 2 < curr_elemnt_count && \
+			(ft_strncmp(heap[c_i]->key, heap[c_i + 1]->key, \
+			ft_strlen(heap[c_i]->key) + 1) > 0))
+			c_i++;
 		if (ft_strncmp(heap[i]->key, heap[c_i]->key, \
 			ft_strlen(heap[c_i]->key) + 1) < 0)
 			break ;
@@ -94,13 +92,12 @@ static int	show_shell_var_asscending(t_env *envlst)
 	return (TRUE);
 }
 
-static void	free_key_and_value(char **key_and_value)
+static void	free_key_and_value(char *key_and_value[2])
 {
 	free(key_and_value[0]);
 	free(key_and_value[1]);
 }
 
-/* env_list에 노드를 추가하는 함수 add_node와 비슷하게 동작 함 */
 int	do_export(t_token_list *toklst, t_env *envlst)
 {
 	t_envnode	*newnode;
