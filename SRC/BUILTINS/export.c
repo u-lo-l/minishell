@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 20:12:32 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 13:03:40 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,6 @@ int	do_export(t_token_list *toklst, t_env *envlst)
 	t_token		*curr_tok;
 	char		*key_and_value[2];
 
-	if (!envlst || !toklst)
-		return (return_err("export : unexpected error", 1));
 	if (toklst->num_of_tokens == 1)
 		return (show_shell_var_asscending(envlst));
 	curr_tok = toklst->head->next;
