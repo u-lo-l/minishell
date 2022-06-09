@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:27:53 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 15:50:09 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,54 +35,50 @@ int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 	return (0);
 }
 
-void	print_result(int *fd1)
+static t_fd	*begin_execute(void)
 {
-	int		r;
-	char	buf[1024];
+	t_fd	*fd;
 
-	r = 1;
-	while (1)
+	fd = malloc(sizeof(t_fd));
+	if (fd == NULL)
+		return (NULL);
+	fd->std_fd[0] = dup(0);
+	fd->std_fd[1] = dup(1);
+	if (pipe(fd->pipe_fd1) != 0)
 	{
-		r = read(fd1[0], buf, 1024);
-		if (r < 1)
-			break ;
-		buf[r] = 0;
-		printf("%s", buf);
+		free (fd);
+		return (NULL);
 	}
-	close(fd1[0]);
+	return (fd);
 }
 
-void	after_execute(t_token_tree *toktree, t_fd *fd)
+static void	finish_execute(t_token_tree *toktree, t_fd *fd)
 {
 	dup2(fd->std_fd[0], 0);
 	dup2(fd->std_fd[1], 1);
 	if (toktree->num_of_commands > 1)
-	{
 		close(fd->pipe_fd1[1]);
-		print_result(fd->pipe_fd2);
-	}
+	close(fd->pipe_fd1[0]);
+	free(fd);
 }
 
-/* 얘도 exit status 반환해야지 */
 void	execute_command(t_env *envlst, t_token_tree *toktree)
 {
 	t_command	*curr;
 	t_fd		*fd;
 	int			count;
 
-	fd = malloc(sizeof(t_fd));
+	fd = begin_execute();
+	if (!fd)
+		return ;
 	count = 1;
 	curr = toktree->head_cmd;
-	copy_std_fd(fd);
-	pipe(fd->pipe_fd1);
 	while (curr)
 	{
-		if (toktree->num_of_commands == 1)
-		{
-			if (no_pipe(envlst, toktree, curr, fd))
-				break ;
-		}
-		else
+		if (toktree->num_of_commands == 1 && \
+			no_pipe(envlst, toktree, curr, fd))
+			break ;
+		else if (toktree->num_of_commands != 1)
 		{
 			if (count > 1)
 				dup2(fd->pipe_fd2[0], 0);
@@ -92,7 +88,5 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 		count++;
 		curr = curr->next_cmd;
 	}
-	dup2(fd->std_fd[0], 0);
-	dup2(fd->std_fd[1], 1);
-	free(fd);
+	finish_execute(toktree, fd);
 }

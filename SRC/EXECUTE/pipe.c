@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:14:53 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 15:55:51 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-void	copy_std_fd(t_fd *fd)
-{
-	fd->std_fd[0] = dup(0);
-	fd->std_fd[1] = dup(1);
-}
-
-int	pipe_here_doc(t_command *command, int *std_fd)
+static int	pipe_here_doc(t_command *command, int *std_fd)
 {
 	t_token		*curr;
 	int			fd[2];
@@ -44,7 +38,8 @@ int	pipe_here_doc(t_command *command, int *std_fd)
 	return (0);
 }
 
-int	pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
+static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
+						t_command *curr, t_fd *fd)
 {
 	if (curr->here_doc->num_of_tokens > 0)
 	{
@@ -82,9 +77,7 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 		close(fd->pipe_fd2[0]);
 		if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
 			dup2(fd->std_fd[1], 1);
-		if (pipe_util1(envlst, toktree, curr, fd))
-			exit(1);
-		exit(0);
+		exit(pipe_util1(envlst, toktree, curr, fd));
 	}
 	else
 	{

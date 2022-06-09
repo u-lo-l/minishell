@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:27 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:02:35 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 15:56:17 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,3 @@ char	*search_key(t_env *env, char *key)
 	}
 	return ("");
 }
-
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_env	*env;
-// 	char	*str = "HOME";
-
-// 	(void)argc;
-// 	(void)argv;
-// 	env = do_env(envp);
-// 	printf("\n%s\n", search_key(env, str));
-// }
