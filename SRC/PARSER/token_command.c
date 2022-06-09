@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 22:07:15 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 18:36:37 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 21:09:58 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ static t_token	*temp_duptok(t_token *tok)
 
 int	add_token_to_command(t_command *command, t_token *tok)
 {
-	int	res;
+	int		res;
+	t_token	*temp;
 
 	if (!command || !tok)
 		return (FALSE);
@@ -75,9 +76,9 @@ int	add_token_to_command(t_command *command, t_token *tok)
 		res = 0;
 		printf("bad type : %d\n", tok->type);
 	}
-	if (tok->type == e_inrdr || tok->type == e_outrdr || tok->type == e_appendrdr)
+	if (tok->type == e_inrdr || \
+		tok->type == e_outrdr || tok->type == e_appendrdr)
 	{
-		t_token	*temp;
 		temp = temp_duptok(tok);
 		res = add_token_to_toklst(command->redirection, temp);
 	}

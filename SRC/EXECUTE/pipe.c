@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 20:03:12 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 21:16:47 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	pipe_here_doc(t_command *command, int *std_fd)
 	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
-		if (check_infile(command ,command->input_redir))
+		if (check_infile(command, command->input_redir))
 			return (1);
 	}
 	return (0);
@@ -77,7 +77,6 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	int	pid;
 	int	status;
 
-	status = 0;
 	pipe(fd->pipe_fd2);
 	dup2(fd->pipe_fd1[1], 1);
 	pid = fork();

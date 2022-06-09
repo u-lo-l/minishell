@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inredir.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 18:14:24 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 21:10:31 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 static void	err_infile(t_command *curr, char *infile_text)
 {
-	t_token *file;
+	t_token	*file;
 	int		outfile_fd;
 
 	file = curr->redirection->head;
