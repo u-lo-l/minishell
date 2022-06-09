@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:27 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:31:57 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 19:19:15 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 #include <stdlib.h>
 #include "../../INC/minishell.h"
 
-int	do_env(t_env *env)
+int	do_env(t_token_list *toklst, t_env *env)
 {
 	t_envnode	*curr;
 	int			i;
 
 	if (env == NULL)
 		return (return_err("env : unexpected error", 1));
+	if (toklst->head->next != NULL)
+		return (return_err("env : minishell doesn't interpret any args", 1));
 	curr = env->phead;
 	i = 0;
 	while (curr)

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 16:29:32 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 12:55:36 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 20:06:42 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,14 @@ int	is_env_name(char *name)
 			return (FALSE);
 	}
 	return (TRUE);
+}
+
+int	get_child_exit_status(int stat_loc)
+{
+	if ((stat_loc & 0xFF) == 0)
+		return ((stat_loc >> 8) & 0xFF);
+	else if ((stat_loc & 0xFF) == 0x7f)
+		return ((stat_loc >> 8) & 0xFF + 0x80);
+	else
+		return ((stat_loc & 0xFF) + 0x80);
 }

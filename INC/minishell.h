@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 18:36:38 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 20:02:44 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,15 @@
 # include "minishell_datastructure.h"
 # include <stdio.h>
 /*utils*/
+void			ft_double_free(char **str);
 int				return_err(char *errstr, int ret_val);
 int				is_env_name(char *name);
+int				get_child_exit_status(int stat_loc);
 
 /*signal handler*/
 int				set_signal_handler(void);
+int				unset_signal_handler(void);
+
 /*	read command*/
 t_input			*read_command(const char *prompt);
 void			check_input_state(t_input *input);
@@ -91,7 +95,6 @@ char			**split_path(t_env *env);
 char			**get_command_list(t_token_list *token);
 void			pipe_do_execve(t_env *env, t_token_list *token);
 void			do_execve(t_env *env, t_token_list *token);
-void			ft_double_free(char **str);
 void			child_err(t_env *envlst, char *command);
 void			when_child(t_env *env, char **command_list);
 void			after_execute(t_token_tree *toktree, t_fd *fd);
@@ -118,7 +121,7 @@ void			if_builtin(t_env *envlst, t_token_list *toklst, \
 							int command_num);
 /*----env*/
 void			print_one_env(t_envnode *node, char value_c);
-int				do_env(t_env *envlst);
+int				do_env(t_token_list *toklst, t_env *envlst);
 char			*search_key(t_env *envlst, char *key);
 /*----unset*/
 int				do_unset(t_token_list *unset_token, t_env *envlst);

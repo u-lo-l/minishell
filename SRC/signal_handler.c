@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:25 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 17:01:57 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 20:03:05 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
  *	  그래서 해당 쉘에 자식 프로세스가 존재하는지 확인하고, 자식 프로세스가 존재하지
  *	  않는 case에만 signal을 처리하고 나머지 case는 signal을 무시한다.
  */
-void	signal_handler(int signo)
+static void	signal_handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -63,7 +63,7 @@ int	set_signal_handler(void)
 	return (TRUE);
 }
 
-int	unset_signal_handelr(void)
+int	unset_signal_handler(void)
 {
 	if (signal(SIGINT, SIG_DFL) == SIG_ERR)
 		return (FALSE);

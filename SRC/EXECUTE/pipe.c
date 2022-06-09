@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 19:02:09 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 20:03:12 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	pid = fork();
 	if (pid == 0)
 	{
+		unset_signal_handler();
 		close(fd->pipe_fd2[0]);
 		if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
 			dup2(fd->std_fd[1], 1);
@@ -92,7 +93,8 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	{
 		close(fd->pipe_fd2[1]);
 		wait(&status);
-		envlst->error = status >> 8;
+		set_signal_handler();
+		envlst->error = get_child_exit_status(status);
 		if (curr->output_redir->num_of_tokens > 0 && envlst->error == 0)
 			do_outredir(curr, fd->pipe_fd2);
 	}

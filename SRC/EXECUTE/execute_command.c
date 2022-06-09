@@ -6,17 +6,15 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:30:24 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 19:13:25 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
+static int	is_minishell_builtins(t_token_list *toklst)
 {
-	if (envlst == NULL || toklst->head == NULL)
-		return (0);
 	if (!ft_strncmp(toklst->head->text, "echo", 5) \
 		|| !ft_strncmp(toklst->head->text, "cd", 3) \
 		|| !ft_strncmp(toklst->head->text, "pwd", 4) \
@@ -24,6 +22,15 @@ int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 		|| !ft_strncmp(toklst->head->text, "unset", 6) \
 		|| !ft_strncmp(toklst->head->text, "env", 4) \
 		|| !ft_strncmp(toklst->head->text, "exit", 5))
+		return (TRUE);
+	return (FALSE);
+}
+
+int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
+{
+	if (envlst == NULL || toklst->head == NULL)
+		return (0);
+	if (is_minishell_builtins(toklst) == TRUE)
 		if_builtin(envlst, toklst, command_num);
 	else
 	{

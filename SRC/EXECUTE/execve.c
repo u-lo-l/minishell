@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 14:28:30 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 20:03:17 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,15 @@ void	do_execve(t_env *envlst, t_token_list *token)
 	command_list = get_command_list(token);
 	pid = fork();
 	if (pid == 0)
+	{
+		unset_signal_handler();		
 		when_child(envlst, command_list);
+	}
 	else if (pid > 0)
 	{
 		wait(&status);
-		envlst->error = status >> 8;
+		set_signal_handler();
+		envlst->error = get_child_exit_status(status);
 	}
 	free(command_list);
 }
