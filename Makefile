@@ -6,7 +6,7 @@
 #    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/06/08 19:20:35 by dkim2            ###   ########.fr        #
+#    Updated: 2022/06/09 17:38:19 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ OBJS_FILES = main.o\
 				BUILTINS/env.o\
 				BUILTINS/env_util.o\
 				BUILTINS/export.o\
+				BUILTINS/export_utils.o\
 				BUILTINS/pwd.o\
 				BUILTINS/unset.o\
 				BUILTINS/cd.o\

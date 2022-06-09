@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:37 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 16:14:49 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 17:43:49 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	modify_value(t_env *envlst, char *key, char *value)
 	node = envlst->phead;
 	while (node)
 	{
-		if (ft_strncmp(key, node->key, keylen) == 0)
+		if (ft_strncmp(key, node->key, keylen + 1) == 0)
 		{
 			free(node->value);
 			node->value = ft_strdup(value);
