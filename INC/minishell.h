@@ -6,7 +6,11 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/06/09 14:33:16 by yyoo             ###   ########.fr       */
+=======
+/*   Updated: 2022/06/09 16:24:13 by dkim2            ###   ########.fr       */
+>>>>>>> merge_builtins_and_parser
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +112,10 @@ int				no_pipe_util1(t_command *curr, int *std_fd);
 void			no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
 int				no_pipe(t_env *envlst, t_token_tree *toktree, \
 						t_command *curr, t_fd *fd);
-void			copy_std_fd(t_fd *fd);
-int				pipe_here_doc(t_command *command, int *std_fd);
+
 void			read_here_doc(t_token *currtok, int *fd);
-int				pipe_util1(t_env *envlst, t_token_tree *toktree, \
-							t_command *curr, t_fd *fd);
-void			p_child(t_env *envlst, t_token_tree *toktree, \
-							t_command *curr, t_fd *fd);
 int				do_pipe(t_env *envlst, t_token_tree *toktree, \
 							t_command *curr, t_fd *fd);
-void			after_execute(t_token_tree *toktree, t_fd *fd);
-void			print_result(int *fd1);
 
 /*minishell builtins*/
 void			if_builtin(t_env *envlst, t_token_list *toklst, \
@@ -128,7 +125,6 @@ void			print_one_env(t_envnode *node, char value_c);
 int				do_env(t_env *envlst);
 char			*search_key(t_env *envlst, char *key);
 /*----unset*/
-void			free_head_tail(t_env *envlst, t_envnode *target);
 int				do_unset(t_token_list *unset_token, t_env *envlst);
 /*----pwd*/
 int				do_pwd(void);

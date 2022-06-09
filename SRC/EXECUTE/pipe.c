@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 14:20:29 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 16:28:40 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
+<<<<<<< HEAD
 void	copy_std_fd(t_fd *fd)
 {
 	fd->std_fd[0] = dup(0);
@@ -22,6 +23,9 @@ void	copy_std_fd(t_fd *fd)
 }
 
 int	pipe_here_doc(t_command *command, int *std_fd)
+=======
+static int	pipe_here_doc(t_command *command, int *std_fd)
+>>>>>>> merge_builtins_and_parser
 {
 	t_token		*curr;
 	int			fd[2];
@@ -45,7 +49,8 @@ int	pipe_here_doc(t_command *command, int *std_fd)
 	return (0);
 }
 
-int	pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
+static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
+						t_command *curr, t_fd *fd)
 {
 	if (curr->here_doc->num_of_tokens > 0)
 	{
@@ -89,8 +94,10 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	pid = fork();
 	if (pid == 0)
 	{
-		p_child(envlst, toktree, curr, fd);
-		exit(0);
+		close(fd->pipe_fd2[0]);
+		if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
+			dup2(fd->std_fd[1], 1);
+		exit(pipe_util1(envlst, toktree, curr, fd));
 	}
 	else
 	{

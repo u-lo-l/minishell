@@ -3,24 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 14:46:22 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 16:28:42 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
-
-static void	swap_envnode(t_envnode **pnode1, t_envnode **pnode2)
-{
-	t_envnode	*temp;
-
-	temp = *pnode1;
-	*pnode1 = *pnode2;
-	*pnode2 = temp;
-}
 
 static int	insert_to_heap(t_envnode **heap, t_envnode *node, int index)
 {
@@ -44,9 +35,19 @@ static int	insert_to_heap(t_envnode **heap, t_envnode *node, int index)
 	return (TRUE);
 }
 
+// static void	swap_envnode(t_envnode **pnode1, t_envnode **pnode2)
+// {
+// 	t_envnode	*temp;
+
+// 	temp = *pnode1;
+// 	*pnode1 = *pnode2;
+// 	*pnode2 = temp;
+// }
+
 static t_envnode	*pop_from_heap(t_envnode **heap, int curr_elemnt_count)
 {
 	t_envnode	*target_node;
+	t_envnode	*temp;
 	int			i;
 	int			c_i;
 
@@ -65,7 +66,9 @@ static t_envnode	*pop_from_heap(t_envnode **heap, int curr_elemnt_count)
 		if (ft_strncmp(heap[i]->key, heap[c_i]->key, \
 			ft_strlen(heap[c_i]->key) + 1) < 0)
 			break ;
-		swap_envnode(heap + i, heap + c_i);
+		temp = heap[i];
+		heap[i] = heap[c_i];
+		heap[c_i] = temp;
 		i = c_i;
 	}
 	return (target_node);
@@ -93,7 +96,7 @@ static int	show_shell_var_asscending(t_env *envlst)
 	while (++heap_elements <= envlst->element)
 	{
 		curr_node = pop_from_heap(heap, envlst->element - heap_elements + 1);
-		printf("declare -x : ");
+		ft_putstr_fd("declare -x : ", 1);
 		print_one_env(curr_node, '"');
 	}
 	free(heap);

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:37 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 19:57:33 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 16:14:49 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,15 @@ void	print_one_env(t_envnode *node, char value_c)
 	if (!node)
 		return ;
 	if (node->key)
-		printf("%s", node->key);
+		ft_putstr_fd(node->key, 1);
 	if (node->value)
-		printf("=%c%s%c", value_c, node->value, value_c);
-	printf("\n");
+	{
+		ft_putchar_fd('=', 1);
+		ft_putchar_fd(value_c, 1);
+		ft_putstr_fd(node->value, 1);
+		ft_putchar_fd(value_c, 1);
+	}
+	ft_putchar_fd('\n', 1);
 }
 
 int	seperate_keyvalue(char *k_and_v, char **emptykey, char **emptyval)
