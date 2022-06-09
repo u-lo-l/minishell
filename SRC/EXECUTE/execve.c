@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 14:28:30 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/09 19:28:47 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,20 @@ char	**get_command_list(t_token_list *token)
 
 void	child_err(t_env *envlst, char *command)
 {
-	write(2, "minishell: ", 11);
-	write(2, command, ft_strlen(command));
-	write(2, ": command not found\n", 20);
-	envlst->error = 1;
-	exit(1);
+	if (command[ft_strlen(command) - 1] == '/')
+	{
+		write(2, "minishell: ", 11);
+		write(2, command, ft_strlen(command));
+		write(2, ": No such file or directory\n", 28);
+	}
+	else
+	{
+		write(2, "minishell: ", 11);
+		write(2, command, ft_strlen(command));
+		write(2, ": command not found\n", 20);
+	}
+	envlst->error = 127;
+	exit(127);
 }
 
 void	when_child(t_env *envlst, char **command_list)
@@ -64,11 +73,10 @@ void	when_child(t_env *envlst, char **command_list)
 	else
 	{
 		path = get_path(envlst, command_list, num);
-		if (path == 0)
-			child_err(envlst, command_list[0]);
 		if (execve(path, command_list, converted_envlst) != -1)
 			exit(127);
 	}
+	child_err(envlst, command_list[0]);	
 }
 
 void	pipe_do_execve(t_env *envlst, t_token_list *token)
