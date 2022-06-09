@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 20:10:50 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 13:39:52 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,8 @@ int				add_token_to_command(t_command *command, t_token *tok);
 void			print_command(t_command *command);
 /*		token_tree.c*/
 t_token_tree	*create_token_tree(void);
-void	 		free_token_tree(t_token_tree *token_tree);
+void			free_token_tree(t_token_tree *token_tree);
 int				add_token_to_tree(t_token_tree *toktree, t_token *tok);
-// int				add_command(t_token_tree *token_tree, t_command *new_command);
 int				add_one_empty_command(t_token_tree *token_tree);
 void			print_token_tree(t_token_tree *token_tree);
 
@@ -81,9 +80,8 @@ int				del_node_from_lst(t_env *envlst, char *key);
 t_env			*env_list(char **envp);
 void			free_env_node(t_envnode *node);
 void			free_env_list(t_env *envlst);
-int				seperate_keyvalue(char *k_and_v, char **emtykey, char **emptyval);
+int				seperate_keyvalue(char *k_and_v, char **key, char **val);
 char			**envlst_to_arr(t_env *envlst);
-
 
 /*		execute*/
 void			execute_command(t_env *env, t_token_tree *tree);
@@ -108,19 +106,21 @@ void			do_outredir(t_command *commamdlst, int *red_fd);
 void			make_outfile(t_command *commandlst);
 int				no_pipe_util1(t_command *curr, int *std_fd);
 void			no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
-int				no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
-
+int				no_pipe(t_env *envlst, t_token_tree *toktree, \
+						t_command *curr, t_fd *fd);
 void			copy_std_fd(t_fd *fd);
-int				pipe_here_doc(t_command * command, int *std_fd);
+int				pipe_here_doc(t_command *command, int *std_fd);
 void			read_here_doc(t_token *currtok, int *fd);
-int				pipe_util1(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
-int				do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd);
+int				pipe_util1(t_env *envlst, t_token_tree *toktree, \
+							t_command *curr, t_fd *fd);
+int				do_pipe(t_env *envlst, t_token_tree *toktree, \
+							t_command *curr, t_fd *fd);
 void			after_execute(t_token_tree *toktree, t_fd *fd);
 void			print_result(int *fd1);
 
-
 /*minishell builtins*/
-void			if_builtin(t_env *envlst, t_token_list *toklst, int command_num);
+void			if_builtin(t_env *envlst, t_token_list *toklst, \
+							int command_num);
 /*----env*/
 void			print_one_env(t_envnode *node, char value_c);
 int				do_env(t_env *envlst);
