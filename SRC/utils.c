@@ -56,7 +56,7 @@ int	get_child_exit_status(int stat_loc)
 	if ((stat_loc & 0xFF) == 0)
 		return ((stat_loc >> 8) & 0xFF);
 	else if ((stat_loc & 0xFF) == 0x7f)
-		return ((stat_loc >> 8) & 0xFF + 0x80);
+		return (((stat_loc >> 8) & 0xFF) + 0x80);
 	else
 		return ((stat_loc & 0xFF) + 0x80);
 }

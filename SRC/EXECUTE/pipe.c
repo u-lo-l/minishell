@@ -52,7 +52,7 @@ static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
 		if (do_inredir(curr, curr->input_redir))
 			return (1);
 	}
-	if (toktree->tail_cmd != curr || curr->output_redir > 0)
+	if (toktree->tail_cmd != curr || curr->output_redir->num_of_tokens > 0)
 		dup2(fd->pipe_fd2[1], 1);
 	if (curr->output_redir->num_of_tokens > 0)
 		make_outfile(curr);

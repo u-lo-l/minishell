@@ -36,7 +36,7 @@ char	**get_command_list(t_token_list *token)
 	command_list[i] = NULL;
 	return (command_list);
 }
-
+/*
 static void	child_err(t_env *envlst, char *command, struct stat *buf)
 {
 	struct stat	buf;
@@ -55,28 +55,36 @@ static void	child_err(t_env *envlst, char *command, struct stat *buf)
 		ft_putstr_fd(": fail to execute command\n", 2);
 	exit(envlst->error);
 }
+*/
 
-int	is_executable(char **command_list)
+static void	child_err(t_env *envlst, char *command, struct stat *buf)
 {
-	struct stat	buf;
-
-	if (command_list[0][0] == '/')
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(command, 2);
+	envlst->error = 127;
+	if ((S_IFMT & buf->st_mode) == S_IFDIR)
 	{
-		
+		ft_putstr_fd(": IS a directory\n", 2);
+		envlst->error = 126;
 	}
+	else
+		ft_putstr_fd(": No such file or directory\n", 2);
+	exit(envlst->error);
 }
+
 
 void	when_child(t_env *envlst, char **command_list)
 {
 	char		*path;
 	char		**converted_envlst;
 	struct stat	buf;
+	int			stat_result;
 
 	converted_envlst = envlst_to_arr(envlst);
 	if (converted_envlst == NULL)
 		return ;
-	// if (is_executable())
-	if (stat(command_list[0], &buf) == -1)
+	stat_result = stat(command_list[0], &buf);
+	if (stat_result != -1)
 		path = command_list[0];
 	else
 		path = get_path(envlst, command_list);
