@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 21:39:13 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/09 21:58:02 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static void	child_err(t_env *envlst, char *command, struct stat *buf)
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command, 2);
 	envlst->error = 127;
-
 	if ((buf->st_mode & 00100) == 0)
 	{
 		ft_putstr_fd(": Permission denied\n", 2);
@@ -94,17 +93,13 @@ void	do_execve(t_env *envlst, t_token_list *token)
 	command_list = get_command_list(token);
 	pid = fork();
 	if (pid == 0)
-	{
-		if (!unset_signal_handler())
-		{
-			dprintf(2, "fail1\n");
-			exit(1);
-		}
 		when_child(envlst, command_list);
-	}
 	else if (pid > 0)
 	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		wait(&status);
+		set_signal_handler();
 		envlst->error = get_child_exit_status(status);
 	}
 	free(command_list);
