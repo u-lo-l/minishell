@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 17:42:03 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:57:18 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ static void	child_process(t_env *envlst, t_token_tree *toktree, \
 							t_command *curr, t_fd *fd)
 {
 	close(fd->pipe_fd2[0]);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_DFL);
 	if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
 		dup2(fd->std_fd[1], 1);
 	exit(pipe_util1(envlst, toktree, curr, fd));
@@ -79,6 +81,7 @@ static void	parent_process(t_env *envlst, t_command *curr, t_fd *fd, int pid)
 
 	wait_res = 0;
 	close(fd->pipe_fd2[1]);
+	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	if (curr->next_cmd == NULL)
 	{

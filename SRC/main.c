@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/10 17:41:23 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 18:02:33 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ static int	init_shell(int argc, char **argv, struct termios *atr)
 	struct termios	temp_attr;
 
 	if (argc > 1 || argv[1] != NULL)
-		return (FALSE);
+		return (return_err("unexpected err : invalid arguments", FALSE));
 	if (set_signal_handler() == FALSE)
-		return (FALSE);
+		return (return_err("unexpected err : signal handler fail", FALSE));
 	if (isatty(0) == FALSE)
-		return (FALSE);
+		return (return_err("unexpected err : is not a tty", FALSE));
 	if (tcgetattr(0, atr) == -1)
-		return (FALSE);
+		return (return_err("unexpected err : cannot get tty attr", FALSE));
 	temp_attr = *atr;
 	temp_attr.c_lflag &= ~ECHOCTL;
 	if (tcsetattr(0, TCSANOW, &temp_attr) == -1)
-		return (FALSE);
+		return (return_err("unexpected err : cannot set tty attr", FALSE));
 	return (TRUE);
 }
 
@@ -51,10 +51,10 @@ int	main(int argc, char **argv, char **envp)
 	struct termios	origin_attr;
 
 	if (init_shell(argc, argv, &origin_attr) == FALSE)
-		exit (return_err("unexpected error : init fail", 1));
+		exit (1);
 	envlst = env_list(envp);
 	if (envlst == NULL)
-		exit (return_err("unexpected error : env fail", 1));
+		exit (return_err("unexpected error : invalid envp", 1));
 	while (1)
 	{
 		input = read_command("mini >> ");

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 17:46:55 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:57:18 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,11 @@ void	do_execve(t_env *envlst, t_token_list *token)
 	command_list = get_command_list(token);
 	pid = fork();
 	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		when_child(envlst, command_list);
+	}
 	else if (pid > 0)
 	{
 		signal(SIGINT, SIG_IGN);
