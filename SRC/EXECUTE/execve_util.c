@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 20:54:02 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 15:54:06 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-char	**split_path(t_env *envlst)
+static char	**split_path(t_env *envlst)
 {
 	t_envnode	*curr;
 	char		**path;

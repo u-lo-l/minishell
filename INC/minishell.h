@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 20:51:39 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:19:52 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,30 +91,24 @@ char			**envlst_to_arr(t_env *envlst);
 void			execute_command(t_env *env, t_token_tree *tree);
 int				check_builtin(t_env *env, t_token_list *token, int command_num);
 char			*get_path(t_env *env, char **command_list);
-char			**split_path(t_env *env);
-char			**get_command_list(t_token_list *token);
 void			pipe_do_execve(t_env *env, t_token_list *token);
 void			do_execve(t_env *env, t_token_list *token);
-void			when_child(t_env *env, char **command_list);
-void			after_execute(t_token_tree *toktree, t_fd *fd);
 
 /*----redirection & pipe*/
+/*--------infile redirection*/
 int				check_infile(t_command *curr, t_token_list *inredir);
 int				do_inredir(t_command *curr, t_token_list *inredir);
+void			read_here_doc(t_token *currtok, int *fd);
 int				do_here_doc(t_command *command);
-void			push_outfile(int fd, int *red_fd);
+/*--------outfile redirection*/
 int				open_outredir(t_token *tail, int fd);
-void			do_outredir(t_command *commamdlst, int *red_fd);
 void			make_outfile(t_command *commandlst);
-int				no_pipe_util1(t_command *curr, int *std_fd);
-void			no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd);
+void			do_outredir(t_command *commamdlst, int *red_fd);
+/*--------pipe*/
 int				no_pipe(t_env *envlst, t_token_tree *toktree, \
 						t_command *curr, t_fd *fd);
-
-void			read_here_doc(t_token *currtok, int *fd);
 int				do_pipe(t_env *envlst, t_token_tree *toktree, \
 							t_command *curr, t_fd *fd);
-
 /*minishell builtins*/
 void			if_builtin(t_env *envlst, t_token_list *toklst, \
 							int command_num);

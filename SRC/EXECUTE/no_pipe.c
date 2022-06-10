@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   no_pipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:03 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 17:44:25 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/10 15:56:57 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-int	no_pipe_util1(t_command *curr, int *std_fd)
+static int	no_pipe_util1(t_command *curr, int *std_fd)
 {
 	if (curr->here_doc->num_of_tokens > 0)
 	{
@@ -34,7 +34,7 @@ int	no_pipe_util1(t_command *curr, int *std_fd)
 	return (0);
 }
 
-void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd)
+static void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd)
 {
 	int	red_fd[2];
 

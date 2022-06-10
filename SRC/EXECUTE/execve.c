@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 21:58:02 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:15:43 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-char	**get_command_list(t_token_list *token)
+static char	**get_command_list(t_token_list *token)
 {
 	t_token	*curr;
 	char	**command_list;
@@ -53,7 +53,7 @@ static void	child_err(t_env *envlst, char *command, struct stat *buf)
 	exit(envlst->error);
 }
 
-void	when_child(t_env *envlst, char **command_list)
+static void	when_child(t_env *envlst, char **command_list)
 {
 	char		*path;
 	char		**converted_envlst;
