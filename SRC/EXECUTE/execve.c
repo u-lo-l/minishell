@@ -6,7 +6,7 @@
 /*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 22:32:40 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/10 17:31:26 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,46 +36,33 @@ char	**get_command_list(t_token_list *token)
 	command_list[i] = NULL;
 	return (command_list);
 }
-/*
-static void	child_err(t_env *envlst, char *command, struct stat *buf)
+
+void	stat_value(t_env *envlst, char **converted_envlst, char **command_list)
 {
 	struct stat	buf;
+	int			stat_result;
 
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command, 2);
-	envlst->error = 127;
-	if ((buf->st_mode & 00100) == 0)
+	stat_result = stat(command_list[0], &buf);
+	if ((S_IFMT & buf.st_mode) == S_IFREG)
 	{
-		ft_putstr_fd(": Permission denied\n", 2);
-		envlst->error = 126;
+		write(2,"111\n", 4);
+		dprintf(2, "result : %d\n", S_IXUSR & buf.st_mode);
+		if ((S_IXUSR & buf.st_mode) == 0)
+			exit (return_err("Permission denied\n", 126));
+		exe(envlst, command_list, converted_envlst, stat_result);
 	}
-	else if (command[ft_strlen(command) - 1] == '/')
-		ft_putstr_fd(": No such file or directory\n", 2);
-	else
-		ft_putstr_fd(": fail to execute command\n", 2);
-	exit(envlst->error);
-}
-*/
-
-static void	child_err(t_env *envlst, char *command, struct stat *buf)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command, 2);
-	envlst->error = 127;
-	if ((S_IFMT & buf->st_mode) == S_IFDIR)
+	else if ((S_IFMT & buf.st_mode) == S_IFDIR)
 	{
-		ft_putstr_fd(": IS a directory\n", 2);
-		envlst->error = 126;
+		if ((S_IXUSR & buf.st_mode) == 0)
+			exit (return_err("Permission denied\n", 126));
+		exit (return_err("is a directory", 126));
 	}
 	else
-		ft_putstr_fd(": No such file or directory\n", 2);
-	exit(envlst->error);
+		exe(envlst, command_list, converted_envlst, stat_result);
 }
-
 
 void	when_child(t_env *envlst, char **command_list)
 {
-	char		*path;
 	char		**converted_envlst;
 	struct stat	buf;
 	int			stat_result;
@@ -84,12 +71,10 @@ void	when_child(t_env *envlst, char **command_list)
 	if (converted_envlst == NULL)
 		return ;
 	stat_result = stat(command_list[0], &buf);
-	if (stat_result != -1)
-		path = command_list[0];
+	if(ft_strchr(command_list[0], '/'))
+		stat_value(envlst, converted_envlst, command_list);
 	else
-		path = get_path(envlst, command_list);
-	if (execve(path, command_list, converted_envlst) == -1)
-		child_err(envlst, command_list[0], &buf);
+		exe(envlst, command_list, converted_envlst, stat_result);
 }
 
 void	pipe_do_execve(t_env *envlst, t_token_list *token)

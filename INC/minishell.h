@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 20:51:39 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 16:28:19 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ char			**envlst_to_arr(t_env *envlst);
 /*		execute*/
 void			execute_command(t_env *env, t_token_tree *tree);
 int				check_builtin(t_env *env, t_token_list *token, int command_num);
-char			*get_path(t_env *env, char **command_list);
-char			**split_path(t_env *env);
+void	exe(t_env *envlst, char **command_list, char **converted_envlst, int stat_result);
 char			**get_command_list(t_token_list *token);
 void			pipe_do_execve(t_env *env, t_token_list *token);
 void			do_execve(t_env *env, t_token_list *token);

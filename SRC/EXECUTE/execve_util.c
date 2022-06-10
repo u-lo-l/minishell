@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 20:54:02 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 16:25:01 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-char	**split_path(t_env *envlst)
+static char	**split_path(t_env *envlst)
 {
 	t_envnode	*curr;
 	char		**path;
@@ -35,7 +35,7 @@ char	**split_path(t_env *envlst)
 	return (path);
 }
 
-char	*get_path(t_env *envlst, char **command_list)
+static char	*get_path(t_env *envlst, char **command_list)
 {
 	struct stat	buf;
 	char		**path;
@@ -55,4 +55,19 @@ char	*get_path(t_env *envlst, char **command_list)
 		i++;
 	}
 	return (NULL);
+}
+
+
+void	exe(t_env *envlst, char **command_list, char **converted_envlst, int stat_result)
+{
+	char *path;
+
+	if (stat_result != -1)
+		path = command_list[0];
+	else
+		path = get_path(envlst, command_list);
+	if (path == NULL)
+		exit (return_err("command not found\n", 127));
+	if (execve(path, command_list, converted_envlst) == -1)
+		exit (return_err("command not found\n", 127));
 }
