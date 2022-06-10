@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 17:36:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:46:55 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,14 @@ void	stat_value(t_env *envlst, char **converted_envlst, char **command_list)
 	stat_result = stat(command_list[0], &buf);
 	if ((S_IFMT & buf.st_mode) == S_IFREG)
 	{
-		write(2,"111\n", 4);
-		dprintf(2, "result : %d\n", S_IXUSR & buf.st_mode);
 		if ((S_IXUSR & buf.st_mode) == 0)
-			exit (return_err("Permission denied\n", 126));
+			exit (return_err("Permission denied", 126));
 		exe(envlst, command_list, converted_envlst, stat_result);
 	}
 	else if ((S_IFMT & buf.st_mode) == S_IFDIR)
 	{
 		if ((S_IXUSR & buf.st_mode) == 0)
-			exit (return_err("Permission denied\n", 126));
+			exit (return_err("Permission denied", 126));
 		exit (return_err("is a directory", 126));
 	}
 	else
@@ -71,7 +69,7 @@ static void	when_child(t_env *envlst, char **command_list)
 	if (converted_envlst == NULL)
 		return ;
 	stat_result = stat(command_list[0], &buf);
-	if(ft_strchr(command_list[0], '/'))
+	if (ft_strchr(command_list[0], '/'))
 		stat_value(envlst, converted_envlst, command_list);
 	else
 		exe(envlst, command_list, converted_envlst, stat_result);

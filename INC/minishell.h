@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/10 17:39:57 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:46:21 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char			**envlst_to_arr(t_env *envlst);
 /*		execute*/
 void			execute_command(t_env *env, t_token_tree *tree);
 int				check_builtin(t_env *env, t_token_list *token, int command_num);
-void			exe(t_env *envlst, char **command_list, char **converted_envlst, int stat_result);
+void			exe(t_env *envlst, char **cmdlst, char **envp, int stat_result);
 void			pipe_do_execve(t_env *env, t_token_list *token);
 void			do_execve(t_env *env, t_token_list *token);
 
