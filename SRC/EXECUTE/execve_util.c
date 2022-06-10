@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 15:54:06 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:23:10 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,11 @@ char	*get_path(t_env *envlst, char **command_list)
 		i++;
 	}
 	return (NULL);
+}
+
+int	is_directory(char *name)
+{
+	if (name && name[ft_strlen(name)] == '\\')
+		return (TRUE);
+	return (FALSE);
 }
