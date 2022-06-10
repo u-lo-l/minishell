@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 20:32:11 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 12:49:49 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:37:19 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,33 +85,3 @@ void	free_env_list(t_env *envlst)
 	}
 	free(envlst);
 }
-
-/*
-int main()
-{
-	void printnullstr(char *str)
-	{
-		if (str)
-			printf("%s", str);
-		else
-			printf("(nil)");
-	}
-	char *str[3] = {"key1=value1", "key2=", "key3"};
-	t_envnode *nodes[3];
-	nodes[0] = create_env_node(str[0]);
-	nodes[1] = create_env_node(str[1]);
-	nodes[2] = create_env_node(str[2]);
-	printnullstr(nodes[0]->key);
-	printf("=");
-	printnullstr(nodes[0]->value);
-	printf("\n");
-	printnullstr(nodes[1]->key);
-	printf("=");
-	printnullstr(nodes[1]->value);
-	printf("\n");
-	printnullstr(nodes[2]->key);
-	printf("=");
-	printnullstr(nodes[2]->value);
-	printf("\n");
-}
-*/

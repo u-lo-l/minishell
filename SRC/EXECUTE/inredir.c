@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 21:10:31 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:37:48 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,6 @@ int	do_inredir(t_command *curr, t_token_list *inredir)
 	return (0);
 }
 
-/*
- * ft_cmp 대신 비슷한 기존 함수인 ft_strncmp사용
- * ft_cmp 사용 시 EOF 일 때 종료 안 됨.
- * read == 0 or -1인 경우 예외처리 추가 함.
- * buf[r]이 아닌 buf[r - 1]을 하여 개행문자 삭제함.
-*/
-
 void	read_here_doc(t_token *curr, int *fd)
 {
 	char	buf[1024];
@@ -119,6 +112,7 @@ void	read_here_doc(t_token *currtok, int *fd)
 	}
 }
 */
+
 int	do_here_doc(t_command *command)
 {
 	t_token		*curr;

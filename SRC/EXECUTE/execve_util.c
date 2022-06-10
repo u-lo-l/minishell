@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 17:23:10 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/10 17:35:21 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	**split_path(t_env *envlst)
 	return (path);
 }
 
-char	*get_path(t_env *envlst, char **command_list)
+static char	*get_path(t_env *envlst, char **command_list)
 {
 	struct stat	buf;
 	char		**path;
@@ -57,9 +57,16 @@ char	*get_path(t_env *envlst, char **command_list)
 	return (NULL);
 }
 
-int	is_directory(char *name)
+void	exe(t_env *envlst, char **command_list, char **converted_envlst, int stat_result)
 {
-	if (name && name[ft_strlen(name)] == '\\')
-		return (TRUE);
-	return (FALSE);
+	char *path;
+
+	if (stat_result != -1)
+		path = command_list[0];
+	else
+		path = get_path(envlst, command_list);
+	if (path == NULL)
+		exit (return_err("command not found\n", 127));
+	if (execve(path, command_list, converted_envlst) == -1)
+		exit (return_err("command not found\n", 127));
 }
