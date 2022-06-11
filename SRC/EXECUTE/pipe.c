@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 15:20:51 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:00:25 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,8 @@ static void	child_process(t_env *envlst, t_token_tree *toktree, \
 
 static void	parent_process(t_env *envlst, t_command *curr, t_fd *fd)
 {
-	int	wait_res;
 	int	status;
 
-	wait_res = 0;
 	close(fd->pipe_fd2[1]);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
