@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 16:40:20 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:41:22 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int				no_pipe(t_env *envlst, t_token_tree *toktree, \
 						t_command *curr, t_fd *fd);
 int				do_pipe(t_env *envlst, t_token_tree *toktree, \
 							t_command *curr, t_fd *fd);
-							
+
 /*minishell builtins*/
 void			if_builtin(t_env *envlst, t_token_list *toklst, \
 							int command_num);
