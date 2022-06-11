@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 07:29:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 16:38:29 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 18:14:21 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	case_pipe(t_token_tree *toktree, t_input *input, \
 	return (TRUE);
 }
 
-int	case_dollar(t_input *input, t_env *envlst, char **pword)
+int	case_dollar(t_input *input, t_env *envlst, char **pword, t_toktype type)
 {
 	char	*expanded_word;
 
@@ -67,6 +67,8 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword)
 		return (FALSE);
 	if (expanded_word[0] == 0)
 	{
+		if ((*pword == NULL) && (type != e_word))
+			*pword = ft_strdup("");
 		free(expanded_word);
 		return (TRUE);
 	}
@@ -74,7 +76,7 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword)
 		return (case_dollar_util(pword, expanded_word));
 }
 
-int	case_quote(t_input *input, t_env *envlst, char **pword)
+int	case_quote(t_input *input, t_env *envlst, char **pword, t_toktype type)
 {
 	char	quote;
 
@@ -89,7 +91,7 @@ int	case_quote(t_input *input, t_env *envlst, char **pword)
 		if (input->cmd[input->curr_i++] == '$' && quote == '"')
 		{
 			input->curr_i--;
-			if (case_dollar(input, envlst, pword) == FALSE)
+			if (case_dollar(input, envlst, pword, type) == FALSE)
 				return (FALSE);
 		}
 	}

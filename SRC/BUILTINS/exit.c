@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 17:34:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 16:11:27 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:53:24 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ int	do_exit(t_token_list *toklst)
 		i = -1;
 		while (exit_str[++i])
 		{
+			while (exit_str[i] == ' ')
+				i++;
 			if (!ft_isdigit(exit_str[i]) && !ft_strchr("-+", exit_str[0]))
-				exit (return_err("exit : numeric arg required", 2));
+				exit (return_err("exit : numeric arg required", 255));
 		}
 		if (toklst->head->next->next != NULL)
 			return (return_err("exit : too many args", 1));

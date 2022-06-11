@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:06 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 16:18:38 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 18:16:35 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	open_outredir(t_token *tail, int outfile_fd)
 	return (outfile_fd);
 }
 
-void	make_outfile(t_command *commandlst)
+int	make_outfile(t_command *commandlst)
 {
 	t_token		*curr;
 	struct stat	buf;
@@ -64,6 +64,8 @@ void	make_outfile(t_command *commandlst)
 	curr = commandlst->output_redir->head;
 	while (curr)
 	{
+		if (ft_strlen(curr->text) == 0)
+			return (return_err("redir : No such file of directory", 1));
 		if (stat(curr->text, &buf) == -1)
 			outfile_fd = open(curr->text, O_CREAT | O_TRUNC | O_RDWR, 0755);
 		else
@@ -71,6 +73,7 @@ void	make_outfile(t_command *commandlst)
 		close(outfile_fd);
 		curr = curr->next;
 	}
+	return (0);
 }
 
 void	do_outredir(t_command *commandlst, int *red_fd)

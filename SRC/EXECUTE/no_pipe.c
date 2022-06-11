@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:03 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 14:50:14 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 18:16:19 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-static int	no_pipe_util1(t_command *curr, int *std_fd)
+static int	no_pipe_util1(t_command *curr, int *std_fd, int *red_fd)
 {
 	if (curr->here_doc->num_of_tokens > 0)
 	{
@@ -31,19 +31,19 @@ static int	no_pipe_util1(t_command *curr, int *std_fd)
 		if (do_inredir(curr, curr->input_redir))
 			return (1);
 	}
-	return (0);
-}
-
-static void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd)
-{
-	int	red_fd[2];
-
 	if (curr->output_redir->num_of_tokens > 0)
 	{
-		make_outfile(curr);
+		if (make_outfile(curr))
+			return (1);
 		pipe(red_fd);
 		dup2(red_fd[1], 1);
 	}
+	return (0);
+}
+
+static void	no_pipe_util2(t_env *envlst, t_command *curr, \
+						int *std_fd, int *red_fd)
+{
 	if (curr->simple_command->num_of_tokens > 0)
 		check_builtin(envlst, curr->simple_command, 1);
 	if (curr->output_redir->num_of_tokens > 0)
@@ -63,14 +63,16 @@ static void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd)
 
 int	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 {
+	int	red_fd[2];
+
 	if (toktree->num_of_commands == 1)
 	{
-		if (no_pipe_util1(curr, fd->std_fd))
+		if (no_pipe_util1(curr, fd->std_fd, red_fd))
 		{
 			envlst->error = 1;
 			return (1);
 		}
-		no_pipe_util2(envlst, curr, fd->std_fd);
+		no_pipe_util2(envlst, curr, fd->std_fd, red_fd);
 	}
 	return (0);
 }

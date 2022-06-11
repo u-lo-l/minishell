@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 16:16:25 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 17:13:04 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,13 @@ void	stat_value(t_env *envlst, char **converted_envlst, char **command_list)
 static void	when_child(t_env *envlst, char **command_list)
 {
 	char		**converted_envlst;
-	struct stat	buf;
-	int			stat_result;
 
 	converted_envlst = envlst_to_arr(envlst);
 	if (converted_envlst == NULL)
 		return ;
-	stat_result = stat(command_list[0], &buf);
 	if (ft_strchr(command_list[0], '/'))
 		stat_value(envlst, converted_envlst, command_list);
-	else
-		exe(envlst, command_list, converted_envlst, stat_result);
+	exe(envlst, command_list, converted_envlst, -1);
 }
 
 void	pipe_do_execve(t_env *envlst, t_token_list *token)
