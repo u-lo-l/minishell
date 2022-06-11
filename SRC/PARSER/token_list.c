@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:39 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/29 22:15:20 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:22:50 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,43 +49,4 @@ int	add_token_to_toklst(t_token_list *lst, t_token *tok)
 	lst->tail = tok;
 	lst->num_of_tokens++;
 	return (TRUE);
-}
-
-static void	print_token_type(enum e_token_type type)
-{
-	if (type == e_word)
-		printf("e_word");
-	else if (type == e_outrdr)
-		printf("e_outrdr");
-	else if (type == e_appendrdr)
-		printf("e_appendrdr");
-	else if (type == e_inrdr)
-		printf("e_inrdr");
-	else if (type == e_heredoc)
-		printf("e_heredoc");
-}
-
-void	print_token_list(t_token_list *lst)
-{
-	t_token	*curr;
-
-	if (lst)
-	{	
-		curr = lst->head;
-		printf("%d tokens |", lst->num_of_tokens);
-		while (curr)
-		{
-			if (is_eof_token(curr))
-				printf("EOF_TOK\n");
-			else
-			{
-				printf("\033[2m->\033[0m");
-				printf("[");
-				print_token_type(curr->type);
-				printf(":%s]", curr->text);
-			}
-			curr = curr->next;
-		}
-	}
-	printf("\n");
 }

@@ -6,12 +6,11 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:51 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:04:34 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:11:50 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
-#include <stdlib.h>
 
 int	do_unset(t_token_list *unset_token, t_env *envlst)
 {

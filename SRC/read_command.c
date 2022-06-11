@@ -6,17 +6,16 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:29 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 17:17:30 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:07:57 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INC/minishell.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-t_input	*read_command(const char *prompt)
+t_input	*read_command(char *prompt)
 {
 	t_input	*input;
 	char	*trimed_input;
@@ -25,8 +24,9 @@ t_input	*read_command(const char *prompt)
 	input->cmd = readline(prompt);
 	if (input->cmd == NULL)
 	{
-		printf("\033[1A");
-		printf("%sexit\n", prompt);
+		ft_putstr_fd("\033[1A", 1);
+		ft_putstr_fd(prompt, 1);
+		ft_putstr_fd("exit\n", 1);
 		free(input);
 		input = NULL;
 	}
@@ -38,31 +38,4 @@ t_input	*read_command(const char *prompt)
 		input->cmd = trimed_input;
 	}
 	return (input);
-}
-
-void	check_input_state(t_input *input)
-{
-	int	i;
-
-	i = 0;
-	printf("str : [%s ]\n", input->cmd);
-	printf(" s  : [");
-	while (i <= (int)ft_strlen(input->cmd))
-	{
-		if (i++ == input->start_i)
-			printf("\033[33ms\033[0m");
-		else
-			printf(" ");
-	}
-	i = 0;
-	printf("]\n");
-	printf(" c  : [");
-	while (i <= (int)ft_strlen(input->cmd))
-	{
-		if (i == input->curr_i)
-			printf("\033[34mc\033[0m");
-		else
-			printf(" ");
-	}
-	printf("]\n");
 }

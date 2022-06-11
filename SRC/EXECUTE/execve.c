@@ -6,17 +6,14 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:31 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 15:20:00 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:16:25 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <unistd.h>
 #include <stdlib.h>
-#include <errno.h>
 
 static char	**get_command_list(t_token_list *token)
 {

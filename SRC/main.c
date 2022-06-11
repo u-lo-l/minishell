@@ -6,18 +6,13 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 15:56:02 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:39:50 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INC/minishell.h"
 #include <stdlib.h>
 #include <termios.h>
-
-void	leak_check(void)
-{
-	system("leaks minishell");
-}
 
 static int	init_shell(int argc, char **argv, struct termios *atr)
 {
@@ -55,7 +50,6 @@ int	main(int argc, char **argv, char **envp)
 	t_token_tree	*cmd_token_tree;
 	struct termios	origin_attr;
 
-	atexit(leak_check);
 	if (init_shell(argc, argv, &origin_attr) == FALSE)
 		exit (1);
 	envlst = env_list(envp);

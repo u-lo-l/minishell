@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:32:41 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/29 22:16:10 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:23:22 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ t_token	*create_token(char	*word, enum e_token_type type)
 		new_tok->type = type;
 	}
 	return (new_tok);
-}
-
-int	is_eof_token(t_token *tok)
-{
-	if (tok->text == NULL)
-		return (TRUE);
-	return (FALSE);
 }
 
 void	free_token(t_token *tok)

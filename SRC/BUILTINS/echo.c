@@ -6,12 +6,11 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:17 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:13:10 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:11:18 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
-#include <stdlib.h>
 
 int	do_echo(t_token_list *echo_token)
 {

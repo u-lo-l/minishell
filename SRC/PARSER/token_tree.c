@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 21:35:07 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/30 00:33:38 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:21:27 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,4 @@ int	add_one_empty_command(t_token_tree *token_tree)
 	token_tree->tail_cmd = new_command;
 	token_tree->num_of_commands++;
 	return (TRUE);
-}
-
-void	print_token_tree(t_token_tree *token_tree)
-{
-	t_command	*command;
-
-	if (token_tree == NULL)
-		return ;
-	printf("Num of Commands : %d\n", token_tree->num_of_commands);
-	command = token_tree->head_cmd;
-	while (command != NULL)
-	{
-		print_command(command);
-		command = command->next_cmd;
-	}
 }

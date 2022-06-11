@@ -6,13 +6,12 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 20:32:11 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/10 17:37:19 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:05:25 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "../INC/minishell.h"
+#include <stdlib.h>
 
 t_envnode	*create_envnode(char *key, char *value)
 {

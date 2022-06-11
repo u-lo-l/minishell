@@ -6,12 +6,11 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 17:34:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 13:04:26 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:11:27 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
-#include <sys/errno.h>
 #include <stdlib.h>
 
 int	do_exit(t_token_list *toklst)

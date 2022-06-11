@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 07:29:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 15:42:56 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:38:29 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	case_pipe(t_token_tree *toktree, t_input *input, \
 int	case_dollar(t_input *input, t_env *envlst, char **pword)
 {
 	char	*expanded_word;
-	char	*temp_word;
 
 	if (set_word(input, pword) == FALSE)
 		return (FALSE);
@@ -67,21 +66,14 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword)
 	if (expanded_word == NULL)
 		return (FALSE);
 	if (expanded_word[0] == 0)
+	{
+		free(expanded_word);
 		return (TRUE);
-	temp_word = ft_strdup(*pword);
-	free(*pword);
-	*pword = ft_strjoin(temp_word, expanded_word);
-	free(expanded_word);
-	free(temp_word);
-	if (*pword == NULL)
-		return (FALSE);
-	return (TRUE);
+	}
+	else
+		return (case_dollar_util(pword, expanded_word));
 }
 
-/*
- *  현재는 닫히지 않은 따옴표에 대해 오류를 발생시킨다. 따옴표가 닫히지 않은 경우
- * 따옴표를 제거하길 원한다면 strchr조건문에서 FALSE를 TRUE로 바꿔주면 된다.
-*/
 int	case_quote(t_input *input, t_env *envlst, char **pword)
 {
 	char	quote;

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/25 22:07:15 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 21:09:58 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:22:27 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	add_token_to_command(t_command *command, t_token *tok)
 	else
 	{
 		res = 0;
-		printf("bad type : %d\n", tok->type);
+		ft_putstr_fd("bad token", 2);
 	}
 	if (tok->type == e_inrdr || \
 		tok->type == e_outrdr || tok->type == e_appendrdr)
@@ -83,20 +83,4 @@ int	add_token_to_command(t_command *command, t_token *tok)
 		res = add_token_to_toklst(command->redirection, temp);
 	}
 	return (res);
-}
-
-void	print_command(t_command *command)
-{
-	printf("========COMMAND========\n");
-	printf("├▪ SIM_CMD\t: ");
-	print_token_list(command->simple_command);
-	printf("├▪ IN_REDIR\t: ");
-	print_token_list(command->input_redir);
-	printf("├▪ OUT_REDIR\t: ");
-	print_token_list(command->output_redir);
-	printf("├▪ HERE_DOC\t: ");
-	print_token_list(command->here_doc);
-	printf("└▪ REDIRECTION\t: ");
-	print_token_list(command->redirection);
-	printf("\n");
 }

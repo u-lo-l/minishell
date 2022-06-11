@@ -6,12 +6,10 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:27 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 19:19:15 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:11:22 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "../../INC/minishell.h"
 
 int	do_env(t_token_list *toklst, t_env *env)

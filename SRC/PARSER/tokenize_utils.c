@@ -6,17 +6,13 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 06:01:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 15:42:24 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 16:39:31 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-/*
- *	스페이스와 탭을 건너 뛰고 
- *	start index와 current index를 수정한다.
- */
 void	pass_space_tab(t_input *input)
 {
 	while (input->cmd[input->curr_i] == ' ' || \
@@ -25,21 +21,6 @@ void	pass_space_tab(t_input *input)
 	input->start_i = input->curr_i;
 }
 
-/*
- *	curr_i가 가리키는 부분 에서 한칸 앞으로 가, 거기 까지를 word에 추가하는 함수이다.
- *	만약 curr_i == 0 이라면 처리하 단어가 없다고 판단하고 함수를 종료한다.
- *	[strSTRN  A\0]
- *	[0123456789_]
- *	[   s       ]
- *	[       c   ]
- *	시작 인덱스가 3이고 현재 인덱스가 7인 위와 같은 케이스에서
- *	pword에는 "STRN"가 추가된다.
- *	[strSTRN  A\0]
- *	[0123456789_]
- *	[         s ]
- *	[         c ]
- *	이렇게 인덱스를 이동하는 부분은 따로 처리 할 것이다.
-*/
 int	set_word(t_input *input, char **pword)
 {
 	int		append_len;
@@ -116,5 +97,19 @@ int	delimit_and_add_token_to_tree(t_token_tree *toktree,
 		return (FALSE);
 	}
 	*type = e_word;
+	return (TRUE);
+}
+
+int	case_dollar_util(char **pword, char *expanded_word)
+{
+	char	*temp;
+
+	temp = ft_strdup(*pword);
+	free (*pword);
+	*pword = ft_strjoin(temp, expanded_word);
+	free (expanded_word);
+	free (temp);
+	if (*pword == NULL)
+		return (FALSE);
 	return (TRUE);
 }
