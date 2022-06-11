@@ -6,15 +6,21 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:16:32 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 19:18:41 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/12 04:45:30 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_DATASTRUCTURE_H
 # define MINISHELL_DATASTRUCTURE_H
-# define TRUE 1
-# define FALSE 0
-
+# define TRUE 		((int)1)
+# define FALSE 		((int)0)
+/*token type bit field*/
+# define WORD		((int)0b0000)
+# define OUTRDR		((int)0b0001)
+# define APNDRDR	((int)0b0010)
+# define INRDR		((int)0b0011)
+# define HEREDOC	((int)0b0100)
+# define DQUOTE		((int)0b1000)
 /*read line*/
 typedef struct s_input
 {

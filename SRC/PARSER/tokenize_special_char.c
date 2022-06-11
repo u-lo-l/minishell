@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 07:29:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 18:14:21 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/12 05:29:44 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 int	case_space(t_token_tree *toktree, t_input *input, \
-				char **pword, t_toktype *type)
+				char **pword, int *type)
 {
 	if (set_word(input, pword) == FALSE)
 		return (FALSE);
@@ -25,7 +25,7 @@ int	case_space(t_token_tree *toktree, t_input *input, \
 }
 
 int	case_pipe(t_token_tree *toktree, t_input *input, \
-				char **pword, t_toktype *type)
+				char **pword, int *type)
 {
 	char	*new_cmdline;
 
@@ -49,25 +49,27 @@ int	case_pipe(t_token_tree *toktree, t_input *input, \
 	return (TRUE);
 }
 
-int	case_dollar(t_input *input, t_env *envlst, char **pword, t_toktype type)
+int	case_dollar(t_input *input, t_env *envlst, char **pword, int type)
 {
 	char	*expanded_word;
 
 	if (set_word(input, pword) == FALSE)
 		return (FALSE);
-	if (ft_strchr(" \'\"\t<>$\0", input->cmd[input->curr_i + 1]) != NULL)
+	if (ft_strchr(" \'\"\t<>$|\0", input->cmd[++input->curr_i]) != NULL)
 	{
-		if (is_quote(input->cmd[++input->curr_i]) == TRUE)
+		if ((type & DQUOTE) == DQUOTE)
+			return (TRUE);
+		if (is_quote(input->cmd[input->curr_i]) == TRUE)
 			input->start_i = input->curr_i;
 		return (TRUE);
 	}
-	input->start_i = ++input->curr_i;
+	input->start_i = input->curr_i;
 	expanded_word = expand_variable(input, envlst);
 	if (expanded_word == NULL)
 		return (FALSE);
 	if (expanded_word[0] == 0)
 	{
-		if ((*pword == NULL) && (type != e_word))
+		if ((*pword == NULL) && (type != WORD))
 			*pword = ft_strdup("");
 		free(expanded_word);
 		return (TRUE);
@@ -76,10 +78,11 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword, t_toktype type)
 		return (case_dollar_util(pword, expanded_word));
 }
 
-int	case_quote(t_input *input, t_env *envlst, char **pword, t_toktype type)
+int	case_quote(t_input *input, t_env *envlst, char **pword, int *type)
 {
 	char	quote;
 
+	*type |= DQUOTE;
 	quote = input->cmd[input->curr_i];
 	if (set_word(input, pword) == FALSE)
 		return (FALSE);
@@ -88,10 +91,11 @@ int	case_quote(t_input *input, t_env *envlst, char **pword, t_toktype type)
 		return (FALSE);
 	while (input->cmd[input->curr_i] != quote)
 	{
-		if (input->cmd[input->curr_i++] == '$' && quote == '"')
+		if (input->cmd[input->curr_i++] == '$' && \
+			(quote == '"') && ((*type & HEREDOC) != HEREDOC))
 		{
 			input->curr_i--;
-			if (case_dollar(input, envlst, pword, type) == FALSE)
+			if (case_dollar(input, envlst, pword, *type) == FALSE)
 				return (FALSE);
 		}
 	}
@@ -104,21 +108,21 @@ int	case_quote(t_input *input, t_env *envlst, char **pword, t_toktype type)
 }
 
 int	case_redirection(t_token_tree *toktree, t_input *input, \
-					char **pword, t_toktype *type)
+					char **pword, int *type)
 {
 	char	operator;
 
 	operator = input->cmd[input->curr_i];
 	if (case_space(toktree, input, pword, type) == FALSE)
 		return (FALSE);
-	*type = e_inrdr;
+	*type = INRDR;
 	if (operator == '>')
-		*type = e_outrdr;
+		*type = OUTRDR;
 	if (input->cmd[++input->curr_i] == operator)
 	{
-		*type = e_heredoc;
+		*type = HEREDOC;
 		if (operator == '>')
-			*type = e_appendrdr;
+			*type = APNDRDR;
 		input->curr_i++;
 	}
 	pass_space_tab(input);

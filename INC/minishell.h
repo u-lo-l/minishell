@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 18:15:36 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/12 04:49:28 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,21 @@ int				set_word(t_input *input, char **pword);
 char			*expand_variable(t_input *input, t_env *env_list);
 int				delimit_and_add_token_to_tree(t_token_tree *toktree, \
 											char **pword, \
-											enum e_token_type *type);
+											int *type);
 int				case_dollar_util(char **pword, char *expanded_word);
 /*		tokenize special character*/
 int				case_space(t_token_tree *toktree, t_input *input, \
-							char **pword, t_toktype *type);
+							char **pword, int *type);
 int				case_pipe(t_token_tree *toktree, t_input *input, \
-							char **word, t_toktype	*type);
+							char **word, int	*type);
 int				case_dollar(t_input *input, t_env *envlst, char **word, \
-							t_toktype type);
+							int type);
 int				case_quote(t_input *input, t_env *envlst, char **word, \
-							t_toktype type);
+							int *type);
 int				case_redirection(t_token_tree *toktree, t_input *input, \
-								char **pword, t_toktype *type);
+								char **pword, int *type);
 /*		token_node.c*/
-t_token			*create_token(char *word, enum e_token_type type);
+t_token			*create_token(char *word, int type);
 void			free_token(t_token *tok);
 /*		token_list.c*/
 t_token_list	*create_empty_toklst(void);
