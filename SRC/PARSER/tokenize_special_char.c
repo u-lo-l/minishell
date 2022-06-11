@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 07:29:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/05/30 02:54:05 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 15:42:56 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword)
 	temp_word = ft_strdup(*pword);
 	free(*pword);
 	*pword = ft_strjoin(temp_word, expanded_word);
+	free(expanded_word);
 	free(temp_word);
 	if (*pword == NULL)
 		return (FALSE);

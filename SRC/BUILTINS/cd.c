@@ -6,41 +6,17 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 20:13:26 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/08 02:26:54 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 15:36:57 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
-#include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
 #include <errno.h>
-#include <limits.h>
 
-static void	pwd_err(t_env *envlst)
+static int	cd_err(int errcase, char *oldpwd)
 {
-	if (errno == EACCES)
-		ft_putstr_fd("permission denied\n", 2);
-	else if (errno == EFAULT)
-		ft_putstr_fd("bad address\n", 2);
-	else if (errno == EINVAL)
-		ft_putstr_fd("invalid buffer\n", 2);
-	else if (errno == ENAMETOOLONG)
-		ft_putstr_fd("path name strind exceeds PATH_MAX\n", 2);
-	else if (errno == ENOENT)
-		ft_putstr_fd("current working dir has been unlinked\n", 2);
-	else if (errno == ENOMEM)
-		ft_putstr_fd("out of memory\n", 2);
-	else if (errno == ERANGE)
-		ft_putstr_fd("size arg of getcwd() is less than absolute \
-						pathname of the working dir\n", 2);
-	else
-		ft_putstr_fd("pwd : unexpected error\n", 2);
-	envlst->error = 1;
-}
-
-static int	cd_err(int errcase)
-{
+	free (oldpwd);
 	if (errcase == 0)
 		return (return_err("cd : HOME is not set", 1));
 	else if (errcase == 1)
@@ -80,7 +56,7 @@ static t_envnode	*find_home(t_env *envlst)
 
 static int	set_pwd_env(t_env *envlst, char *oldpwd)
 {
-	char		pwd[PATH_MAX];
+	char		*pwd;
 	t_envnode	*newnode;
 
 	if (!modify_value(envlst, "OLDPWD", oldpwd))
@@ -88,16 +64,16 @@ static int	set_pwd_env(t_env *envlst, char *oldpwd)
 		newnode = create_envnode("OLDPWD", oldpwd);
 		add_node_to_lst(envlst, newnode);
 	}
-	if (!getcwd(pwd, PATH_MAX))
-	{
-		pwd_err(envlst);
-		return (1);
-	}
+	free (oldpwd);
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (return_err("cd : unexpected error\n", 1));
 	if (!modify_value(envlst, "PWD", pwd))
 	{
 		newnode = create_envnode("PWD", pwd);
 		add_node_to_lst(envlst, newnode);
 	}
+	free (pwd);
 	return (0);
 }
 
@@ -106,43 +82,24 @@ int	do_cd(t_token_list *toklst, t_env *envlst)
 	t_envnode	*home_dir;
 	t_token		*cd;
 	char		*target_dir;
-	char		old_pwd[PATH_MAX];
+	char		*old_pwd;
 
-	if (!getcwd(old_pwd, PATH_MAX))
-	{
-		pwd_err(envlst);
-		return (1);
-	}
+	old_pwd = getcwd(NULL, 0);
+	if (!old_pwd)
+		return (return_err("cd : unexpected error\n", 1));
 	cd = toklst->head;
 	home_dir = find_home(envlst);
 	if (cd->next == NULL && home_dir != NULL)
 		target_dir = home_dir->value;
 	else if (cd->next == NULL && home_dir == NULL)
-		return (cd_err(0));
+		return (cd_err(0, old_pwd));
 	else if (cd->next->next != NULL)
-		return (cd_err(1));
+		return (cd_err(1, old_pwd));
 	else
 		target_dir = cd->next->text;
 	if (target_dir == NULL)
-		return (cd_err(0));
+		return (cd_err(0, old_pwd));
 	if (chdir(target_dir))
-		return (cd_err(2));
+		return (cd_err(2, old_pwd));
 	return (set_pwd_env(envlst, old_pwd));
 }
-
-/*
-int main()
-{
-	char **token;
-
-	token = malloc(sizeof(char *) * 2);
-	token[0] = malloc(sizeof(char) * 3);
-	token[1] = malloc(sizeof(char) * 3);
-
-	token[0] = "cd";
-	token[1] = "../../";
-
-	do_cd(token);
-	pwd();
-}
-*/

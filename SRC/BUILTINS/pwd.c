@@ -6,15 +6,13 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:44 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/06 12:49:16 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 15:43:32 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
-#include <unistd.h>
 #include <stdlib.h>
 #include <errno.h>
-#include <limits.h>
 
 static void	pwd_err(void)
 {
@@ -39,9 +37,10 @@ static void	pwd_err(void)
 
 int	do_pwd(void)
 {
-	char	buff[PATH_MAX];
+	char	*buff;
 
-	if (!getcwd(buff, PATH_MAX))
+	buff = getcwd(NULL, 0);
+	if (!buff)
 	{
 		pwd_err();
 		return (1);
@@ -50,21 +49,7 @@ int	do_pwd(void)
 	{
 		ft_putstr_fd(buff, 1);
 		ft_putstr_fd("\n", 1);
+		free(buff);
 		return (0);
 	}
 }
-
-// int main()
-// {
-// 	char *buff;
-
-// 	buff = do_pwd();
-// 	printf("\n");
-// 	int i = 0;
-// 	while (i < 70)
-// 	{
-// 		printf("%c", buff[i]);
-// 		i++;
-// 	}
-// 	printf("\n");
-// }

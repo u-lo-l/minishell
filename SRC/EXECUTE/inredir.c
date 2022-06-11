@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 15:21:33 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 15:43:42 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	read_here_doc(t_token *currtok, int *fd)
 			break ;
 		else if (ft_strncmp(key, buffer, key_len + 1) == 0)
 		{
-			free(buffer);		
+			free(buffer);
 			break ;
 		}
 		ft_putstr_fd(buffer, fd[1]);

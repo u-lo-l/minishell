@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 06:01:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/08 16:36:47 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 15:42:24 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char	*expand_variable(t_input *input, t_env *envlst)
 			free(key);
 			return (NULL);
 		}
-		value = search_key(envlst, key);
+		value = ft_strdup(search_key(envlst, key));
 		free(key);
 	}
 	return (value);
