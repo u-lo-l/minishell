@@ -58,7 +58,6 @@ int	open_outredir(t_token *tail, int outfile_fd)
 int	make_outfile(t_command *commandlst)
 {
 	t_token		*curr;
-	struct stat	buf;
 	int			outfile_fd;
 
 	curr = commandlst->output_redir->head;
@@ -66,10 +65,7 @@ int	make_outfile(t_command *commandlst)
 	{
 		if (ft_strlen(curr->text) == 0)
 			return (return_err("redir : No such file of directory", 1));
-		if (stat(curr->text, &buf) == -1)
-			outfile_fd = open(curr->text, O_CREAT | O_TRUNC | O_RDWR, 0755);
-		else
-			outfile_fd = open(curr->text, O_TRUNC | O_RDWR);
+		outfile_fd = open_outredir(curr, outfile_fd);
 		close(outfile_fd);
 		curr = curr->next;
 	}
@@ -90,4 +86,5 @@ void	do_outredir(t_command *commandlst, int *red_fd)
 		|| (commandlst->input_redir->num_of_tokens > 0 \
 		&& commandlst->output_redir->tail->type == 2))
 		push_outfile(outfile_fd, red_fd);
+	close(outfile_fd);
 }
