@@ -6,13 +6,87 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:36 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 18:15:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 20:41:10 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INC/minishell.h"
 #include <stdlib.h>
 #include <termios.h>
+int	is_eof_token(t_token *tok)
+{
+	if (tok->text == NULL)
+		return (TRUE);
+	return (FALSE);
+}
+static void	print_token_type(enum e_token_type type)
+{
+	if (type == e_word)
+		printf("e_word");
+	else if (type == e_outrdr)
+		printf("e_outrdr");
+	else if (type == e_appendrdr)
+		printf("e_appendrdr");
+	else if (type == e_inrdr)
+		printf("e_inrdr");
+	else if (type == e_heredoc)
+		printf("e_heredoc");
+}
+void	print_token_list(t_token_list *lst)
+{
+	t_token	*curr;
+
+	if (lst)
+	{	
+		curr = lst->head;
+		printf("%d tokens |", lst->num_of_tokens);
+		while (curr)
+		{
+			if (is_eof_token(curr))
+				printf("EOF_TOK\n");
+			else
+			{
+				printf("\033[2m->\033[0m");
+				printf("[");
+				print_token_type(curr->type);
+				printf(":%s]", curr->text);
+			}
+			curr = curr->next;
+		}
+	}
+	printf("\n");
+}
+
+void	print_command(t_command *command)
+{
+	printf("========COMMAND========\n");
+	printf("├▪ SIM_CMD\t: ");
+	print_token_list(command->simple_command);
+	printf("├▪ IN_REDIR\t: ");
+	print_token_list(command->input_redir);
+	printf("├▪ OUT_REDIR\t: ");
+	print_token_list(command->output_redir);
+	printf("├▪ HERE_DOC\t: ");
+	print_token_list(command->here_doc);
+	printf("└▪ REDIRECTION\t: ");
+	print_token_list(command->redirection);
+	printf("\n");
+}
+
+void	print_token_tree(t_token_tree *token_tree)
+{
+	t_command	*command;
+
+	if (token_tree == NULL)
+		return ;
+	printf("Num of Commands : %d\n", token_tree->num_of_commands);
+	command = token_tree->head_cmd;
+	while (command != NULL)
+	{
+		print_command(command);
+		command = command->next_cmd;
+	}
+}
 
 static int	init_shell(int argc, char **argv, struct termios *atr)
 {
@@ -66,7 +140,10 @@ int	main(int argc, char **argv, char **envp)
 		if (cmd_token_tree == NULL)
 			envlst->error = return_err("err : Bad Syntax!", 1);
 		else if (cmd_token_tree->num_of_commands != 0)
+		{
 			execute_command(envlst, cmd_token_tree);
+			print_token_tree(cmd_token_tree);
+		}
 		free_token_tree(cmd_token_tree);
 	}
 	return (finish_shell(envlst, &origin_attr));
