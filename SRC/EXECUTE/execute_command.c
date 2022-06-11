@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 21:38:55 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/11 14:58:09 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,12 @@ static void	finish_execute(t_token_tree *toktree, t_fd *fd)
 	dup2(fd->std_fd[0], 0);
 	dup2(fd->std_fd[1], 1);
 	if (toktree->num_of_commands > 1)
+	{
 		close(fd->pipe_fd1[1]);
-	close(fd->pipe_fd1[0]);
+		close(fd->pipe_fd1[0]);
+	}
+	close(fd->std_fd[0]);
+	close(fd->std_fd[1]);
 	free(fd);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:03 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 17:36:33 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 14:50:14 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ static void	no_pipe_util2(t_env *envlst, t_command *curr, int *std_fd)
 	if (curr->simple_command->num_of_tokens > 0)
 		check_builtin(envlst, curr->simple_command, 1);
 	if (curr->output_redir->num_of_tokens > 0)
-	{
 		do_outredir(curr, red_fd);
-	}
 	if (curr->input_redir->num_of_tokens > 0 \
 		|| curr->here_doc->num_of_tokens > 0)
 	{

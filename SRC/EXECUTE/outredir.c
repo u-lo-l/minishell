@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:06 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 17:37:26 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 14:50:08 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	push_outfile(int outfile_fd, int *red_fd)
 			break ;
 		write(outfile_fd, buf, 1);
 	}
+	close(red_fd[0]);
 	free(buf);
 }
 

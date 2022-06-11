@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 17:47:28 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 15:11:02 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*get_path(t_env *envlst, char **command_list)
 
 void	exe(t_env *envlst, char **cmdlst, char **envp, int stat_result)
 {
-	char *path;
+	char	*path;
 
 	if (stat_result != -1)
 		path = cmdlst[0];

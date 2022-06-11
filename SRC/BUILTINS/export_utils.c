@@ -6,14 +6,14 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 17:32:43 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/09 17:34:20 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 13:45:01 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-int	insert_to_heap(t_envnode **heap, t_envnode *node, int index)
+static int	insert_to_heap(t_envnode **heap, t_envnode *node, int index)
 {
 	char		*keys[2];
 	t_envnode	*temp;
@@ -35,7 +35,7 @@ int	insert_to_heap(t_envnode **heap, t_envnode *node, int index)
 	return (TRUE);
 }
 
-t_envnode	*pop_from_heap(t_envnode **heap, int curr_elemnt_count)
+static t_envnode	*pop_from_heap(t_envnode **heap, int curr_elemnt_count)
 {
 	t_envnode	*target_node;
 	t_envnode	*temp;

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/10 17:46:21 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 13:45:07 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,6 @@ int				do_pwd(void);
 /*----echo*/
 int				do_echo(t_token_list *echo_token);
 /*----export*/
-int				insert_to_heap(t_envnode **heap, t_envnode *node, int index);
-t_envnode		*pop_from_heap(t_envnode **heap, int curr_elemnt_count);
 int				show_shell_var_asscending(t_env *envlst);
 int				do_export(t_token_list *export_token, t_env *envlst);
 /*----cd*/

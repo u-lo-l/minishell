@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/10 17:57:18 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/11 15:20:51 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static int	pipe_here_doc(t_command *command, int *std_fd)
 	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
-		if (check_infile(command, command->input_redir))
+		close(fd[0]);
+		if (do_inredir(command, command->input_redir))
 			return (1);
 	}
 	return (0);
@@ -74,7 +75,7 @@ static void	child_process(t_env *envlst, t_token_tree *toktree, \
 	exit(pipe_util1(envlst, toktree, curr, fd));
 }
 
-static void	parent_process(t_env *envlst, t_command *curr, t_fd *fd, int pid)
+static void	parent_process(t_env *envlst, t_command *curr, t_fd *fd)
 {
 	int	wait_res;
 	int	status;
@@ -83,15 +84,8 @@ static void	parent_process(t_env *envlst, t_command *curr, t_fd *fd, int pid)
 	close(fd->pipe_fd2[1]);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
-	if (curr->next_cmd == NULL)
-	{
-		while (wait_res != -1)
-		{
-			wait_res = wait(&status);
-			if (wait_res == pid)
-				envlst->error = get_child_exit_status(status);
-		}
-	}
+	wait(&status);
+	envlst->error = get_child_exit_status(status);
 	set_signal_handler();
 	if (curr->output_redir->num_of_tokens > 0 && envlst->error == 0)
 		do_outredir(curr, fd->pipe_fd2);
@@ -107,7 +101,7 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	if (pid == 0)
 		child_process(envlst, toktree, curr, fd);
 	else
-		parent_process(envlst, curr, fd, pid);
+		parent_process(envlst, curr, fd);
 	dup2(fd->pipe_fd1[0], 0);
 	return (0);
 }
