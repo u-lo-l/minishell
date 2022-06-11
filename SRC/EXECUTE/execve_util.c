@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 16:13:34 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/12 05:31:51 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static char	*get_path(t_env *envlst, char **command_list)
 	int			i;
 
 	path = split_path(envlst);
+	if (path == NULL)
+		return (NULL);
 	str = ft_strjoin("/", command_list[0]);
 	i = 0;
 	while (path[i])
