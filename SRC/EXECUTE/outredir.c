@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:06 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 18:16:35 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/12 16:52:01 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,12 @@ int	make_outfile(t_command *commandlst)
 	while (curr)
 	{
 		if (ft_strlen(curr->text) == 0)
-			return (return_err("redir : No such file of directory", 1));
+		{
+			ft_putstr_fd("minishell : ", 2);
+			ft_putstr_fd(curr->text, 2);
+			ft_putstr_fd(": Redirection Error\n", 2);
+			return (1);
+		}
 		outfile_fd = open_outredir(curr, outfile_fd);
 		close(outfile_fd);
 		curr = curr->next;

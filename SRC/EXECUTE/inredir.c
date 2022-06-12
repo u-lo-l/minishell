@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/12 05:05:21 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/12 16:59:59 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	read_here_doc(t_token *currtok, int *fd)
 	key_len = ft_strlen(key);
 	while (TRUE)
 	{
-		buffer = readline(" > ");
+		buffer = readline("\033[1;32m > \033[0m");
 		if (buffer == NULL)
 			break ;
 		else if (ft_strncmp(key, buffer, key_len + 1) == 0)
