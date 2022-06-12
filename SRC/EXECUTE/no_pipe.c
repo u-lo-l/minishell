@@ -73,8 +73,6 @@ int	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 			return (1);
 		}
 		no_pipe_util2(envlst, curr, fd->std_fd, red_fd);
-		close(red_fd[0]);
-		close(red_fd[1]);
 	}
 	return (0);
 }
