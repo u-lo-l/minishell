@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/13 02:05:19 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 03:08:33 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,6 @@ int				do_export(t_token_list *export_token, t_env *envlst);
 /*----cd*/
 int				do_cd(t_token_list *cd_token, t_env *envlst);
 /*----exit*/
-int				do_exit(t_token_list *token);
+int				do_exit(t_env *envlst, t_token_list *token);
 
 #endif

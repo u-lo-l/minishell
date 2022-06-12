@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:03 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 18:16:19 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 03:09:20 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-static int	no_pipe_util1(t_command *curr, int *std_fd, int *red_fd)
+static int	no_pipe_util1(t_env *envlst, t_command *curr, \
+							int *std_fd, int *red_fd)
 {
 	if (curr->here_doc->num_of_tokens > 0)
 	{
 		if (do_here_doc(curr))
 		{
+			envlst->error = 0;
 			close(0);
 			dup2(std_fd[0], 0);
 			return (1);
@@ -67,7 +69,7 @@ int	no_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 
 	if (toktree->num_of_commands == 1)
 	{
-		if (no_pipe_util1(curr, fd->std_fd, red_fd))
+		if (no_pipe_util1(envlst, curr, fd->std_fd, red_fd))
 		{
 			envlst->error = 1;
 			return (1);

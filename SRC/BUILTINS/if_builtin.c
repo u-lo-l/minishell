@@ -28,7 +28,7 @@ void	if_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 	else if (!ft_strncmp(toklst->head->text, "env", 4))
 		envlst->error = do_env(toklst, envlst);
 	else if (!ft_strncmp(toklst->head->text, "exit", 5))
-		envlst->error = do_exit(toklst);
+		envlst->error = do_exit(envlst, toklst);
 	if (command_num > 1)
 		exit(envlst->error);
 }
