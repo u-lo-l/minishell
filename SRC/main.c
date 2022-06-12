@@ -13,6 +13,12 @@
 #include "../INC/minishell.h"
 #include <stdlib.h>
 #include <termios.h>
+
+static void test()
+{
+	printf("test success\n");
+}
+
 int	is_eof_token(t_token *tok)
 {
 	if (tok->text == NULL)
@@ -143,6 +149,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			execute_command(envlst, cmd_token_tree);
 			print_token_tree(cmd_token_tree);
+			test();
 		}
 		free_token_tree(cmd_token_tree);
 	}
