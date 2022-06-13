@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 16:04:53 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 16:36:46 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 static int	is_special_builtin(t_command *curr)
 {
+	if (!curr || !curr->simple_command || !curr->simple_command->head)
+		return (FALSE);
 	if (!ft_strncmp(curr->simple_command->head->text, "cd", 3) \
 		|| !ft_strncmp(curr->simple_command->head->text, "export", 7) \
 		|| !ft_strncmp(curr->simple_command->head->text, "unset", 6) \

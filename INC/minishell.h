@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/13 15:34:50 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 17:03:28 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int				set_signal_both(void *sig_handler);
 int				set_heredoc_signal(void);
 
 /*	read command*/
+void			free_input(t_input *input);
 t_input			*read_command(char *prompt);
 /*	tokenize*/
 /*		tokenize check*/

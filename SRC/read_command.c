@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:29 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 16:07:57 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 17:04:56 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,12 @@ t_input	*read_command(char *prompt)
 		input->cmd = trimed_input;
 	}
 	return (input);
+}
+
+void	free_input(t_input *input)
+{
+	if (!input)
+		return ;
+	free(input->cmd);
+	free(input);
 }
