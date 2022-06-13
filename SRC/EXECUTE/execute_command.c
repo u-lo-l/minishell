@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 13:35:33 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 14:49:14 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,7 @@ int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
 	if (is_minishell_builtins(toklst) == TRUE)
 		if_builtin(envlst, toklst, command_num);
 	else
-	{
-		if (command_num > 1)
-			pipe_do_execve(envlst, toklst);
-		else
-			do_execve(envlst, toklst);
-	}
+		pipe_do_execve(envlst, toklst);
 	return (0);
 }
 
