@@ -6,7 +6,7 @@
 #    By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/06/13 21:25:32 by yyoo             ###   ########.fr        #
+#    Updated: 2022/06/13 22:42:36 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,9 +78,7 @@ re : clean all
 ${NAME} : ${OBJS} ${LIBS}
 		${CC} -o ${NAME} ${OBJS} ${LIBS} -lreadline \
 		-L/Users/dkim2/.brew/Cellar/readline/8.1.2/lib \
-		-I/Users/dkim2/.brew/Cellar/readline/8.1.2/include \
-		-L/Users/yyoo/.brew/Cellar/readline/8.1.2/lib \
-		-I/Users/yyoo/.brew/Cellar/readline/8.1.2/include
+		-I/Users/dkim2/.brew/Cellar/readline/8.1.2/include
 
 ${LIBS} : 
 		make -C ./LIBFT/ all
@@ -88,4 +86,3 @@ ${LIBS} :
 .c.o : ${HEADERS}
 		${CC} ${CFLAGS} -c $< -o $@ \
 		-I/Users/dkim2/.brew/Cellar/readline/8.1.2/include \
-		-I/Users/yyoo/.brew/Cellar/readline/8.1.2/include
