@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 16:32:45 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:25:55 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,11 @@ static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
 		if (envlst->error == 1)
 			exit(envlst->error);
 	}
+	if (curr->output_redir->num_of_tokens > 0)
+	{
+		fd->outfile = open_outredir(curr->output_redir->tail, fd->outfile);
+		dup2(fd->outfile, 1);
+	}
 	if (curr->simple_command->num_of_tokens > 0)
 		check_builtin(envlst, curr->simple_command, toktree->num_of_commands);
 	if (curr->simple_command->num_of_tokens == 0)
@@ -83,7 +88,7 @@ static void	child_process(t_env *envlst, t_token_tree *toktree, \
 	exit(pipe_util1(envlst, toktree, curr, fd));
 }
 
-static void	parent_process(t_env *envlst, t_command *curr, t_fd *fd)
+static void	parent_process(t_env *envlst, t_fd *fd)
 {
 	int	status;
 
@@ -94,8 +99,6 @@ static void	parent_process(t_env *envlst, t_command *curr, t_fd *fd)
 	envlst->error = get_child_exit_status(status);
 	if (!set_signal_handler())
 		exit (return_err("SIGNAL HANDLER FAIL", 1));
-	if (curr->output_redir->num_of_tokens > 0 && envlst->error == 0)
-		do_outredir(curr, fd->pipe_fd2);
 }
 
 int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
@@ -108,7 +111,7 @@ int	do_pipe(t_env *envlst, t_token_tree *toktree, t_command *curr, t_fd *fd)
 	if (pid == 0)
 		child_process(envlst, toktree, curr, fd);
 	else
-		parent_process(envlst, curr, fd);
+		parent_process(envlst, fd);
 	dup2(fd->pipe_fd1[0], 0);
 	return (0);
 }

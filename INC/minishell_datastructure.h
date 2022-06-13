@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_datastructure.h                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:16:32 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/13 21:15:56 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:24:29 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct s_fd
 	int	pipe_fd1[2];
 	int	pipe_fd2[2];
 	int	heredoc_fd[2];
+	int	outfile;
 }	t_fd;
 
 #endif

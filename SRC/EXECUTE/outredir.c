@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outredir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:06 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 12:52:10 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:22:52 by yyoo             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,6 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
-
-static void	push_outfile(int outfile_fd, int *red_fd)
-{
-	char	*buf;
-	int		r;
-
-	buf = malloc(sizeof(char *) * 1);
-	r = 1;
-	while (r > 0)
-	{
-		r = read(red_fd[0], buf, 1);
-		if (r < 1)
-			break ;
-		write(outfile_fd, buf, 1);
-	}
-	close(red_fd[0]);
-	free(buf);
-}
 
 int	open_outredir(t_token *tail, int outfile_fd)
 {
@@ -76,21 +58,4 @@ int	make_outfile(t_env *envlst, t_command *commandlst)
 		curr = curr->next;
 	}
 	return (0);
-}
-
-void	do_outredir(t_command *commandlst, int *red_fd)
-{
-	t_token		*curr;
-	int			outfile_fd;
-
-	outfile_fd = 0;
-	close(red_fd[1]);
-	close(1);
-	curr = commandlst->output_redir->tail;
-	outfile_fd = open_outredir(curr, outfile_fd);
-	if ((commandlst->input_redir->num_of_tokens == 0) \
-		|| (commandlst->input_redir->num_of_tokens > 0 \
-		&& commandlst->output_redir->tail->type == 2))
-		push_outfile(outfile_fd, red_fd);
-	close(outfile_fd);
 }
