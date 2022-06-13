@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yyoo <yyoo@student.42seoul.kr>             +#+  +:+       +#+        */
+/*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 21:25:55 by yyoo             ###   ########.fr       */
+/*   Updated: 2022/06/13 21:39:15 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,13 @@ static int	pipe_here_doc(t_env *envlst, t_command *command, t_fd *fd)
 static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
 						t_command *curr, t_fd *fd)
 {
-	if (curr->here_doc->num_of_tokens > 0)
-	{
-		if (pipe_here_doc(envlst, curr, fd))
-			return (1);
-	}
+	if (curr->here_doc->num_of_tokens > 0 \
+		&& pipe_here_doc(envlst, curr, fd))
+		return (1);
 	if (curr->input_redir->num_of_tokens > 0 \
-		&& curr->here_doc->num_of_tokens == 0)
-	{
-		if (do_inredir(curr, curr->input_redir))
-			return (1);
-	}
+		&& curr->here_doc->num_of_tokens == 0 \
+		&& do_inredir(curr, curr->input_redir))
+		return (1);
 	if (toktree->tail_cmd != curr || curr->output_redir->num_of_tokens > 0)
 		dup2(fd->pipe_fd2[1], 1);
 	if (curr->output_redir->num_of_tokens > 0)
