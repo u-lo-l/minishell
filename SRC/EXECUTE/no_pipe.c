@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:03 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 03:09:20 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 13:14:46 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	no_pipe_util1(t_env *envlst, t_command *curr, \
 {
 	if (curr->here_doc->num_of_tokens > 0)
 	{
-		if (do_here_doc(curr))
+		if (do_here_doc(envlst, curr))
 		{
 			envlst->error = 0;
 			close(0);
@@ -35,7 +35,7 @@ static int	no_pipe_util1(t_env *envlst, t_command *curr, \
 	}
 	if (curr->output_redir->num_of_tokens > 0)
 	{
-		if (make_outfile(curr))
+		if (make_outfile(envlst, curr))
 			return (1);
 		pipe(red_fd);
 		dup2(red_fd[1], 1);
