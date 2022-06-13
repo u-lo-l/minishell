@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/11 16:00:25 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 13:03:04 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include <stdlib.h>
 
-static int	pipe_here_doc(t_command *command, int *std_fd)
+static int	pipe_here_doc(t_env *envlst, t_command *command, int *std_fd)
 {
 	t_token		*curr;
 	int			fd[2];
@@ -29,14 +29,15 @@ static int	pipe_here_doc(t_command *command, int *std_fd)
 		close(fd[1]);
 		curr = curr->next;
 	}
+	envlst->error = 0;
 	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
 		close(fd[0]);
 		if (do_inredir(command, command->input_redir))
-			return (1);
+			envlst->error = 1;
 	}
-	return (0);
+	return (envlst->error);
 }
 
 static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
@@ -44,7 +45,7 @@ static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
 {
 	if (curr->here_doc->num_of_tokens > 0)
 	{
-		if (pipe_here_doc(curr, fd->std_fd))
+		if (pipe_here_doc(envlst, curr, fd->std_fd))
 			return (1);
 	}
 	if (curr->input_redir->num_of_tokens > 0 \
@@ -56,19 +57,23 @@ static int	pipe_util1(t_env *envlst, t_token_tree *toktree, \
 	if (toktree->tail_cmd != curr || curr->output_redir->num_of_tokens > 0)
 		dup2(fd->pipe_fd2[1], 1);
 	if (curr->output_redir->num_of_tokens > 0)
-		make_outfile(curr);
+	{
+		make_outfile(envlst, curr);
+		if (envlst->error == 1)
+			exit(envlst->error);
+	}
 	if (curr->simple_command->num_of_tokens > 0)
 		check_builtin(envlst, curr->simple_command, toktree->num_of_commands);
 	if (curr->simple_command->num_of_tokens == 0)
 		exit(0);
-	return (0);
+	return (envlst->error);
 }
 
 static void	child_process(t_env *envlst, t_token_tree *toktree, \
 							t_command *curr, t_fd *fd)
 {
 	close(fd->pipe_fd2[0]);
-	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (curr->next_cmd == NULL && curr->output_redir->num_of_tokens == 0)
 		dup2(fd->std_fd[1], 1);

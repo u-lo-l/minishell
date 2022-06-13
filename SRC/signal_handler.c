@@ -6,12 +6,13 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/22 18:45:25 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/11 16:08:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 13:29:19 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../INC/minishell.h"
 #include <signal.h>
+#include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -34,4 +35,11 @@ int	set_signal_handler(void)
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		return (FALSE);
 	return (TRUE);
+}
+
+void	pipe_heredoc_sighandler(int signo)
+{
+	if (signo == SIGINT)
+		ft_putstr_fd("^C\n", 1);
+	exit (1);
 }

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:06 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/12 16:52:01 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 12:52:10 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	open_outredir(t_token *tail, int outfile_fd)
 	return (outfile_fd);
 }
 
-int	make_outfile(t_command *commandlst)
+int	make_outfile(t_env *envlst, t_command *commandlst)
 {
 	t_token		*curr;
 	int			outfile_fd;
@@ -68,6 +68,7 @@ int	make_outfile(t_command *commandlst)
 			ft_putstr_fd("minishell : ", 2);
 			ft_putstr_fd(curr->text, 2);
 			ft_putstr_fd(": Redirection Error\n", 2);
+			envlst->error = 1;
 			return (1);
 		}
 		outfile_fd = open_outredir(curr, outfile_fd);

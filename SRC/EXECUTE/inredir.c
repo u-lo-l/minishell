@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 02:08:49 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 13:29:17 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	read_here_doc(t_token *currtok, int *fd)
 	}
 }
 
-int	do_here_doc(t_command *command)
+int	do_here_doc(t_env *envlst, t_command *command)
 {
 	t_token		*curr;
 	int			fd[2];
@@ -107,12 +107,14 @@ int	do_here_doc(t_command *command)
 		if (curr != NULL)
 			close(fd[0]);
 	}
+	envlst->error = 0;
 	dup2(fd[0], 0);
 	if (command->input_redir->num_of_tokens > 0)
 	{
 		close(fd[0]);
 		if (do_inredir(command, command->input_redir))
-			return (1);
+			envlst->error = 1;
 	}
-	return (0);
+	signal(SIGINT, SIG_DFL);
+	return (envlst->error);
 }

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/13 03:08:33 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 13:29:27 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int				get_child_exit_status(int stat_loc);
 
 /*signal handler*/
 int				set_signal_handler(void);
-int				unset_signal_handler(void);
+void			pipe_heredoc_sighandler(int signo);
 
 /*	read command*/
 t_input			*read_command(char *prompt);
@@ -94,10 +94,10 @@ void			do_execve(t_env *env, t_token_list *token);
 int				check_infile(t_command *curr, t_token_list *inredir);
 int				do_inredir(t_command *curr, t_token_list *inredir);
 void			read_here_doc(t_token *currtok, int *fd);
-int				do_here_doc(t_command *command);
+int				do_here_doc(t_env *envlst, t_command *command);
 /*--------outfile redirection*/
 int				open_outredir(t_token *tail, int fd);
-int				make_outfile(t_command *commandlst);
+int				make_outfile(t_env *envlst, t_command *commandlst);
 void			do_outredir(t_command *commamdlst, int *red_fd);
 /*--------pipe*/
 int				no_pipe(t_env *envlst, t_token_tree *toktree, \
