@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 17:25:57 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 22:18:05 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,34 @@ static void	free_key_and_value(char *key_and_value[2])
 	free(key_and_value[1]);
 }
 
-int	do_export(t_token_list *toklst, t_env *envlst)
+static int	export_with_args(t_env *envlst, t_token *curr_tok, char *key_value[2])
 {
 	t_envnode	*newnode;
+	
+	ft_bzero(key_value, sizeof(char * ) * 2);
+	if (!seperate_keyvalue(curr_tok->text, &key_value[0], &key_value[1]))
+	{
+		free(key_value[0]);
+		free(key_value[1]);
+		return (FALSE);
+	}
+	if (is_env_name(key_value[0]) == FALSE)
+	{
+		free(key_value[0]);
+		free(key_value[1]);
+		return (FALSE);
+	}
+	else if (!modify_value(envlst, key_value[0], key_value[1]))
+	{
+		newnode = create_envnode(key_value[0], key_value[1]);
+		add_node_to_lst(envlst, newnode);
+	}
+	free_key_and_value(key_value);
+	return (TRUE);
+}
+
+int	do_export(t_token_list *toklst, t_env *envlst)
+{
 	t_token		*curr_tok;
 	char		*key_and_value[2];
 	int			result;
@@ -40,16 +65,8 @@ int	do_export(t_token_list *toklst, t_env *envlst)
 	curr_tok = toklst->head->next;
 	while (curr_tok)
 	{
-		ft_bzero(key_and_value, sizeof(char *) * 2);
-		seperate_keyvalue(curr_tok->text, &key_and_value[0], &key_and_value[1]);
-		if (is_env_name(key_and_value[0]) == FALSE)
+		if (!export_with_args(envlst, curr_tok, key_and_value))
 			result = export_error(curr_tok->text);
-		else if (!modify_value(envlst, key_and_value[0], key_and_value[1]))
-		{
-			newnode = create_envnode(key_and_value[0], key_and_value[1]);
-			add_node_to_lst(envlst, newnode);
-		}
-		free_key_and_value(key_and_value);
 		curr_tok = curr_tok->next;
 	}
 	return (result);

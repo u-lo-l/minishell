@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 13:51:37 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 17:43:49 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 22:12:56 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,7 @@ int	seperate_keyvalue(char *k_and_v, char **emptykey, char **emptyval)
 		return (FALSE);
 	equal_char = ft_strchr(k_and_v, '=');
 	if (equal_char == NULL)
-	{
-		*emptykey = ft_strdup(k_and_v);
-		*emptyval = NULL;
-		if (!*emptykey)
-			return (FALSE);
-		return (TRUE);
-	}
+		return (FALSE);
 	*emptykey = ft_strndup(k_and_v, equal_char - k_and_v);
 	*emptyval = ft_strndup(equal_char + 1, ft_strlen(equal_char + 1));
 	if (!*emptykey || !*emptyval)
