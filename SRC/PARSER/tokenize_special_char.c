@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 07:29:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/12 05:29:44 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:16:04 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword, int type)
 		return (FALSE);
 	if (ft_strchr(" \'\"\t<>$|\0", input->cmd[++input->curr_i]) != NULL)
 	{
-		if ((type & DQUOTE) == DQUOTE)
+		if ((type & QUOTE) == QUOTE)
 			return (TRUE);
 		if (is_quote(input->cmd[input->curr_i]) == TRUE)
 			input->start_i = input->curr_i;
@@ -78,12 +78,12 @@ int	case_dollar(t_input *input, t_env *envlst, char **pword, int type)
 		return (case_dollar_util(pword, expanded_word));
 }
 
-int	case_quote(t_input *input, t_env *envlst, char **pword, int *type)
+int	case_quote(t_input *input, t_env *envlst, char **pword, int type)
 {
 	char	quote;
 
-	*type |= DQUOTE;
 	quote = input->cmd[input->curr_i];
+	type |= QUOTE;
 	if (set_word(input, pword) == FALSE)
 		return (FALSE);
 	input->start_i = ++input->curr_i;
@@ -92,10 +92,10 @@ int	case_quote(t_input *input, t_env *envlst, char **pword, int *type)
 	while (input->cmd[input->curr_i] != quote)
 	{
 		if (input->cmd[input->curr_i++] == '$' && \
-			(quote == '"') && ((*type & HEREDOC) != HEREDOC))
+			(quote == '"') && ((type & HEREDOC) != HEREDOC))
 		{
 			input->curr_i--;
-			if (case_dollar(input, envlst, pword, *type) == FALSE)
+			if (case_dollar(input, envlst, pword, type) == FALSE)
 				return (FALSE);
 		}
 	}

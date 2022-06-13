@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 06:56:42 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/12 04:46:55 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:14:55 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	scanning_loop(t_token_tree *toktree, t_input \
 		else if (input->cmd[input->curr_i] == '$' && type != HEREDOC)
 			res = case_dollar(input, envlst, pword, type);
 		else if (is_quote(input->cmd[input->curr_i]) == TRUE)
-			res = case_quote(input, envlst, pword, &type);
+			res = case_quote(input, envlst, pword, type);
 		else if (is_redir_op(input->cmd[input->curr_i]) == TRUE)
 			res = case_redirection(toktree, input, pword, &type);
 		else if (input->cmd[input->curr_i] == '\0')

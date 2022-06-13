@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:16:32 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/13 13:58:40 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 21:15:56 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define APNDRDR	((int)0b0010)
 # define INRDR		((int)0b0011)
 # define HEREDOC	((int)0b0100)
-# define DQUOTE		((int)0b1000)
+# define QUOTE		((int)0b1000)
 /*read line*/
 typedef struct s_input
 {
