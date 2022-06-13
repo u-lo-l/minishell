@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:52:00 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/09 17:43:24 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 17:25:57 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static int	export_error(char *key_and_value)
 {
-	ft_putstr_fd("minishell : export : invalid syntax : \"", 2);
+	ft_putstr_fd("minishell : export : invalid syntax : '", 2);
 	ft_putstr_fd(key_and_value, 2);
 	ft_putstr_fd("'\n", 2);
 	return (1);
