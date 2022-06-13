@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 13:31:57 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 13:35:33 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,35 +72,6 @@ static void	finish_execute(t_token_tree *toktree, t_fd *fd)
 	close(fd->std_fd[1]);
 	free(fd);
 }
-
-// void	execute_command(t_env *envlst, t_token_tree *toktree)
-// {
-// 	t_command	*curr;
-// 	t_fd		*fd;
-// 	int			count;
-
-// 	fd = begin_execute();
-// 	if (!fd)
-// 		return ;
-// 	count = 1;
-// 	curr = toktree->head_cmd;
-// 	while (curr)
-// 	{
-// 		if (toktree->num_of_commands == 1 && \
-// 			no_pipe(envlst, toktree, curr, fd))
-// 			break ;
-// 		else if (toktree->num_of_commands != 1)
-// 		{
-// 			if (count > 1)
-// 				dup2(fd->pipe_fd2[0], 0);
-// 			if (do_pipe(envlst, toktree, curr, fd))
-// 				break ;
-// 		}
-// 		count++;
-// 		curr = curr->next_cmd;
-// 	}
-// 	finish_execute(toktree, fd);
-// }
 
 void	execute_command(t_env *envlst, t_token_tree *toktree)
 {

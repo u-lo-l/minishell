@@ -6,7 +6,7 @@
 #    By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/17 19:20:57 by dkim2             #+#    #+#              #
-#    Updated: 2022/06/09 17:38:19 by dkim2            ###   ########.fr        #
+#    Updated: 2022/06/13 14:07:12 by dkim2            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,6 @@ OBJS_FILES = main.o\
 				EXECUTE/execve_util.o\
 				EXECUTE/inredir.o\
 				EXECUTE/outredir.o\
-				EXECUTE/no_pipe.o\
 				EXECUTE/pipe.o
 OBJS = ${addprefix SRC/, ${OBJS_FILES}}
 

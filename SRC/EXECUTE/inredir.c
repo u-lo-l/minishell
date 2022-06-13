@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:10 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 13:29:17 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 14:11:17 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,7 @@ void	read_here_doc(t_token *currtok, int *fd)
 	{
 		buffer = readline("\033[1;32m > \033[0m");
 		if (buffer == NULL)
-		{
-			ft_putstr_fd("minishell : heredoc delimited by EOF.\n", 2);
 			break ;
-		}
 		else if (ft_strncmp(key, buffer, key_len + 1) == 0)
 		{
 			free(buffer);
@@ -90,31 +87,4 @@ void	read_here_doc(t_token *currtok, int *fd)
 		ft_putstr_fd("\n", fd[1]);
 		free(buffer);
 	}
-}
-
-int	do_here_doc(t_env *envlst, t_command *command)
-{
-	t_token		*curr;
-	int			fd[2];
-
-	curr = command->here_doc->head;
-	while (curr)
-	{
-		pipe(fd);
-		read_here_doc(curr, fd);
-		close(fd[1]);
-		curr = curr->next;
-		if (curr != NULL)
-			close(fd[0]);
-	}
-	envlst->error = 0;
-	dup2(fd[0], 0);
-	if (command->input_redir->num_of_tokens > 0)
-	{
-		close(fd[0]);
-		if (do_inredir(command, command->input_redir))
-			envlst->error = 1;
-	}
-	signal(SIGINT, SIG_DFL);
-	return (envlst->error);
 }

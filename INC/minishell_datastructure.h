@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/06 11:16:32 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/13 13:14:51 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 13:58:40 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_fd
 	int	std_fd[2];
 	int	pipe_fd1[2];
 	int	pipe_fd2[2];
+	int	heredoc_fd[2];
 }	t_fd;
 
 #endif
