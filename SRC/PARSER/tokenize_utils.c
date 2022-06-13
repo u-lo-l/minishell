@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 06:01:50 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/12 05:21:08 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 19:15:03 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,15 @@ char	*expand_variable(t_input *input, t_env *envlst)
 	return (value);
 }
 
+	/*if (((*type >> 3) == 0) && (*type & 0b0011) != 0)
+	{
+		if (ft_strchr(*pword, ' ') != NULL)
+		{
+			free(*pword);
+			*pword = ft_strdup("");
+		}
+	}
+	*type &= 0b111;*/
 int	delimit_and_add_token_to_tree(t_token_tree *toktree,
 										char **pword,
 										int *type)
@@ -86,15 +95,6 @@ int	delimit_and_add_token_to_tree(t_token_tree *toktree,
 
 	if (*pword == NULL)
 		return (TRUE);
-	if (((*type >> 3) == 0) && (*type & 0b0011) != 0)
-	{
-		if (ft_strchr(*pword, ' ') != NULL)
-		{
-			free(*pword);
-			*pword = ft_strdup("");
-		}
-	}
-	*type &= 0b111;
 	new_token = create_token(*pword, *type);
 	if (new_token == NULL)
 		return (FALSE);

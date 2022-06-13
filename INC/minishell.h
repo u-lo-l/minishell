@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/13 17:03:28 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 19:24:44 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int				case_pipe(t_token_tree *toktree, t_input *input, \
 int				case_dollar(t_input *input, t_env *envlst, char **word, \
 							int type);
 int				case_quote(t_input *input, t_env *envlst, char **word, \
-							int *type);
+							int type);
 int				case_redirection(t_token_tree *toktree, t_input *input, \
 								char **pword, int *type);
 /*		token_node.c*/
