@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/12 05:31:51 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 14:34:42 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,20 @@ static char	*get_path(t_env *envlst, char **command_list)
 	if (path == NULL)
 		return (NULL);
 	str = ft_strjoin("/", command_list[0]);
-	i = 0;
-	while (path[i])
+	i = -1;
+	while (path[++i])
 	{
 		simple_path = ft_strjoin(path[i], str);
 		if (stat(simple_path, &buf) != -1)
+		{
+			free(str);
+			ft_double_free(path);
 			return (simple_path);
+		}
 		free(simple_path);
-		i++;
 	}
+	free(str);
+	ft_double_free(path);
 	return (NULL);
 }
 
@@ -68,5 +73,7 @@ void	exe(t_env *envlst, char **cmdlst, char **envp, int stat_result)
 	if (path == NULL)
 		exit (return_err("command not found", 127));
 	if (execve(path, cmdlst, envp) == -1)
+	{
 		exit (return_err("command not found", 127));
+	}
 }
