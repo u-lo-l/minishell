@@ -6,35 +6,21 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:19:56 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 15:29:40 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 16:04:53 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../INC/minishell.h"
 #include <stdlib.h>
 
-static int	is_minishell_builtins(t_token_list *toklst)
+static int	is_special_builtin(t_command *curr)
 {
-	if (!ft_strncmp(toklst->head->text, "echo", 5) \
-		|| !ft_strncmp(toklst->head->text, "cd", 3) \
-		|| !ft_strncmp(toklst->head->text, "pwd", 4) \
-		|| !ft_strncmp(toklst->head->text, "export", 7) \
-		|| !ft_strncmp(toklst->head->text, "unset", 6) \
-		|| !ft_strncmp(toklst->head->text, "env", 4) \
-		|| !ft_strncmp(toklst->head->text, "exit", 5))
+	if (!ft_strncmp(curr->simple_command->head->text, "cd", 3) \
+		|| !ft_strncmp(curr->simple_command->head->text, "export", 7) \
+		|| !ft_strncmp(curr->simple_command->head->text, "unset", 6) \
+		|| !ft_strncmp(curr->simple_command->head->text, "exit", 5))
 		return (TRUE);
 	return (FALSE);
-}
-
-int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
-{
-	if (envlst == NULL || toklst->head == NULL)
-		return (0);
-	if (is_minishell_builtins(toklst) == TRUE)
-		if_builtin(envlst, toklst, command_num);
-	else
-		pipe_do_execve(envlst, toklst);
-	return (0);
 }
 
 static t_fd	*begin_execute(void)
@@ -81,10 +67,15 @@ void	execute_command(t_env *envlst, t_token_tree *toktree)
 	curr = toktree->head_cmd;
 	while (curr)
 	{
-		if (count > 1)
-			dup2(fd->pipe_fd2[0], 0);
-		if (do_pipe(envlst, toktree, curr, fd))
-			break ;
+		if (toktree->num_of_commands == 1 && is_special_builtin(curr))
+			if_builtin(envlst, curr->simple_command, 1);
+		else
+		{
+			if (count > 1)
+				dup2(fd->pipe_fd2[0], 0);
+			if (do_pipe(envlst, toktree, curr, fd))
+				break ;
+		}
 		count++;
 		curr = curr->next_cmd;
 	}

@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 00:54:30 by dkim2             #+#    #+#             */
-/*   Updated: 2022/06/13 14:02:43 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 15:34:50 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int				open_outredir(t_token *tail, int fd);
 int				make_outfile(t_env *envlst, t_command *commandlst);
 void			do_outredir(t_command *commamdlst, int *red_fd);
 /*--------pipe*/
+int				no_pipe(t_env *envlst, t_token_tree *toktree, \
+							t_command *curr, t_fd *fd);
 int				do_pipe(t_env *envlst, t_token_tree *toktree, \
 							t_command *curr, t_fd *fd);
 

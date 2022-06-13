@@ -6,7 +6,7 @@
 /*   By: dkim2 <dkim2@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 20:20:28 by yyoo              #+#    #+#             */
-/*   Updated: 2022/06/13 14:34:42 by dkim2            ###   ########.fr       */
+/*   Updated: 2022/06/13 16:04:56 by dkim2            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,28 @@ void	exe(t_env *envlst, char **cmdlst, char **envp, int stat_result)
 	{
 		exit (return_err("command not found", 127));
 	}
+}
+
+static int	is_minishell_builtins(t_token_list *toklst)
+{
+	if (!ft_strncmp(toklst->head->text, "echo", 5) \
+		|| !ft_strncmp(toklst->head->text, "cd", 3) \
+		|| !ft_strncmp(toklst->head->text, "pwd", 4) \
+		|| !ft_strncmp(toklst->head->text, "export", 7) \
+		|| !ft_strncmp(toklst->head->text, "unset", 6) \
+		|| !ft_strncmp(toklst->head->text, "env", 4) \
+		|| !ft_strncmp(toklst->head->text, "exit", 5))
+		return (TRUE);
+	return (FALSE);
+}
+
+int	check_builtin(t_env *envlst, t_token_list *toklst, int command_num)
+{
+	if (envlst == NULL || toklst->head == NULL)
+		return (0);
+	if (is_minishell_builtins(toklst) == TRUE)
+		if_builtin(envlst, toklst, command_num);
+	else
+		pipe_do_execve(envlst, toklst);
+	return (0);
 }
